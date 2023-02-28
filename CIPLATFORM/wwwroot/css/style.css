@@ -1,0 +1,88 @@
+﻿* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.formmain {
+    margin-top: auto;
+    margin-bottom: auto;
+    max-height: 100vh;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+@media screen and (min-device-width:768px) {
+    .lgnimg {
+        height: 100vh;
+        width: 100%
+    }
+}
+
+.profile-nav {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.nav-item {
+    list-style-type: None;
+}
+
+.form-control {
+    height: 42px;
+}
+
+.drops {
+    /* / margin-left: 121px; / */
+    word-spacing: 44px;
+}
+
+#dropdownMenuButton1 {
+    color: #414141;
+    background-color: white;
+    /* / width: 100%; / */
+}
+
+.serch-mission {
+    width: 400px;
+    border: none;
+}
+
+.main-content {
+    height: 2122px;
+    margin-top: 80px;
+}
+
+.box1 {
+    width: 87%;
+    margin-left: 35px;
+}
+
+.rou {
+    width: 273px;
+    height: 35px;
+    border: 1px solid #d8d5d5;
+    border-radius: 18px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.btn1 {
+    width: 133px;
+    height: 44px;
+    border: 2px solid #F88634;
+    border-radius: 24px;
+    background: transparent;
+}
+
+.imgg {
+    width: 90%;
+    margin-top: 20px;
+}
+
+.searchbtn {
+    height: 15px;
+    width: 15px;
+}
