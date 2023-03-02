@@ -1,10 +1,14 @@
 using CI_PLATFORM.Entities.Data;
+using CI_PLATFORM.Repository.Interface;
+using CI_PLATFORM.Repository.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<CiPlatformContext>();
+builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddDbContext<CiPlatformContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -28,6 +32,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Login}/{id?}");
+    pattern: "{controller=User}/{action=Register}/{id?}");
 
 app.Run();
