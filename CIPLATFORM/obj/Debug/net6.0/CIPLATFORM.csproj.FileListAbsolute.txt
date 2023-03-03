@@ -376,7 +376,7 @@ D:\CI-PLATFORm\CI_PLATFORM\CIPLATFORM\bin\Debug\net6.0\runtimes\unix\lib\net6.0\
 D:\CI-PLATFORm\CI_PLATFORM\CIPLATFORM\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 D:\CI-PLATFORm\CI_PLATFORM\CIPLATFORM\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\CI-PLATFORm\CI_PLATFORM\CIPLATFORM\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-D:\CI-PLATFORm\CI_PLATFORM\CIPLATFORM\obj\Debug\net6.0\CIPLATFORM.MvcApplicationPartsAssemblyInfo.cs
 D:\CI-PLATFORm\CI_PLATFORM\CIPLATFORM\bin\Debug\net6.0\MailKit.dll
 D:\CI-PLATFORm\CI_PLATFORM\CIPLATFORM\bin\Debug\net6.0\MimeKit.dll
 D:\CI-PLATFORm\CI_PLATFORM\CIPLATFORM\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+D:\CI-PLATFORm\CI_PLATFORM\CIPLATFORM\obj\Debug\net6.0\CIPLATFORM.MvcApplicationPartsAssemblyInfo.cs

@@ -11,6 +11,7 @@ builder.Services.AddDbContext<CiPlatformContext>();
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddDbContext<CiPlatformContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -29,9 +30,10 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=User}/{action=Register}/{id?}");
+    pattern: "{controller=User}/{action=Login}/{id?}");
 
 app.Run();

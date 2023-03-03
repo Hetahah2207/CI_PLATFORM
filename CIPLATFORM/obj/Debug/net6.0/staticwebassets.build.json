@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "sNW3kwtO2TfN4L2X+q1GS9AF2JLDw6T4H7Jr99c8bBc=",
+  "Hash": "W4CfQPpBQZ/QSPiWszXfebU3NqqaLn4ITiv2TVIV43c=",
   "Source": "CIPLATFORM",
   "BasePath": "_content/CIPLATFORM",
   "Mode": "Default",
@@ -49,6 +49,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\CIPLATFORM.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\css\\HomeGrid.css",
+      "SourceId": "CIPLATFORM",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\",
+      "BasePath": "_content/CIPLATFORM",
+      "RelativePath": "css/HomeGrid.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\HomeGrid.css"
+    },
+    {
+      "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\css\\HomeList.css",
+      "SourceId": "CIPLATFORM",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\",
+      "BasePath": "_content/CIPLATFORM",
+      "RelativePath": "css/HomeList.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\HomeList.css"
     },
     {
       "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\css\\site.css",
