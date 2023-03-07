@@ -97,11 +97,12 @@
                   <label for="exampleInputPassword1">Password </label>
                   <input type="password" asp-for="Password" class="form-control" id="password">
                   <span style="color:red;" asp-validation-for="Password"></span>
-                  <span id="Message"></span>
+                  
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Confirm Password </label>
-                  <input type="password" asp-for="Password" onkeyup="verifyPassword()" class="form-control" id="cpassword">
+                  <input type="password" asp-for="ConfirmPassword"class="form-control" id="cpassword">
+                  <span style="color:red;" asp-validation-for="ConfirmPassword"></span>
                 </div>
                 <button type="submit" id="submit"  asp-action="Register" class="btn btn-outline btn-block" style="background: #F8863400 0% 0% no-repeat padding-box;
                   border: 2px solid #F88634;

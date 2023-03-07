@@ -24,6 +24,7 @@ namespace CIPLATFORM.Controllers
             var user = _UserRepository.Login(obj);
             if(user == null)
             {
+                TempData["loginerr"] = "Email Or Password Is Inavalid!!!!!";
                 return View();
             }
             HttpContext.Session.SetString("Uname", user.FirstName + " " + user.LastName);
@@ -70,34 +71,58 @@ namespace CIPLATFORM.Controllers
 
         [HttpPost]
 
-        public IActionResult Forgotpassword(User obj)
+        public IActionResult Forgotpassword(ForgotPwd obj)
         {
-            var user = _UserRepository.Forgotpassword(obj);
-            if (user == null)
+            User user1 = new User();
             {
-                TempData["Message"] = "Invalid Email";
-                return View();
+
+                user1.Email = obj.Email;
+
+
             }
-            TempData["Message"] = "Check your email to reset password";
-            return RedirectToAction("Login");
+            if (ModelState.IsValid)
+            {
+                var user = _UserRepository.Forgotpassword(user1);
+                if (user == null)
+                {
+                    TempData["msg"] = "Invalid Email";
+                    return View();
+                }
+                else
+                {
+                    TempData["Message"] = "Check your email to reset password";
+                }
+                return RedirectToAction("Login");
+            }
+            return View();
         }
         public IActionResult Resetpassword()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Resetpassword(User obj, string token)
+        public IActionResult Resetpassword(ResetPwd obj, string token)
         {
-
-            var validToken = _UserRepository.Resetpassword(obj, token);
-
-            if (validToken != null)
+            if (ModelState.IsValid)
             {
-                TempData["Message"] = "Your Password is changed";
+                User user = new User();
+                {
+
+                    user.Password = obj.Password;
+
+
+                }
+                var validToken = _UserRepository.Resetpassword(user, token);
+
+                if (validToken != null)
+                {
+                    TempData["Message"] = "Your Password is changed";
+                    return RedirectToAction("Login");
+                }
+                TempData["Message"] = "Token not Found";
                 return RedirectToAction("Login");
             }
-            TempData["Message"] = "Token not Found";
-            return RedirectToAction("Login");
+            return View();
         }
 
     }

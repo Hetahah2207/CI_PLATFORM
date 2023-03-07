@@ -1,5 +1,5 @@
-﻿@model CI_PLATFORM.Entities.Models.User
-
+﻿@*@model CI_PLATFORM.Entities.Models.User*@
+@model CI_PLATFORM.Entities.ViewModels.Register;
     
 @{
     ViewData["Title"] = " Login Page";
@@ -75,17 +75,20 @@
             </div>
             <div class="col-md-3 col-sm-12 d-flex flex-column justify-content-center">
                 <div class="d-flex pt-5 mt-5 justify-content-center" style="font-size:25px;color:green;">@TempData["success"]</div>
+                <div class="d-flex pt-5 mt-5 justify-content-center" style="color:red;font-size:25px">@TempData["loginerr"]</div>
+                <div class="d-flex pt-5 mt-5 justify-content-center" style="font-size:25px;color:red;">@TempData["Message"]</div>
               <form method="post" class="formmain">
                 
                   <div class="form-group">
                       <label for="exampleInputEmail1"> Email address </label>
-                      <input asp-for="Email" type="email" class="form-control form-control-sm" placeholder="evan.donohue@gmail.com" id="exampleInputEmail1" aria-label="Large" aria-describedby="emailHelp" required>
-                      <span asp-validation-for="Email"></span>
+                      <input asp-for="Email" type="email" class="form-control form-control-sm" placeholder="evan.donohue@gmail.com" id="exampleInputEmail1" aria-label="Large" aria-describedby="emailHelp">
+                      <span style="color:red;" asp-validation-for="Email"></span>
                   </div>
                   <br>
                   <div class="form-group">
                       <label for="exampleInputPassword1">Password </label>
-                      <input asp-for="Password" type="password" class="form-control form-control-sm" id="exampleInputPassword1" required>
+                      <input asp-for="Password" type="password" class="form-control form-control-sm" id="exampleInputPassword1">
+                      <span style="color:red;" asp-validation-for="Password"></span>
                   </div>
                   <br>
                   <button type="submit" asp-action="Login" class="btn btn-outline btn-block" style="background: #F8863400 0% 0% no-repeat padding-box;

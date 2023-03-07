@@ -49,6 +49,10 @@
               "target": "Package",
               "version": "[3.5.0, )"
             },
+            "Microsoft.AspNetCore.Http": {
+              "target": "Package",
+              "version": "[2.2.2, )"
+            },
             "Microsoft.AspNetCore.Session": {
               "target": "Package",
               "version": "[2.2.0, )"

@@ -1,13 +1,4 @@
-﻿//using CI_PLATFORM.Entities.Data;
-//using CI_PLATFORM.Entities.Models;
-//using CI_PLATFORM.Repository.Interface;
-//using MailKit.Security;
-//using MimeKit;
-//using MimeKit.Text;
-//using System.Linq;
-//using System.Net.Mail;
-
-using CI_PLATFORM.Entities.Data;
+﻿using CI_PLATFORM.Entities.Data;
 using CI_PLATFORM.Entities.Models;
 using CI_PLATFORM.Repository.Interface;
 using MailKit.Security;
@@ -52,7 +43,12 @@ namespace CI_PLATFORM.Repository.Repositories
         public User Forgotpassword(User obj)
         {
 
-            var user = _CiPlatformContext.Users.FirstOrDefault(u => u.Email == (obj.Email.ToLower()) && u.DeletedAt == null);
+            var user = _CiPlatformContext.Users.FirstOrDefault(u => u.Email == (obj.Email.ToLower()));
+
+            if(user == null)
+            {
+                return null;
+            }
 
             #region Genrate Token
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -95,6 +91,11 @@ namespace CI_PLATFORM.Repository.Repositories
         public PasswordReset Resetpassword(User obj, string token)
         {
             var validToken = _CiPlatformContext.PasswordResets.FirstOrDefault(x => x.Token == token);
+            if (validToken == null)
+            {
+                return null;
+            }
+
             if (validToken != null)
             {
                 var user = _CiPlatformContext.Users.FirstOrDefault(x => x.Email == validToken.Email);
