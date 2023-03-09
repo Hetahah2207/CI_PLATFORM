@@ -7,4 +7,7 @@
         public List<Skill> GetSkills();
         public List<Mission> GetMissions();
         public List<Mission> GetMissionDetails();
+        public int GetMissionCount();
+        //public string GetCityName(long cityId);
+        List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId);
     }}

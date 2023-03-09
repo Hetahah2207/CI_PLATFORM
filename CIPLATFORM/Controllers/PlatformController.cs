@@ -29,7 +29,21 @@ namespace CIPLATFORM.Controllers
             List<Mission> missionDeails = _PlatformRepository.GetMissionDetails();
             ViewBag.MissionDeails = missionDeails;
 
+            //List<MissionRating> missionRatings = _PlatformRepository.GetMissionDetails();
+            //ViewBag.missionRatings = missionRatings;
+
+            var totalMission = _PlatformRepository.GetMissionCount();
+            ViewBag.totalMission = totalMission;
+
             return View();   
+        }
+
+        public IActionResult Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId)
+        {
+            List<Mission> cards = _PlatformRepository.Filter(cityId, countryId, themeId, skillId);
+            ViewBag.MissionDeails = cards;
+            //return PartialView("_FilterMissionPartial", cards);
+            return View("HomeGrid",cards);
         }
         public IActionResult HomeList()
         {

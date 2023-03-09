@@ -24,3 +24,87 @@
     })
     }
 
+
+    function temp()
+    {
+                //var checkedvalues = [];
+                //var div = document.getElementById("selectCityList");
+                //var list = div.getElementsByTagName("option");
+                //for (i = 0; i < list.length; i++) {
+                //    if (list[i].selected) {
+                //        checkedvalues.push(list[i].value);
+                //    }
+                
+                //}
+                //console.log(checkedvalues);
+
+                var checkedcntryvalues = [];
+    var div1 = document.getElementById("countryId");
+    var list = div1.getElementsByTagName("option");
+    for (i = 0; i < list.length; i++) {
+                    if (list[i].selected) {
+        checkedcntryvalues.push(list[i].value);
+                    }
+                
+                }
+    console.log(checkedcntryvalues);
+
+                // var checkedthemevalues = [];
+                //var div2 = document.getElementById("theme");
+                //var list = div2.getElementsByTagName("option");
+                //for (i = 0; i < list.length; i++) {
+        //    if (list[i].checked) {
+        //        checkedthemevalues.push(list[i].value);
+        //    }
+
+        //}
+        //console.log(checkedthemevalues);
+
+        //var checkedskillvalues = [];
+        //var div3 = document.getElementById("skill");
+        //var list = div3.getElementsByTagName("option");
+        //for (i = 0; i < list.length; i++) {
+        //    if (list[i].checked) {
+        //        checkedskillvalues.push(list[i].value);
+        //    }
+
+        //}
+        //console.log(checkedskillvalues);
+
+
+        //var search = document.getElementById("searchb").value;               
+        //console.log(search)
+
+        //var sort = document.getElementById("sort").value;
+        //console.log(sort)
+
+        $.ajax(
+            {
+                type: "POST",
+                url: '/Platform/Filter',
+                data: {
+                    //'cityId': checkedvalues,
+                    'countryId': checkedcntryvalues,
+                    //'themeId': checkedthemevalues,
+                    //'skillId': checkedskillvalues,
+                    //'search': search,
+                    //'sort': sort
+                },
+                dataType: "html", // return datatype like JSON and HTML
+                success: function (data) {
+
+                    $("#grid-view").empty();
+                    console.log("grid Hii");
+                    $("#grid-view").html(data);
+                    //$("#list-view").empty();
+                    //console.log("list Hii");
+                    //$("#list-view").html(data);
+                },
+                error: function (e) {
+                    console.log("Bye");
+                    alert('Error');
+                },
+
+            });
+            }
+
