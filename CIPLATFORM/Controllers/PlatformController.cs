@@ -1,4 +1,5 @@
 ﻿using CI_PLATFORM.Entities.Models;
+using CI_PLATFORM.Entities.ViewModels;
 using CI_PLATFORM.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -47,17 +48,27 @@ namespace CIPLATFORM.Controllers
             //List<MissionRating> missionRatings = _PlatformRepository.GetMissionDetails();
             //ViewBag.missionRatings = missionRatings;
 
-            var totalMission = _PlatformRepository.GetMissionCount();
-            ViewBag.totalMission = totalMission;
+            //var totalMission = _PlatformRepository.GetMissionCount();
+            //ViewBag.totalMission = totalMission;
 
-            return View();   
+            //return View();
+
+            CardsViewModel ms = _PlatformRepository.getCards();
+
+
+            return View(ms);
         }
         public IActionResult Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort)
         {
             List<Mission> cards = _PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort);
-            ViewBag.MissionDeails = cards;
+            CardsViewModel platformModel = new CardsViewModel();
+            {
+                platformModel.missions = cards;
+            }
 
-            return PartialView("_GridCard", cards);
+            return PartialView("_GridCard", platformModel);
+
+
         }
 
 

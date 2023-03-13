@@ -125,5 +125,10 @@ namespace CIPLATFORM.Controllers
             return View();
         }
 
+        public IActionResult Logout()
+        {
+            //Session
+            return RedirectToAction("User", "Login");
+        }
     }
 }

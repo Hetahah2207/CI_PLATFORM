@@ -2,12 +2,13 @@
 using CI_PLATFORM.Entities.Models;
 using CI_PLATFORM.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
+using CI_PLATFORM.Entities.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CI_PLATFORM.Entities.ViewModels;
+
 
 namespace CI_PLATFORM.Repository.Repositories
 {
@@ -85,19 +86,33 @@ namespace CI_PLATFORM.Repository.Repositories
             return missionDetails;
         }
 
-        //public CardsViewModel getCards()
-        //{
-        //    var cities = _CiPlatformContext.Cities.ToList();
-        //    var countries = _CiPlatformContext.Countries.ToList();
-        //    var missions = _CiPlatformContext.Missions.ToList();
-        //    var media = _CiPlatformContext.MissionMedia.ToList();
-        //    var rating = _CiPlatformContext.MissionRatings.ToList();
+        public CardsViewModel getCards()
+        {
+            List<Mission> missions = _CiPlatformContext.Missions.ToList();
+            List<MissionMedium> media = _CiPlatformContext.MissionMedia.Where(x => x.Default == 1).ToList();
+            List<MissionSkill> missionSkills = _CiPlatformContext.MissionSkills.ToList();
+            List<MissionTheme> missionThemes = _CiPlatformContext.MissionThemes.ToList();
+            List<MissionRating> rating = _CiPlatformContext.MissionRatings.ToList();
+            List<City> cities = _CiPlatformContext.Cities.ToList();
+            List<Country> countries = _CiPlatformContext.Countries.ToList();
 
 
-        //    var data = new CardsViewModel(missions, cities, countries, media);
 
-        //    return data;
-        //}
+
+            CardsViewModel missionCards = new CardsViewModel();
+            {
+
+                missionCards.missions = missions;
+                missionCards.missionthemes = missionThemes;
+                missionCards.missionskill = missionSkills;
+                missionCards.media = media;
+                missionCards.rating = rating;
+                missionCards.countries = countries;
+                missionCards.cities = cities;
+            }
+            return missionCards;
+
+        }
         public int GetMissionCount()
         {
 

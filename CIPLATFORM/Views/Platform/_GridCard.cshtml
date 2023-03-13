@@ -1,11 +1,13 @@
-﻿ <div id="grid-view">
+﻿@using CI_PLATFORM.Entities.ViewModels
+@model CardsViewModel 
+<div id="grid-view">
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
 
-            @foreach (var item in @ViewBag.MissionDeails)
+            @foreach (var item in Model.missions)
             {
                 <div class="col">
                     <div class="card ">
-                        <img src=~/images/Grow-Trees-On-the-path-to-environment-sustainability-1.png class="card-img-top" alt="...">
+                        <img src=~/images/@(item.MissionMedia.FirstOrDefault()?.MediaPath) class="card-img-top" alt="...">
                         <div class="position-relative">
                             <div class="position-absolute top-100 start-50 translate-middle round p-2 title" style="background-color: white;">
                                 @item.Theme.Title
@@ -45,25 +47,25 @@
                                         @item.OrganizationName
                                     </div>
                                     <div class="col-md-6">
-                                        <i class="bi bi-star-fill"></i>
+                                      @*  <i class="bi bi-star-fill"></i>
                                             <i class="bi bi-star-fill"></i>
                                             <i class="bi bi-star-fill"></i>
                                             <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>*@
 
                                         @* @(item.MissionRatings.FirstOrDefault()?.Rating)*@
                                         @* @for (int i = 0; i <= @item.MissionRatings.FirstOrDefault()?.Rating; i++)
                                             {
                                             <i class="bi bi-star-fill" style="color: #F8D441;"></i>
                                             }*@
-                                        @*@for (int i = 1; i <= @item.MissionRatings.FirstOrDefault()?.Rating; i++)
+                                        @for (int i = 1; i <= @item.MissionRatings.FirstOrDefault()?.Rating; i++)
                                         {
                                             <i class="bi bi-star-fill" style="color: #F8D441;"></i>
                                         }
                                         @for (int i = 1; i <= 5 - @item.MissionRatings.FirstOrDefault()?.Rating; i++)
                                         {
                                             <i class="bi bi-star" style="color: #F8D441;"></i>
-                                        }*@
+                                        }
                                     </div>
                                 </div>
                             </div>
