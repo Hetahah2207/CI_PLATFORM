@@ -1,4 +1,6 @@
-﻿@model CI_PLATFORM.Entities.Models.Country
+﻿@*@using CI_PLATFORM.Entities.ViewModels*@
+@*@model CI_PLATFORM.Entities.Models.City*@
+@*@model CardsViewModel*@
 <link rel="stylesheet" href="~/css/HomeGrid.css">
 
 <div class="container">
@@ -62,16 +64,16 @@
 <hr class="d-none d-md-block">
 
 
-<div class="container-fluid" >
-    <div class="container" >
-        <div class="row d-flex" >
-            <nav class="navbar  navbar-expand-lg bg-body-tertiary p-0" >
-                <div class="container-fluid" >
+<div class="container-fluid">
+    <div class="container">
+        <div class="row d-flex">
+            <nav class="navbar  navbar-expand-lg bg-body-tertiary p-0">
+                <div class="container-fluid">
                     <div class="d-flex align-items-center col-lg-6 col-12  .navbar-search-sm" role="search">
 
                         <img src="~/images/search.png" class="search" />
                         <input class="form-control mx-1" type="search" placeholder="Search Missions..."
-                               aria-label="Search">
+                               aria-label="Search" id="searchb" onkeyup="temp()">
 
                     </div>
 
@@ -80,26 +82,30 @@
                             @*<div class="collapse navbar-collapse" id="navbarSupportedContent">*@
                             <div class=" col-6 col-sm-3 dropdown ">
                                 @*<button class="h-item border  bg-light  w-100 p-0" type="button"
-                                        data-bs-toggle="dropdown">*@
+                                    data-bs-toggle="dropdown">*@
 
-                                    <select id="countryId" onchange="GetCity(); temp();" class="form-select select-menu  profile-name d-flex justify-content-between h-100 w-100 "
-                                            aria-label="Default select example" style="box-shadow: none;">
-                                        <option selected>Country</option>
-                                        @foreach (var obj in @ViewBag.countries)
-                                        {
-                                            <option value="@obj.CountryId">@obj.Name</option>
-                                        }
-                                    </select>
+                                <select id="countryId" onchange="temp(); GetCity();" class="form-select select-menu  profile-name d-flex justify-content-between h-100 w-100 "
+                                        aria-label="Default select example" style="box-shadow: none;">
+                                    <option selected>Country</option>
+                                    @foreach (var obj in @ViewBag.countries)
+                                    {
+                                        <option value="@obj.CountryId">@obj.Name</option>
+                                    }
+                                </select>
                                 @*</button>*@
                             </div>
                             <div class=" col-6 col-sm-3 dropdown">
                                 <button class="h-item border d-flex  bg-light align-items-center justify-content-between w-100 p-0" type="button"
                                         data-bs-toggle="dropdown">
                                     <select class="form-select select-menu profile-name d-flex justify-content-between h-100 w-100"
-                                            aria-label="Default select example" style="box-shadow: none;" id="selectCityList">
+                                            aria-label="Default select example" style="box-shadow: none;" id="selectCityList" onchange="temp()">
 
-                                        <option  selected>City</option>
+                                        <option selected>City</option>
+                                        @foreach (var item in @ViewBag.Cities)
+                                        {
 
+                                            <option value="@item.CityId"> @item.Name</option>
+                                        }
                                     </select>
                                 </button>
                             </div>
@@ -109,18 +115,11 @@
                                     <span class="profile-name d-flex ps-2">Themes</span>
                                     <img src="~/images/drop-down.png" class="pe-2" alt="Profile-dropdown" />
                                 </button>
-                                <ul class="dropdown-menu scroll_dropdown" aria-labelledby="dropdownMenuButton1">
-                                    @foreach (var obj in @ViewBag.themes)
+                                <ul class="dropdown-menu scroll_dropdown" aria-labelledby="dropdownMenuButton1" id="theme" onchange="temp()">
+                                    @foreach (var item in @ViewBag.themes)
                                     {
-                                        <li>
-                                            <div class="form-check dropdown-item p-0 w-100 ">
-                                                <input class="form-check-input mx-auto ms-1" type="checkbox" value=""
-                                                   id="@obj.MissionThemeId" />
-                                                <label class="form-check-label ps-4" for="@obj.MissionThemeId">
-                                                    @obj.Title
-                                                </label>
-                                            </div>
-                                        </li>
+
+                                        <li><input type="checkbox" value="@item.MissionThemeId" /> @item.Title </li>
                                     }
                                 </ul>
                             </div>
@@ -130,18 +129,11 @@
                                     <span class="profile-name d-flex ps-2">Skills</span>
                                     <img src="~/images/drop-down.png" class="pe-2" alt="Profile-dropdown" />
                                 </button>
-                                <ul class="dropdown-menu dropdown-menu-end w-100">
-                                    @foreach (var obj in @ViewBag.skills)
+                                <ul class="dropdown-menu dropdown-menu-end w-100" id="skill" onchange="temp()">
+                                    @foreach (var item in @ViewBag.skills)
                                     {
-                                        <li>
-                                            <div class="form-check dropdown-item p-0 w-100 ">
-                                                <input class="form-check-input mx-auto ms-1" type="checkbox" value=""
-                                                   id="@obj.SkillId" />
-                                                <label class="form-check-label ps-0 ps-sm-4" for="@obj.SkillId">
-                                                    @obj.SkillName
-                                                </label>
-                                            </div>
-                                        </li>
+
+                                        <li><input type="checkbox" value="@item.SkillId" /> @item.Skill.SkillName </li>
                                     }
                                 </ul>
                             </div>
@@ -197,100 +189,11 @@
 
 
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3"  id="grid-view">
 
-        @foreach (var item in @ViewBag.MissionDeails)
-        {
-            <div class="col">
-                <div class="card ">
-                    <img src="~/images/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="card-img-top" alt="...">
-                    <div class="position-relative">
-                        <div class="position-absolute top-100 start-50 translate-middle round p-2 title" style="background-color: white;">
-                            @item.Theme.Title
-                        </div>
-                    </div>
-                    <div class="card-img-overlay">
-                        <p class="text-end text">
-                            <button class="btn btn-box" style="background-color: rgb(65, 60, 60) ; opacity: 45%;">
-                                <img src="~/images/pin.png" class="mx-2 cancle-img" alt="">
-                                <span style="color: white ; ">@item.City.Name</span>
-                            </button>
+    @{
+        Html.RenderPartial("_GridCard");
+    }
 
-
-
-                        </p>
-                        <div class="pt-1 text-end">
-                            <button class="btn btn-box rounded-5" style="background-color: rgb(65, 60, 60) ; opacity: 45%;">
-                                <img src="~/images/heart.png" class=" img-fluid cancle-img" alt="">
-                            </button>
-                        </div>
-
-                        <div class="text-end">
-
-                            <button class="btn btn-box rounded-5" style="background-color: rgb(65, 60, 60) ; opacity: 45%;">
-                                <img src="~/images/user.png" class=" img-fluid cancle-img" alt="">
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Title</h5>
-                        <p class="card-text">
-                            @item.ShortDescription
-                        </p>
-                        <div class="container p-2">
-                            <div class="row d-flex">
-                                <div class="col-md-6">
-                                    @item.OrganizationName
-                                </div>
-                                <div class="col-md-6">
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="wrapper  d-flex justify-content-center">
-                            <hr class="divider">
-                            <div class=" d-flex justify-content-center b2 ">
-
-                                <div class="d-flex justify-content-center .left .right ">
-                                    @item.StartDate.ToShortDateString() until @item.EndDate.ToShortDateString()
-
-                                </div>
-
-                            </div>
-                            <hr class="divider">
-                        </div>
-                        <div class="container">
-                            <div class="row mt-2">
-                                <div class="col-6 ">
-
-                                    <i class="bi bi-person-check " style="font-size: 28px;"></i>
-                                    10 <br>
-                                    seats left
-
-                                </div>
-                                <div class="col-6 ">
-                                    <i class="bi bi-clock" style="font-size: 25px;"></i>
-                                     @item.EndDate.ToShortDateString() <br> Deadline
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr>
-                        <div class="d-flex justify-content-center apply2">
-                            <button type="button" class="btn btn-outline apply">
-                                Apply <i class=" ms-2 bi bi-arrow-right-short"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-
-    </div>
 </div>
 
 
