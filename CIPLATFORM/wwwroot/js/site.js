@@ -86,8 +86,8 @@ function temp() {
     console.log(search)
 
 
-    //var sort = document.getElementById("sort").value;
-    //console.log(sort)
+    var sort = document.getElementById("sort").value;
+    console.log(sort)
 
 
     $.ajax({
@@ -99,7 +99,7 @@ function temp() {
             'themeId': checkedthemevalues,
             'skillId': checkedskillvalues,
             'search': search,
-            //'sort': sort
+            'sort': sort
         },
         dataType: "html", // return datatype like JSON and HTML
         success: function (data) {
@@ -107,9 +107,9 @@ function temp() {
             $("#grid-view").empty();
             console.log("grid Hii");
             $("#grid-view").html(data);
-            //$("#list-view").empty();
-            //console.log("list Hii");
-            //$("#list-view").html(data);
+            $("#list-view").empty();
+            console.log("list Hii");
+            $("#list-view").html(data);
         },
         error: function (e) {
             console.log("Bye");

@@ -48,8 +48,8 @@ namespace CIPLATFORM.Controllers
             //List<MissionRating> missionRatings = _PlatformRepository.GetMissionDetails();
             //ViewBag.missionRatings = missionRatings;
 
-            //var totalMission = _PlatformRepository.GetMissionCount();
-            //ViewBag.totalMission = totalMission;
+            var totalMission = _PlatformRepository.GetMissionCount();
+            ViewBag.totalMission = totalMission;
 
             //return View();
 
@@ -62,21 +62,33 @@ namespace CIPLATFORM.Controllers
         {
             List<Mission> cards = _PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort);
             CardsViewModel platformModel = new CardsViewModel();
+            
+            platformModel.missions = cards;
+            
+            if(cards.Count == 0)
             {
-                platformModel.missions = cards;
+                return PartialView("_nomissionfound");
+            }
+            else if(cards.Count >= 1)
+            {
+                ViewBag.totalMission = cards.Count;
             }
 
+
             return PartialView("_GridCard", platformModel);
+            //return View(platformModel);
 
 
         }
 
 
 
-        public IActionResult HomeList()
-        {
-            return View();
-        }
+        //public IActionResult HomeList()
+        //{
+        //    string name = HttpContext.Session.GetString("Uname");
+        //    ViewBag.Uname = name;
+        //    return View();
+        //}
         public JsonResult GetCitys(int countryId)
         {
             List<City> city = _PlatformRepository.GetCityData(countryId);

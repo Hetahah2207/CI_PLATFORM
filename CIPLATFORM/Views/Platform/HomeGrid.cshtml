@@ -2,198 +2,62 @@
 @model CardsViewModel
 <link rel="stylesheet" href="~/css/HomeGrid.css">
 
-<div class="container">
-
-    <nav class="navbar navbar-expand-lg navbar-light  ">
-        <div class="container-fluid">
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-
-
-                    <li class="nav-item">
-                        <a class="nav-link ms-lg-5" href="#">Stories</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle ms-lg-5" href="#" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            policy
-                        </a>
-                        <ul class="dropdown-menu text-center w-50" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action1</a></li>
-                            <li><a class="dropdown-item" href="#">Action2</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Action3</a></li>
-                        </ul>
-                    </li>
-
-
-                </ul>
-
-            </div>
-            <form class="d-flex">
-                <img src="~/images/user-img.png" class="profile-nav" alt="">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        @ViewBag.Uname
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action1</a></li>
-                        <li><a class="dropdown-item" href="#">Action1</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Action1</a></li>
-                    </ul>
-                </li>
-            </form>
-        </div>
-    </nav>
-</div>
-
-
 <hr class="d-none d-md-block">
 
-
-<div class="container-fluid">
-    <div class="container">
-        <div class="row d-flex">
-            <nav class="navbar  navbar-expand-lg bg-body-tertiary p-0">
-                <div class="container-fluid">
-                    <div class="d-flex align-items-center col-lg-6 col-12  .navbar-search-sm" role="search">
-
-                        <img src="~/images/search.png" class="search" />
-                        <input class="form-control mx-1" type="search" placeholder="Search Missions..."
-                               aria-label="Search" id="searchb" onkeyup="temp()">
-
-                    </div>
-
-                    <div class="col-lg-6 col-12 anchor">
-                        <div class="row">
-                            @*<div class="collapse navbar-collapse" id="navbarSupportedContent">*@
-                            <div class=" col-6 col-sm-3 dropdown ">
-                                @*<button class="h-item border  bg-light  w-100 p-0" type="button"
-                                    data-bs-toggle="dropdown">*@
-
-                                <select id="countryId" onchange="temp(); GetCity();" class="form-select select-menu  profile-name d-flex justify-content-between h-100 w-100 "
-                                        aria-label="Default select example" style="box-shadow: none;">
-                                    <option selected>Country</option>
-                                    @foreach (var obj in @ViewBag.countries)
-                                    {
-                                        <option value="@obj.CountryId">@obj.Name</option>
-                                    }
-                                </select>
-                                @*</button>*@
-                            </div>
-                            <div class=" col-6 col-sm-3 dropdown">
-                                <button class="h-item border d-flex  bg-light align-items-center justify-content-between w-100 p-0" type="button"
-                                        data-bs-toggle="dropdown">
-                                    <select class="form-select select-menu profile-name d-flex justify-content-between h-100 w-100"
-                                            aria-label="Default select example" style="box-shadow: none;" id="selectCityList" onchange="temp()">
-
-                                        <option selected>City</option>
-                                        @foreach (var item in @ViewBag.Cities)
-                                        {
-
-                                            <option value="@item.CityId"> @item.Name</option>
-                                        }
-                                    </select>
-                                </button>
-                            </div>
-                            <div class=" col-6 col-sm-3 pt-3 pt-sm-0 dropdown">
-                                <button class="h-item border d-flex border align-items-center justify-content-between w-100 h-100 p-0" style="background-color:white;" type="button"
-                                        data-bs-toggle="dropdown">
-                                    <span class="profile-name d-flex ps-2">Themes</span>
-                                    <img src="~/images/drop-down.png" class="pe-2" alt="Profile-dropdown" />
-                                </button>
-                                <ul class="dropdown-menu scroll_dropdown" aria-labelledby="dropdownMenuButton1" id="theme" onchange="temp()">
-                                    @foreach (var item in @ViewBag.themes)
-                                    {
-
-                                        <li><input type="checkbox" value="@item.MissionThemeId" /> @item.Title </li>
-                                    }
-                                </ul>
-                            </div>
-                            <div class=" col-6 col-sm-3 pt-3 pt-sm-0 dropdown">
-                                <button class="h-item border d-flex  align-items-center justify-content-between w-100 h-100 p-0" style="background-color:white;" type="button"
-                                        data-bs-toggle="dropdown">
-                                    <span class="profile-name d-flex ps-2">Skills</span>
-                                    <img src="~/images/drop-down.png" class="pe-2" alt="Profile-dropdown" />
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end w-100" id="skill" onchange="temp()">
-                                    @foreach (var item in @ViewBag.skills)
-                                    {
-
-                                        <li><input type="checkbox" value="@item.SkillId" /> @item.Skill.SkillName </li>
-                                    }
-                                </ul>
-                            </div>
-                            @*</div>*@
-                        </div>
-                    </div>
-
-                </div>
-            </nav>
-        </div>
-    </div>
-</div>
-
+@{
+    Html.RenderPartial("_navbar2");
+}
 
 <hr>
 
-
 <div class="container">
 
+   
+    @*<div id="grid-view">*@
+        <div id="grid">
 
+            @{
 
-    <div class="row">
-        <div class="col-md-9 col-sm-12"> <h3>Explore <b>@ViewBag.totalMission missions</b></h3></div>
-        <div class="col-md-3 col-sm-12 d-flex justy">
-            <div class="dropdown h-dropdown">
-                <button style="background-color: white; border: none;">
-                    <a class="nav-link dropdown-toggle  " href="#" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        <span style="font-size: 14px;">short by</span>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action1</a></li>
-                        <li><a class="dropdown-item" href="#">Action1</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Action1</a></li>
-                    </ul>
-                </button>
-            </div>
-            <div class="">
-                <a asp-controller="Platform" asp-action="HomeGrid">
-                    <i class="bi bi-grid"></i>
-                </a>
-            </div>
-            <div class="">
-                <a asp-controller="Platform" asp-action="HomeList">
-                    <i class="bi bi-list"></i>
-                </a>
-            </div>
+                Html.RenderPartial("_GridCard");
+
+            }
         </div>
-    </div>
+    @*</div>*@
+    @*<div id="list-view">*@
+        <div id="list">
 
+            @{
 
+                Html.RenderPartial("_ListCard");
 
-
-    @{
-        Html.RenderPartial("_GridCard");
-    }
+            }
+        </div>
+    @*</div>*@
 
 </div>
 
 
+
+
+
+<script>
+     window.onload = opengrid();
+    function opengrid(){
+        console.log("Grid");
+       var div1 = document.getElementById("list");
+       var div2 = document.getElementById("grid");
+       div1.style.display = 'none';
+       div2.style.display = 'block';
+        console.log("Done");
+    }
+      function openlist(){
+          console.log("List");
+       var div1 = document.getElementById("list");
+       var div2 = document.getElementById("grid");
+       div1.style.display = 'block';
+       div2.style.display = 'none';
+       console.log("Done");
+    }
+
+</script>
 
