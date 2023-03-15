@@ -319,6 +319,20 @@ namespace CI_PLATFORM.Repository.Repositories
 
         }
 
+        public MissionListingViewModel GetCardDetail(int mid)
+        {
+            List<Mission> missions = GetMissionDetails();
+            Mission mission = missions.FirstOrDefault(x => x.MissionId == mid);
+
+           
+
+            MissionListingViewModel CardDetail = new MissionListingViewModel();
+            {
+                CardDetail.missions = mission;
+            }
+
+            return CardDetail;
+        }
 
     }
 }

@@ -104,12 +104,19 @@ function temp() {
         dataType: "html", // return datatype like JSON and HTML
         success: function (data) {
 
-            $("#grid-view").empty();
+
+            $("#filter").empty();
             console.log("grid Hii");
-            $("#grid-view").html(data);
-            $("#list-view").empty();
-            console.log("list Hii");
-            $("#list-view").html(data);
+            $("#filter").html(data);
+            //$("#grid-view").empty();
+            //console.log("grid Hii");
+            //$("#grid-view").html(data);
+            //$("#list-view").empty();
+            //console.log("list Hii");
+            //$("#list-view").html(data);
+
+            var div1 = document.getElementById("list-view");
+            div1.style.display = 'none';
         },
         error: function (e) {
             console.log("Bye");
@@ -117,3 +124,31 @@ function temp() {
         },
     });
 }
+
+
+
+
+
+window.onload = opengrid();
+function opengrid() {
+    console.log("Grid");
+    var div1 = document.getElementById("list-view");
+    var div2 = document.getElementById("grid-view");
+    div1.style.display = 'none';
+    div2.style.display = 'block';
+    console.log("Done");
+}
+function openlist() {
+    console.log("List");
+    var div1 = document.getElementById("list-view");
+    var div2 = document.getElementById("grid-view");
+    div1.style.display = 'block';
+    div2.style.display = 'none';
+    console.log("Done");
+}
+
+
+
+//function preventBack() { window.history.forward(); }
+//setTimeout("preventBack()", 0);
+//window.onunload = function () { null }

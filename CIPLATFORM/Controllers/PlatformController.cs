@@ -75,12 +75,24 @@ namespace CIPLATFORM.Controllers
             }
 
 
-            return PartialView("_GridCard", platformModel);
+            return PartialView("_FilterMission", platformModel);
             //return View(platformModel);
 
 
         }
+        public IActionResult MissionListing(int mid)
+        {
+            string name = HttpContext.Session.GetString("Uname");
+            ViewBag.Uname = name;
 
+
+            MissionListingViewModel ml = _PlatformRepository.GetCardDetail(mid);
+
+
+            return View(ml);
+
+            
+        }
 
 
         //public IActionResult HomeList()

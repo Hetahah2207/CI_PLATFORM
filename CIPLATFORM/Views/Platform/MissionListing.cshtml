@@ -1,0 +1,726 @@
+﻿@using CI_PLATFORM.Entities.ViewModels
+@model MissionListingViewModel
+<link rel="stylesheet" href="~/css/MissionListing.css">
+
+
+
+<hr class="d-none d-md-block">
+
+<div class="container">
+    <!-- ..............card..................... -->
+    <div class="card mb-3 p-0">
+        <div class="row g-0">
+            <div class="col-lg-6">
+                <!-- Container for the image gallery -->
+                <div class="container p-0 pb-5 h-100" style="max-width: 100%; height: 100%;">
+
+
+                    <div class="mySlides h-100">
+                        <div class="numbertext">1 / 6</div>
+                        <img src="images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-4.png"
+                             style="max-width:100%; height: 100%;">
+                    </div>
+
+                    <div class="mySlides h-100">
+                        <div class="numbertext">2 / 6</div>
+                        <img src="images/Education-Supplies-for-Every--Pair-of-Shoes-Sold.png"
+                             style="max-width:100%; height: 100%;">
+                    </div>
+
+                    <div class="mySlides h-100">
+                        <div class="numbertext">3 / 6</div>
+                        <img src="images/Grow-Trees-On-the-path-to-environment-sustainability.png"
+                             style="max-width:100%; height: 100%;">
+                    </div>
+
+                    <div class="mySlides h-100">
+                        <div class="numbertext">4 / 6</div>
+                        <img src="images/Education-Supplies-for-Every--Pair-of-Shoes-Sold.png"
+                             style="max-width:100%; height: 100%;">
+                    </div>
+
+                    <div class="mySlides h-100">
+                        <div class="numbertext">5 / 6</div>
+                        <img src="images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-4.png"
+                             style="max-width:100%; height: 100%;">
+                    </div>
+
+                    <div class="mySlides h-100">
+                        <div class="numbertext">6 / 6</div>
+                        <img src="images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-4.png"
+                             style="max-width:100%; height: 100%;">
+                    </div>
+
+
+                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+                    <div class="container-fluid row ps-4 g-2 ">
+                        <div class="col ">
+                            <div class="card h-100">
+                                <img class="demo cursor"
+                                     src="images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-4.png"
+                                     style="width:100%" onclick="currentSlide(1)" alt="The Woods">
+                            </div>
+                        </div>
+                        <div class="col ">
+                            <div class="card h-100 ">
+                                <img class="demo cursor"
+                                     src="images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-4.png"
+                                     style="width:100%" onclick="currentSlide(2)" alt="The Woods">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card h-100">
+                                <img class="demo cursor"
+                                     src="images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-4.png"
+                                     style="width:100%" onclick="currentSlide(3)" alt="The Woods">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card h-100 ">
+                                <img class="demo cursor"
+                                     src="images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-4.png"
+                                     style="width:100%" onclick="currentSlide(4)" alt="The Woods">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card h-100 ">
+                                <img class="demo cursor"
+                                     src="images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-4.png"
+                                     style="width:100%" onclick="currentSlide(5)" alt="The Woods">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card h-100 ">
+                                <img class="demo cursor"
+                                     src="images/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-4.png"
+                                     style="width:100%" onclick="currentSlide(6)" alt="The Woods">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card-body">
+                    <div class="row">
+                        <h3 class="card-title">@Model.missions.Title</h3>
+
+
+                        <p class="card-text">@Model.missions.ShortDescription </p>
+
+
+                        <div class="wrapper  d-flex justify-content-center">
+                            <hr class="divider">
+                            <div class=" d-flex justify-content-center b2 ">
+                                <div class="d-flex justify-content-center .left .right ">
+                                    @if (Model.missions.StartDate <= DateTime.Now && DateTime.Now <= Model.missions.EndDate)
+                                    {
+                                        <span>Ongoing Opportunity</span>
+
+
+                                    }
+                                    else
+                                    {
+                                        <span>@Model.missions.StartDate.ToString().Substring(0,10)  until @Model.missions.EndDate.ToString().Substring(0,10) </span>
+
+                                    }
+                                </div>
+                            </div>
+                            <hr class="divider">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 d-flex justify-content-center">
+                            <i class="bi bi-person-check " style="font-size: 25px;"></i>
+                            <span> 10 <br> seats left</span>
+                        </div>
+                        <div class="col-6 d-flex justify-content-center">
+                            <i class="bi bi-clock" style="font-size: 25px;"></i>
+                            <span> 09/01/2019 <br> Deadline</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="d-flex justify-content-center align-items-center"
+                                 style="border: 1px solid grey; border-radius: 18px;">
+                                <button type="button" class="btn btn-outline w-100">
+                                    <i class="bi bi-heart"></i>
+                                    Add to Favourite
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex justify-content-center align-items-center"
+                                 style="border: 1px solid grey; border-radius: 18px;">
+                                <button type="button" class="btn btn-outline w-100">
+                                    <i class="bi bi-square-fill"></i>
+                                    Recommend to a Co-Worker
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="wrapper  d-flex justify-content-center">
+                            <hr class="divider">
+                            <div class=" d-flex justify-content-center  ">
+
+                                <div class="d-flex justify-content-center align-items-center .left .right ">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
+
+                            </div>
+                            <hr class="divider">
+                        </div>
+                    </div>
+                    <div class="container-fluid row row-cols-2 row-cols-sm-4 g-2 ">
+                        <div class="col ">
+                            <div class="h-100 border">
+
+                                <i class="bi bi-geo-alt"></i>
+                                <p class=" small">City: @Model.missions.City.Name</p>
+
+                            </div>
+                        </div>
+                        <div class="col ">
+                            <div class=" h-100  border">
+
+                                <i class="bi bi-globe"></i>
+                                <p class=" small">Theme:  @Model.missions.Theme.Title</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class=" h-100 border">
+
+                                <i class="bi bi-calendar3"> </i>
+                                <p class=" small"> @Model.missions.StartDate.ToString().Substring(0,10) <br> until @Model.missions.EndDate.ToString().Substring(0,10)</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class=" h-100  border">
+                                <i class="bi bi-people">
+                                </i>
+                                <p class=" small">Organization: @Model.missions.OrganizationName</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="apply2 d-flex justify-content-center">
+                            <button type="button" class="btn btn-outline apply">
+                                Apply Now
+                                <i class=" ms-2 bi bi-arrow-right-short"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5 ratings">
+        <div class="col-lg-8 col-md-7">
+            <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 25px;">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button"
+                            role="tab" aria-controls="home" aria-selected="true">
+                        Mission
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab"
+                            aria-controls="profile" aria-selected="false">
+                        Organization
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-3" type="button" role="tab"
+                            aria-controls="contact" aria-selected="false">
+                        Comments
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
+                    <h3>Introduction</h3>
+                    <span>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                        has been the industry's standard dummy text ever since the 1500s, when an unknown
+                        printer took a galley of type and scrambled it to make a type specimen book. It has
+                        survived not only five centuries, but also the leap into electronic typesetting,
+                        remaining essentially unchanged. It was popularised in the 1960s with the release of
+                        Letraset sheets containing <br><br> Lorem ipsum dolor, sit amet consectetur adipisicing
+                        elit. Aperiam est animi eveniet enim aliquam nulla dicta quod tempore exercitationem
+                        quos eligendi dolorem deserunt pariatur ea id ipsum illum, illo magni error
+                        neque!<br><br>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque
+                        laboriosam eligendi repellat fugit magnam unde saepe eos est cum adipisci modi
+                        molestias, placeat totam nulla consequatur enim et quod ea non rerum.<br><br>
+                    </span>
+                    <h3>Challenge</h3>
+                    <span>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto alias reiciendis
+                        fuga aut omnis impedit eaque quo recusandae nulla culpa cumque excepturi magnam enim
+                        eveniet labore nam est, inventore veritatis? Odit magnam, amet sequi recusandae esse
+                        adipisci voluptatem aspernatur, aperiam debitis et tenetur ipsum odio dicta quo libero
+                        quisquam error laborum deleniti fuga, exercitationem ullam? Aliquid quia repellat natus
+                        illo.<br><br>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit veniam
+                        voluptatum, iusto explicabo cumque necessitatibus doloribus animi quo deleniti quam
+                        ipsam blanditiis. Nam quisquam asperiores similique fuga pariatur voluptatem, sed
+                        tenetur, totam amet quae hic et nisi at.<br><br>
+                    </span>
+                    <h3>Document</h3>
+                    <div>
+                        <a href="">
+                            <button type="button" class="btn border-dark rounded-pill ">
+                                <img src="images/doc.png" alt=""> <span> Lorem_njn.pdf</span>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tab-2" role="tabpanel">
+                    It Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                    has been the industry's standard dummy text ever since the 1500s, when an unknown printer
+                    took a galley of type and scrambled it to make a type specimen book. It
+                    has survived not only five centuries, but also the leap into electronic typesetting,
+                    remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset sheets containing
+                </div>
+                <div class="tab-pane fade" id="tab-3" role="tabpanel">
+                    <form>
+                        <div class="form-group">
+
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                      placeholder="Enter your comments"></textarea>
+                        </div>
+                        <div class=" mt-3 mb-3">
+                            <button type="submit" class="btn btn-outline-warning rounded-pill">
+                                Post Comment
+                            </button>
+                        </div>
+                        <div class="row ex1">
+                            <div class="container">
+                                <div class="col-12">
+                                    <div class="row mt-4" style="background-color: white;">
+                                        <div class="col-md-3 col-12 d-flex justify-content-center align-items-center">
+                                            <img src="images/volunteer1.png"
+                                                 style="border-radius: 50%; height: 4.5em;" alt="">
+                                        </div>
+                                        <div class="col-md-9 col-12">
+                                            <p>Margaret Walsh</p>
+                                            <p>Monday, October 21, 2019, 4.57 PM</p>
+                                            <p>Nice mission great opportunity for peoples</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4" style="background-color: white;">
+                                        <div class="col-md-3 col-12 d-flex justify-content-center align-items-center">
+                                            <img src="images/volunteer1.png"
+                                                 style="border-radius: 50%; height: 4.5em;" alt="">
+                                        </div>
+                                        <div class="col-md-9 col-12">
+                                            <p>Margaret Walsh </p>
+                                            <p>Monday, October 21, 2019, 4.57 PM</p>
+                                            <p>Nice mission great opportunity for peoples </p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4" style="background-color: white;">
+                                        <div class="col-md-3 col-12 d-flex justify-content-center align-items-center">
+                                            <img src="images/volunteer1.png"
+                                                 style="border-radius: 50%; height: 4.5em;" alt="">
+                                        </div>
+                                        <div class="col-md-9 col-12">
+                                            <p>Margaret Walsh</p>
+                                            <p>Monday, October 21, 2019, 4.57 PM</p>
+                                            <p>Nice mission great opportunity for peoples</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4" style="background-color: white;">
+                                        <div class="col-md-3 col-12 d-flex justify-content-center align-items-center">
+                                            <img src="images/volunteer1.png"
+                                                 style="border-radius: 50%; height: 4.5em;" alt="">
+                                        </div>
+                                        <div class="col-md-9 col-12">
+                                            <p>Margaret Walsh</p>
+                                            <p> Monday, October 21, 2019, 4.57 PM </p>
+                                            <p>Nice mission great opportunity for peoples</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-5">
+
+            <div class="container">
+                <div class="border">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 pt-3">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 25px;">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1"
+                                                type="button" role="tab" aria-controls="home"
+                                                aria-selected="true">
+                                            Information
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">Skills</div>
+                            <div class="col-9">Cool, Easy going, Math, Computer</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-3">Days</div>
+                            <div class="col-9">Weekend only</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-3 pe-0">Rating</div>
+                            <div class="col-9">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                (by 125 volunteers)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ...............rec vol............. -->
+            <div class="container pt-5">
+                <div class="border">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 pt-3">
+                                Recent Volunteers
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="row">
+                                    <img src="images/volunteer1.png" class="Volunteers" alt="">
+                                </div>
+                                <div class="row">
+                                    <span>Andrew Johnson</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <img src="images/volunteer2.png" class="Volunteers" alt="">
+                                </div>
+                                <div class="row">
+                                    <span>Charles Vigue</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <img src="images/volunteer3.png" class="Volunteers" alt="">
+                                </div>
+                                <div class="row">
+                                    <span>Kathryn Roberts</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="row">
+                                    <img src="images/volunteer4.png" class="Volunteers" alt="">
+                                </div>
+                                <div class="row">
+                                    <span>Estella Fowles</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <img src="images/volunteer5.png" class="Volunteers" alt="">
+                                </div>
+                                <div class="row">
+                                    <span>Rose Lewis</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <img src="images/volunteer6.png" class="Volunteers" alt="">
+                                </div>
+                                <div class="row">
+                                    <span>Raymond Pabon</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="row">
+                                    <img src="images/volunteer7.png" class="Volunteers" alt="">
+                                </div>
+                                <div class="row">
+                                    <span>Travis Steen</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <img src="images/volunteer8.png" class="Volunteers" alt="">
+                                </div>
+                                <div class="row">
+                                    <span>Sarah Santillan</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <img src="images/volunteer9.png" class="Volunteers" alt="">
+                                </div>
+                                <div class="row">
+                                    <span>Linda Richards</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>..
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center" style="font-size: 30px;">
+            Related Missions
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-3">
+        <div class="col">
+            <div class="card mb-4">
+                <img src="images/Education-Supplies-for-Every--Pair-of-Shoes-Sold.png" class="card-img-top"
+                     alt="...">
+
+                <div class="card-body">
+                    <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
+                    <p class="card-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor incididunt ut labore...
+                    </p>
+                    <div class="container p-2">
+                        <div class="row d-flex">
+                            <div class="col-md-6">
+                                Australian Paradise
+                            </div>
+                            <div class="col-md-6">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row  d-flex justify-content-center text-center bg-white ">
+                        <div class="wrapper  d-flex justify-content-center">
+                            <hr class="divider">
+                            <div class=" d-flex justify-content-center b2 ">
+
+                                <div class="d-flex justify-content-center .left .right ">
+                                    From 10/01/2019 until 25/02/2019
+                                </div>
+
+                            </div>
+                            <hr class="divider">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row mt-2">
+                            <div class="col-6 ">
+
+                                <i class="bi bi-person-check " style="font-size: 28px;"></i>
+                                10 <br>
+                                seats left
+
+                            </div>
+                            <div class="col-6 ">
+                                <i class="bi bi-clock" style="font-size: 25px;"></i>
+                                09/01/2019 <br> Deadline
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-center apply2">
+                        <button type="button" class="btn btn-outline apply">
+                            Apply
+                            <i class=" ms-2 bi bi-arrow-right-short"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4">
+                <img src="images/Education-Supplies-for-Every--Pair-of-Shoes-Sold.png" class="card-img-top"
+                     alt="...">
+
+                <div class="card-body">
+                    <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
+                    <p class="card-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor incididunt ut labore...
+                    </p>
+                    <div class="container p-2">
+                        <div class="row d-flex">
+                            <div class="col-md-6">
+                                Australian Paradise
+                            </div>
+                            <div class="col-md-6">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row  d-flex justify-content-center text-center bg-white ">
+                        <div class="wrapper  d-flex justify-content-center">
+                            <hr class="divider">
+                            <div class=" d-flex justify-content-center b2 ">
+
+                                <div class="d-flex justify-content-center .left .right ">
+                                    From 10/01/2019 until 25/02/2019
+                                </div>
+
+                            </div>
+                            <hr class="divider">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row mt-2">
+                            <div class="col-6 ">
+
+                                <i class="bi bi-person-check " style="font-size: 28px;"></i>
+                                10 <br>
+                                seats left
+
+                            </div>
+                            <div class="col-6 ">
+                                <i class="bi bi-clock" style="font-size: 25px;"></i>
+                                09/01/2019 <br> Deadline
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-center apply2">
+                        <button type="button" class="btn btn-outline apply">
+                            Apply
+                            <i class=" ms-2 bi bi-arrow-right-short"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4">
+                <img src="images/Education-Supplies-for-Every--Pair-of-Shoes-Sold.png" class="card-img-top"
+                     alt="...">
+
+                <div class="card-body">
+                    <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
+                    <p class="card-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor incididunt ut labore...
+                    </p>
+                    <div class="container p-2">
+                        <div class="row d-flex">
+                            <div class="col-md-6">
+                                Australian Paradise
+                            </div>
+                            <div class="col-md-6">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row  d-flex justify-content-center text-center bg-white ">
+                        <div class="wrapper  d-flex justify-content-center">
+                            <hr class="divider">
+                            <div class=" d-flex justify-content-center b2 ">
+
+                                <div class="d-flex justify-content-center .left .right ">
+                                    From 10/01/2019 until 25/02/2019
+                                </div>
+
+                            </div>
+                            <hr class="divider">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row mt-2">
+                            <div class="col-6 ">
+
+                                <i class="bi bi-person-check " style="font-size: 28px;"></i>
+                                10 <br>
+                                seats left
+
+                            </div>
+                            <div class="col-6 ">
+                                <i class="bi bi-clock" style="font-size: 25px;"></i>
+                                09/01/2019 <br> Deadline
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-center apply2">
+                        <button type="button" class="btn btn-outline apply">
+                            Apply
+                            <i class=" ms-2 bi bi-arrow-right-short"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<hr>
+<script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    // Next/previous controls
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    // Thumbnail image controls
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        let dots = document.getElementsByClassName("demo");
+        let captionText = document.getElementById("caption");
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+        captionText.innerHTML = dots[slideIndex - 1].alt;
+    }
+</script>
+
