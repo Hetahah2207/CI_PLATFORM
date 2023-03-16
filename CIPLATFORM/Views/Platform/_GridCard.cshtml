@@ -10,7 +10,7 @@
 
 
 <div id="grid">
-   
+
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
 
         @foreach (var item in Model.missions)
@@ -68,11 +68,11 @@
                                         {
                                         <i class="bi bi-star-fill" style="color: #F8D441;"></i>
                                         }*@
-                                    @for (int i = 1; i <= @item.MissionRatings.FirstOrDefault()?.Rating; i++)
+                                    @for (int i = 1; i <= (int)@item.MissionRatings.Average(x => x.Rating); i++)
                                     {
                                         <i class="bi bi-star-fill" style="color: #F8D441;"></i>
                                     }
-                                    @for (int i = 1; i <= 5 - @item.MissionRatings.FirstOrDefault()?.Rating; i++)
+                                    @for (int i = 1; i <= 5 - (int)@item.MissionRatings.Average(x => x.Rating); i++)
                                     {
                                         <i class="bi bi-star" style="color: #F8D441;"></i>
                                     }
@@ -86,7 +86,11 @@
                                 <div class="d-flex justify-content-center .left .right ">
                                     @* @item.StartDate.ToShortDateString() until @item.EndDate.ToShortDateString()*@
                                     @{
-                                        if (item.StartDate <= DateTime.Now && DateTime.Now <= item.EndDate)
+                                        if (item.MissionType == "Goal")
+                                        {
+                                            <span class="textline">@item.GoalMissions.FirstOrDefault()?.GoalObjectiveText </span>
+                                        }
+                                        else if (item.StartDate <= DateTime.Now && DateTime.Now <= item.EndDate)
                                         {
                                             <span>Ongoing Opportunity</span>
                                         }
@@ -119,7 +123,7 @@
                         <hr>
                         <div class="d-flex justify-content-center apply2">
                             <button type="button" class="btn btn-outline apply">
-                                  <a asp-controller="Platform" asp-action="MissionListing" asp-route-mid="@item.MissionId" style="text-decoration:none;color:black"> Apply <i class=" ms-2 bi bi-arrow-right-short"></i></a>  
+                                <a asp-controller="Platform" asp-action="MissionListing" asp-route-mid="@item.MissionId" style="text-decoration:none;color:black"> Apply <i class=" ms-2 bi bi-arrow-right-short"></i></a>
                             </button>
                         </div>
                     </div>

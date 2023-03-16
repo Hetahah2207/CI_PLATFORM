@@ -66,23 +66,10 @@ namespace CI_PLATFORM.Repository.Repositories
 
         }
 
-        //public List<MissionSkill> GetMissionSkills()
-        //{
-
-        //    var skills = _CiPlatformContext.MissionSkills.Include(m => m.Skill).ToList();
-        //    return skills;
-
-        //}
-        //public List<Mission> GetMissions()
-        //{
-
-        //    var missions = _CiPlatformContext.Missions.ToList();
-        //    return missions;
-
-        //}
+       
         public List<Mission> GetMissionDetails()
         {
-            List<Mission> missionDetails = _CiPlatformContext.Missions.Include(m => m.City).Include(m => m.Theme).Include(m => m.MissionMedia).Include(m => m.MissionRatings).ToList();
+            List<Mission> missionDetails = _CiPlatformContext.Missions.Include(m => m.City).Include(m => m.Theme).Include(m => m.MissionMedia).Include(m => m.MissionRatings).Include(m => m.GoalMissions).Include(m => m.MissionSkills).ToList();
             return missionDetails;
         }
 
@@ -319,20 +306,54 @@ namespace CI_PLATFORM.Repository.Repositories
 
         }
 
+
+        public List<MissionMedium> media(int mid)
+        {
+            List<MissionMedium> photos = _CiPlatformContext.MissionMedia.Where(x => x.MissionId == mid).ToList();
+            return photos;
+        }
+
+        public bool addToFav(int missionId, int userId)
+        {
+            FavoriteMission favorite = new();
+            favorite.MissionId = missionId; 
+            favorite.UserId = userId;   
+
+            var  fM = _CiPlatformContext.FavoriteMissions.FirstOrDefault(f => f.MissionId == missionId && f.UserId == userId);
+
+            if (fM == null)
+            {
+
+                _CiPlatformContext.FavoriteMissions.Add(favorite);
+                return true;
+            }
+
+            else
+            {
+                _CiPlatformContext.FavoriteMissions.Remove(fM);
+                return false;
+               
+            }
+        }
+
         public MissionListingViewModel GetCardDetail(int mid)
         {
             List<Mission> missions = GetMissionDetails();
             Mission mission = missions.FirstOrDefault(x => x.MissionId == mid);
-
-           
+            List<MissionMedium> photos = media(mid);
+            List<Mission> relatedMissions = missions.Where(x =>  x.OrganizationName == mission.OrganizationName || x.ThemeId == mission.ThemeId || x.CountryId == mission.CountryId ).ToList();
+            relatedMissions.Remove(mission);
 
             MissionListingViewModel CardDetail = new MissionListingViewModel();
             {
                 CardDetail.missions = mission;
+                CardDetail.missionmedias = photos;
+                CardDetail.relatedmissions = relatedMissions;
             }
 
             return CardDetail;
         }
+       
 
     }
 }

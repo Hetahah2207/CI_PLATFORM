@@ -152,3 +152,36 @@ function openlist() {
 //function preventBack() { window.history.forward(); }
 //setTimeout("preventBack()", 0);
 //window.onunload = function () { null }
+
+
+
+function AddMissionToFavourite(missionId) {
+    $.ajax({
+        
+        url: '/Platform/AddMissionToFavourite',
+        method: "POST",
+        data: {
+            'missionId': missionId,
+        },
+        success: function (missions) {
+
+            if (missions == true) {
+                $('#addToFav').removeClass();
+                $('#addToFav').addClass("bi bi-heart-fill");
+                $('#addToFav').css("color", "red");
+            }
+            else {
+                $('#addToFav').css("color", "black");
+                $('#addToFav').removeClass();
+                $('#addToFav').addClass("bi bi-heart");
+            }
+
+        },
+         error: function (request,error) {
+            console.log("Bye city");
+            alert('Error');
+        },
+
+    });
+
+}

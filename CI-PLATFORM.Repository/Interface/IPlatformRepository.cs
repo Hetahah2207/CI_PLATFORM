@@ -16,4 +16,6 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         //public List<MissionSkill> GetMissionSkills();
         public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort);
         public MissionListingViewModel GetCardDetail(int mid);
+        public List<MissionMedium> media(int mid);
+        public bool addToFav(int missionId, int userId);
     }}

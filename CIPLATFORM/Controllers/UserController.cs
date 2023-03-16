@@ -28,6 +28,8 @@ namespace CIPLATFORM.Controllers
                 return View();
             }
             HttpContext.Session.SetString("Uname", user.FirstName + " " + user.LastName);
+            HttpContext.Session.SetInt32("userid", (int)user.UserId);
+
             return RedirectToAction("HomeGrid", "Platform");
            
 

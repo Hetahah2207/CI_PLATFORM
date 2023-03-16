@@ -1,4 +1,5 @@
-﻿using CI_PLATFORM.Entities.Models;
+﻿using CI_PLATFORM.Entities.Data;
+using CI_PLATFORM.Entities.Models;
 using CI_PLATFORM.Entities.ViewModels;
 using CI_PLATFORM.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +10,15 @@ namespace CIPLATFORM.Controllers
     public class PlatformController : Controller
     {
         public readonly IPlatformRepository _PlatformRepository;
-        public PlatformController(IPlatformRepository PlatformRepository)
+        public readonly CiPlatformContext _CiPlatformContext;
+        //public PlatformRepository(CiPlatformContext CiPlatformContext)
+        //{
+        //    _CiPlatformContext = CiPlatformContext;
+        //}
+        public PlatformController(CiPlatformContext CiPlatformContext,IPlatformRepository PlatformRepository)
         {
             _PlatformRepository = PlatformRepository;
+            _CiPlatformContext = CiPlatformContext;
         }
         public  IActionResult HomeGrid()
         {           
@@ -92,6 +99,22 @@ namespace CIPLATFORM.Controllers
             return View(ml);
 
             
+        }
+        [HttpPost]
+        public bool AddMissionToFavourite(int missionId)
+        {
+            var userId = (int)HttpContext.Session.GetInt32("userid");
+            var fav = _PlatformRepository.addToFav(missionId, userId);
+            if (fav != true)
+            {
+                _CiPlatformContext.SaveChanges();
+            }
+            else
+            {
+                _CiPlatformContext.SaveChanges();
+
+            }
+            return fav;
         }
 
 
