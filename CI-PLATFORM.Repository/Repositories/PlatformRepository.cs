@@ -46,18 +46,7 @@ namespace CI_PLATFORM.Repository.Repositories
 
         }
 
-        //public List<Skill> GetSkills()
-        //{
-        //    List<Skill> skills = _CiPlatformContext.Skills.ToList();
-        //    return skills;
-
-        //}
-        //public List<MissionSkill> GetMissionSkills()
-        //{
-        //    List<MissionSkill> skills = _CiPlatformContext.MissionSkills.ToList();
-        //    return skills;
-
-        //}
+       
         public List<MissionSkill> GetSkills()
         {
 
@@ -313,6 +302,44 @@ namespace CI_PLATFORM.Repository.Repositories
             return photos;
         }
 
+        public bool addComment(MissionListingViewModel obj, int uid)
+        {
+            long mid = obj.missions.MissionId;
+            string commentDescription = obj.commentDescription;
+
+
+            Comment comment = new Comment();
+            {
+                comment.MissionId = mid;
+                comment.UserId = uid;
+                comment.CommentDescription = commentDescription;
+            }
+            _CiPlatformContext.Comments.Add(comment);
+            _CiPlatformContext.SaveChanges();
+
+            return true;
+
+        }
+
+        //public bool addComment(MissionListingViewModel obj, int uid)
+        //{
+        //    long mid = obj.missions.MissionId;
+        //    string commentDescription = obj.commentDescription;
+
+
+        //    Comment comment = new Comment();
+        //    {
+        //        comment.MissionId = mid;
+        //        comment.UserId = uid;
+        //        comment.CommentDescription = commentDescription;
+        //    }
+        //    _CiPlatformContext.Comments.Add(comment);
+        //    _CiPlatformContext.SaveChanges();
+
+        //    return true;
+
+        //}
+
         public bool addToFav(int missionId, int userId)
         {
             FavoriteMission favorite = new();
@@ -335,20 +362,37 @@ namespace CI_PLATFORM.Repository.Repositories
                
             }
         }
+        public List<MissionDocument> document(int mid)
+        {
+            List<MissionDocument> documents = _CiPlatformContext.MissionDocuments.Where(x => x.MissionId == mid).ToList();
+            return documents;
+        }
+
+      
 
         public MissionListingViewModel GetCardDetail(int mid)
         {
             List<Mission> missions = GetMissionDetails();
             Mission mission = missions.FirstOrDefault(x => x.MissionId == mid);
             List<MissionMedium> photos = media(mid);
-            List<Mission> relatedMissions = missions.Where(x =>  x.OrganizationName == mission.OrganizationName || x.ThemeId == mission.ThemeId || x.CountryId == mission.CountryId ).ToList();
+            List<MissionDocument> documents = document(mid);
+       
+            List <Mission> relatedMissions = missions.Where(x =>  x.OrganizationName == mission.OrganizationName || x.ThemeId == mission.ThemeId || x.CountryId == mission.CountryId ).ToList();
             relatedMissions.Remove(mission);
-
+            List<MissionSkill> missionSkills = _CiPlatformContext.MissionSkills.Include(m => m.Skill).Where(x => x.MissionId == mid).ToList();
+            List<MissionApplication> applications = _CiPlatformContext.MissionApplications.Include(m => m.User).Where(x => x.MissionId == mid).ToList();
+            List<Comment> comments = _CiPlatformContext.Comments.Include(m => m.User).Where(x => x.MissionId == mid).ToList();
             MissionListingViewModel CardDetail = new MissionListingViewModel();
+           
             {
                 CardDetail.missions = mission;
                 CardDetail.missionmedias = photos;
                 CardDetail.relatedmissions = relatedMissions;
+                CardDetail.missiondocuments = documents;
+              
+                CardDetail.missionskills = missionSkills;
+                CardDetail.missionapplications = applications;
+                CardDetail.comments = comments;
             }
 
             return CardDetail;

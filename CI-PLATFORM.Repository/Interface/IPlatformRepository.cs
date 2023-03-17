@@ -18,4 +18,7 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public MissionListingViewModel GetCardDetail(int mid);
         public List<MissionMedium> media(int mid);
         public bool addToFav(int missionId, int userId);
+        //public int avgRating(int mid);
+        public List<MissionDocument> document(int mid);
+        public bool addComment(MissionListingViewModel obj, int uid);
     }}

@@ -101,6 +101,29 @@ namespace CIPLATFORM.Controllers
             
         }
         [HttpPost]
+        public IActionResult MissionListing(MissionListingViewModel ml)
+        {
+            int UserId = (int)HttpContext.Session.GetInt32("userid");
+            bool comntAdded = _PlatformRepository.addComment(ml, UserId);
+            if (comntAdded)
+            {
+                ViewBag.ComntAdded = "Comment Added";
+            }
+            else
+            {
+                ViewBag.ComntAdded = "Comment not Added";
+            }
+
+            int mid = (int)ml.missions.MissionId;
+            string name = HttpContext.Session.GetString("Uname");
+            ViewBag.Uname = name;
+            MissionListingViewModel volunteerModel = _PlatformRepository.GetCardDetail(mid);
+
+
+            return View(volunteerModel);
+        }
+
+        [HttpPost]
         public bool AddMissionToFavourite(int missionId)
         {
             var userId = (int)HttpContext.Session.GetInt32("userid");

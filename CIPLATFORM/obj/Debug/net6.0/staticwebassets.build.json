@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "V1OvHtCuUL5a6IBexFE5sR9QN+zhTa6L/HXJ2fshKk0=",
+  "Hash": "bc01V+kB4GjTUP6JP7uzk0gBu5hv4kmMLVMrhUPEUsk=",
   "Source": "CIPLATFORM",
   "BasePath": "_content/CIPLATFORM",
   "Mode": "Default",
@@ -406,6 +406,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\checked.png"
+    },
+    {
+      "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\images\\CI-SRS-Final-23.docx",
+      "SourceId": "CIPLATFORM",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\",
+      "BasePath": "_content/CIPLATFORM",
+      "RelativePath": "images/CI-SRS-Final-23.docx",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\CI-SRS-Final-23.docx"
     },
     {
       "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\images\\cross.png",
@@ -950,6 +967,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\hours.png"
+    },
+    {
+      "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\images\\HTML-Assignment.pdf",
+      "SourceId": "CIPLATFORM",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\",
+      "BasePath": "_content/CIPLATFORM",
+      "RelativePath": "images/HTML-Assignment.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\HTML-Assignment.pdf"
     },
     {
       "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\images\\image.png",
