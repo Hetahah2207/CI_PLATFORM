@@ -302,17 +302,17 @@ namespace CI_PLATFORM.Repository.Repositories
             return photos;
         }
 
-        public bool addComment(MissionListingViewModel obj, int uid)
+
+        public bool addComment(int mid, int uid, string comnt)
         {
-            long mid = obj.missions.MissionId;
-            string commentDescription = obj.commentDescription;
+
 
 
             Comment comment = new Comment();
             {
                 comment.MissionId = mid;
                 comment.UserId = uid;
-                comment.CommentDescription = commentDescription;
+                comment.CommentDescription = comnt;
             }
             _CiPlatformContext.Comments.Add(comment);
             _CiPlatformContext.SaveChanges();
@@ -320,7 +320,6 @@ namespace CI_PLATFORM.Repository.Repositories
             return true;
 
         }
-
         //public bool addComment(MissionListingViewModel obj, int uid)
         //{
         //    long mid = obj.missions.MissionId;
@@ -339,6 +338,9 @@ namespace CI_PLATFORM.Repository.Repositories
         //    return true;
 
         //}
+
+
+
 
         public bool addToFav(int missionId, int userId)
         {
@@ -382,6 +384,7 @@ namespace CI_PLATFORM.Repository.Repositories
             List<MissionSkill> missionSkills = _CiPlatformContext.MissionSkills.Include(m => m.Skill).Where(x => x.MissionId == mid).ToList();
             List<MissionApplication> applications = _CiPlatformContext.MissionApplications.Include(m => m.User).Where(x => x.MissionId == mid).ToList();
             List<Comment> comments = _CiPlatformContext.Comments.Include(m => m.User).Where(x => x.MissionId == mid).ToList();
+            //List<FavoriteMission> favoriteMission = _CiPlatformContext.FavoriteMissions.Where(x => x.MissionId == mid && x.UserId == ).ToList();
             MissionListingViewModel CardDetail = new MissionListingViewModel();
            
             {

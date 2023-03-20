@@ -82,11 +82,12 @@
                     <hr>
                     <div class="row">
                         <div class="col-6">
-
+                            @*if(@Model.favoriteMissions.UserId == @ViewBag.UId && @Model.missions.MissionId == @ViewBag.MId){*@
                             <button type="submit" class="btn btn-outline-dark rounded-pill w-100" onclick="AddMissionToFavourite(@Model.missions.MissionId)">
                                 <i class="bi bi-heart" id="addToFav"></i>
                                 Add to Favourite
                             </button>
+                            @*}*@
 
                         </div>
                         <div class="col-6">
@@ -214,39 +215,78 @@
                     @Model.missions.OrganizationDetail
                 </div>
                 <div class="tab-pane fade" id="tab-3" role="tabpanel">
-                    <form method="post">
-                        <div class="form-group">
+                    @*<form method="post">*@
+                        <div class="form-group" id="comment">
                             @ViewBag.ComntAdded
+                            <input type="hidden" value="mission.MissionId" id="mid" />
                             <textarea asp-for="commentDescription" class="form-control" id="exampleFormControlTextarea1" rows="3"
                                       placeholder="Enter your comments"></textarea>
                         </div>
                         <div class=" mt-3 mb-3">
-                            <button type="submit" class="btn btn-outline-dark rounded-pill">
-                                Post Comment
-                            </button>
+                            @*<a asp-controller="Platform" asp-action="AddComment"  >*@
+                                <button type="submit" class="btn btn-outline-warning rounded-pill" onclick="comment()">
+                                    Post Comment
+                                </button>
+                            @*</a>*@
                         </div>
                         <div class="row ex1">
-
-                            <div class="col-12 mt-4">
-                                @foreach (var comment in Model.comments)
+                            <div class="col-12">
+                                @foreach (var item in Model.comments)
                                 {
                                     <div class="container">
+
+
                                         <div class="row mt-4" style="background-color: white;">
-                                            <div class="col-sm-3 col-12 d-flex justify-content-center align-items-center">
-                                                <img src=~/images/@comment.User.Avatar
+                                            <div class="col-md-3 col-12 d-flex justify-content-center align-items-center">
+                                                <img src=~/images/@item.User.Avatar
                                                  style="border-radius: 50%; height: 4.5em;" alt="">
                                             </div>
-                                            <div class="col-sm-9 col-12 ">
-                                                <span>@comment.User.FirstName</span>
-                                                <p>@comment.CreatedAt.ToString("dddd, MMMM dd, yyyy, h.mm tt")</p>
-                                                <p>@comment.CommentDescription</p>
+                                            <div class="col-md-9 col-12">
+                                                <h5 class="my-1">@item.User.FirstName   @item.User.LastName</h5>
+                                                <p class="my-1">@item.CreatedAt.ToString("dddd, MMMM dd, yyyy, h.mm tt")</p>
+                                                <p class="my-1">@item.CommentDescription</p>
                                             </div>
                                         </div>
                                     </div>
+
                                 }
                             </div>
+
                         </div>
-                    </form>
+                    @*</form>*@
+                    @*  <form method="post">
+                        <div class="form-group">
+                        @ViewBag.ComntAdded
+                        <textarea asp-for="commentDescription" class="form-control" id="exampleFormControlTextarea1" rows="3"
+                        placeholder="Enter your comments"></textarea>
+                        </div>
+                        <div class=" mt-3 mb-3">
+                        <button type="submit" class="btn btn-outline-dark rounded-pill">
+                        Post Comment
+                        </button>
+                        </div>
+                        <div class="row ex1">
+
+                        <div class="col-12 mt-4">
+                        @foreach (var comment in Model.comments)
+                        {
+                        <div class="container">
+                        <div class="row mt-4" style="background-color: white;">
+                        <div class="col-sm-3 col-12 d-flex justify-content-center align-items-center">
+                        <img src=~/images/@comment.User.Avatar
+                        style="border-radius: 50%; height: 4.5em;" alt="">
+                        </div>
+                        <div class="col-sm-9 col-12 ">
+                        <span>@comment.User.FirstName</span>
+                        <p>@comment.CreatedAt.ToString("dddd, MMMM dd, yyyy, h.mm tt")</p>
+                        <p>@comment.CommentDescription</p>
+                        </div>
+                        </div>
+                        </div>
+                        }
+                        </div>
+                        </div>
+                        </form>*@
                 </div>
             </div>
         </div>

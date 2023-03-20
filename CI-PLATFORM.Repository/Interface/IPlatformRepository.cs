@@ -20,5 +20,6 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public bool addToFav(int missionId, int userId);
         //public int avgRating(int mid);
         public List<MissionDocument> document(int mid);
-        public bool addComment(MissionListingViewModel obj, int uid);
+        //public bool addComment(MissionListingViewModel obj, int uid);
+        public bool addComment(int mid, int uid, string comnt);
     }}

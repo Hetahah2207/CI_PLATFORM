@@ -91,20 +91,27 @@ namespace CIPLATFORM.Controllers
         {
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
+            //int UserId = (int)HttpContext.Session.GetInt32("userid");
+            //ViewBag.UId = UserId;
+           
 
+         
 
             MissionListingViewModel ml = _PlatformRepository.GetCardDetail(mid);
-
+            //ViewBag.MId = mid;
 
             return View(ml);
 
             
         }
+
+
         [HttpPost]
-        public IActionResult MissionListing(MissionListingViewModel ml)
+        public void AddComment(int mid, string comnt)
         {
-            int UserId = (int)HttpContext.Session.GetInt32("userid");
-            bool comntAdded = _PlatformRepository.addComment(ml, UserId);
+
+            int UserId = (int)HttpContext.Session.GetInt32("UId");
+            bool comntAdded = _PlatformRepository.addComment(mid, UserId, comnt);
             if (comntAdded)
             {
                 ViewBag.ComntAdded = "Comment Added";
@@ -114,14 +121,36 @@ namespace CIPLATFORM.Controllers
                 ViewBag.ComntAdded = "Comment not Added";
             }
 
-            int mid = (int)ml.missions.MissionId;
-            string name = HttpContext.Session.GetString("Uname");
-            ViewBag.Uname = name;
-            MissionListingViewModel volunteerModel = _PlatformRepository.GetCardDetail(mid);
+            //int mid = (int)obj.mission.MissionId;
+            //string name = HttpContext.Session.GetString("Uname");
+            //ViewBag.Uname = name;
+            //VolunteerModel volunteerModel = _volunteer.DisplayModel(mid);
 
-
-            return View(volunteerModel);
         }
+        //[HttpPost]
+        //public IActionResult MissionListing(MissionListingViewModel obj)
+        //{
+        //    int UserId = (int)HttpContext.Session.GetInt32("UId");
+        //    bool comntAdded = _PlatformRepository.addComment(obj, UserId);
+        //    if (comntAdded)
+        //    {
+        //        ViewBag.ComntAdded = "Comment Added";
+        //    }
+        //    else
+        //    {
+        //        ViewBag.ComntAdded = "Comment not Added";
+        //    }
+
+        //    int mid = (int)obj.missions.MissionId;
+        //    string name = HttpContext.Session.GetString("Uname");
+        //    ViewBag.Uname = name;
+        //    MissionListingViewModel volunteerModel = _PlatformRepository.GetCardDetail(mid);
+
+
+        //    return View(volunteerModel);
+        //}
+
+
 
         [HttpPost]
         public bool AddMissionToFavourite(int missionId)
