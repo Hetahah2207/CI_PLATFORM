@@ -303,7 +303,7 @@ namespace CI_PLATFORM.Repository.Repositories
         }
 
 
-        public bool addComment(int mid, int uid, string comnt)
+        public void addComment(int mid, int uid, string comnt)
         {
 
 
@@ -317,7 +317,7 @@ namespace CI_PLATFORM.Repository.Repositories
             _CiPlatformContext.Comments.Add(comment);
             _CiPlatformContext.SaveChanges();
 
-            return true;
+            //return true;
 
         }
         //public bool addComment(MissionListingViewModel obj, int uid)

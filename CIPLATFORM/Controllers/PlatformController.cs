@@ -105,21 +105,11 @@ namespace CIPLATFORM.Controllers
             
         }
 
-
-        [HttpPost]
-        public void AddComment(int mid, string comnt)
+        public void AddComment(int obj, string comnt)
         {
 
             int UserId = (int)HttpContext.Session.GetInt32("UId");
-            bool comntAdded = _PlatformRepository.addComment(mid, UserId, comnt);
-            if (comntAdded)
-            {
-                ViewBag.ComntAdded = "Comment Added";
-            }
-            else
-            {
-                ViewBag.ComntAdded = "Comment not Added";
-            }
+            _PlatformRepository.addComment(obj, UserId, comnt);
 
             //int mid = (int)obj.mission.MissionId;
             //string name = HttpContext.Session.GetString("Uname");
@@ -127,36 +117,16 @@ namespace CIPLATFORM.Controllers
             //VolunteerModel volunteerModel = _volunteer.DisplayModel(mid);
 
         }
-        //[HttpPost]
-        //public IActionResult MissionListing(MissionListingViewModel obj)
-        //{
-        //    int UserId = (int)HttpContext.Session.GetInt32("UId");
-        //    bool comntAdded = _PlatformRepository.addComment(obj, UserId);
-        //    if (comntAdded)
-        //    {
-        //        ViewBag.ComntAdded = "Comment Added";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.ComntAdded = "Comment not Added";
-        //    }
 
-        //    int mid = (int)obj.missions.MissionId;
-        //    string name = HttpContext.Session.GetString("Uname");
-        //    ViewBag.Uname = name;
-        //    MissionListingViewModel volunteerModel = _PlatformRepository.GetCardDetail(mid);
-
-
-        //    return View(volunteerModel);
-        //}
+        
 
 
 
         [HttpPost]
         public bool AddMissionToFavourite(int missionId)
         {
-            var userId = (int)HttpContext.Session.GetInt32("userid");
-            var fav = _PlatformRepository.addToFav(missionId, userId);
+            int UserId = (int)HttpContext.Session.GetInt32("UId");
+            var fav = _PlatformRepository.addToFav(missionId, UserId);
             if (fav != true)
             {
                 _CiPlatformContext.SaveChanges();

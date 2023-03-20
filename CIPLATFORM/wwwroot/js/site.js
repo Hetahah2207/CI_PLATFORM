@@ -186,23 +186,22 @@ function AddMissionToFavourite(missionId) {
     });
 
 }
+function comment(missionid)
+{
 
-function comment() {
+    //var crd = document.getElementById("comment");
+    var comnt = $("#comment_text").val();
 
-    var crd = document.getElementById("comment");
-    var comnt = document.getElementById("exampleFormControlTextarea1");
-    var mid = document.getElementById("mid");
     /*    var missionId = document.getElementsByClassName("mission_id").value;*/
+    console.log("kkkkkkkkkkkkkkkkkkkkk");
+    console.log(comnt);
 
-    //if (comnt == null) {
-    //    alert('Please Enter Comment...');
-    //}
 
     $.ajax({
         url: "/Platform/AddComment",
-        method: "POST",
+        type: "POST", // POST
         data: {
-            'obj': mid,
+            'obj': missionid,
             'comnt': comnt
         },
         dataType: "html", // return datatype like JSON and HTML
@@ -219,6 +218,38 @@ function comment() {
         },
     });
 }
+//function comment() {
+
+//    var crd = document.getElementById("comment");
+//    var comnt = document.getElementById("exampleFormControlTextarea1");
+//    var mid = document.getElementById("mid");
+//    /*    var missionId = document.getElementsByClassName("mission_id").value;*/
+
+//    //if (comnt == null) {
+//    //    alert('Please Enter Comment...');
+//    //}
+
+//    $.ajax({
+//        url: "/Platform/AddComment",
+//        method: "POST",
+//        data: {
+//            'obj': mid,
+//            'comnt': comnt
+//        },
+//        dataType: "html", // return datatype like JSON and HTML
+//        success: function (data) {
+
+//            $("#comment").html();
+//            console.log("Added ");
+
+
+//        },
+//        error: function (e) {
+//            console.log("Bye");
+//            alert('Error');
+//        },
+//    });
+//}
 //function comment(mid) {
 
 //    //var crd = document.getElementById("comment").val();
