@@ -22,4 +22,5 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public List<MissionDocument> document(int mid);
         //public bool addComment(MissionListingViewModel obj, int uid);
         public void addComment(int mid, int uid, string comnt);
+        public bool applyMission(int mid, int uid);
     }}

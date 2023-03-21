@@ -22,7 +22,7 @@ namespace CI_PLATFORM.Entities.ViewModels
         public List<MissionApplication> missionapplications { get; set; }
     
         public List<Comment> comments { get; set; }
-        //public FavoriteMission favoriteMissions { get; set; }
+        public List<FavoriteMission> favoriteMissions { get; set; }
         public string commentDescription { get; set; }
     }
 }

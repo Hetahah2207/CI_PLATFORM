@@ -93,7 +93,7 @@ function temp() {
     $.ajax({
         url: '/Platform/Filter',
         type: "POST", // POST
-        
+
         data: {
             'cityId': checkedvalues,
             'countryId': checkedcntryvalues,
@@ -158,7 +158,7 @@ function openlist() {
 
 function AddMissionToFavourite(missionId) {
     $.ajax({
-        
+
         url: '/Platform/AddMissionToFavourite',
         method: "POST",
         data: {
@@ -166,6 +166,7 @@ function AddMissionToFavourite(missionId) {
         },
         success: function (missions) {
 
+            console.log("hii")
             if (missions == true) {
                 $('#addToFav').removeClass();
                 $('#addToFav').addClass("bi bi-heart-fill");
@@ -176,18 +177,47 @@ function AddMissionToFavourite(missionId) {
                 $('#addToFav').removeClass();
                 $('#addToFav').addClass("bi bi-heart");
             }
-
         },
-         error: function (request,error) {
+        error: function (request, error) {
             console.log("Bye city");
+            alert('Error');
+        },
+    });
+}
+
+function applyMission(missionId) {
+    debugger
+    $.ajax({
+
+        url: '/Platform/applyMission',
+        method: "POST",
+        data: {
+            'missionId': missionId,
+        },
+        success: function (missions) {
+            debugger
+            if (missions == true) {
+                console.log("done");
+
+                $('#applyMission').prop('disabled', true);
+                $('#applyMission').text("Applied");
+                $('#applyMission').css("color", "red");
+                document.getElementById("ok").innerHTML += `Applied Successfully...`;
+            }
+        },
+        error: function (request, error) {
+            console.log("function not working");
+            document.getElementById("ok").innerHTML += `You've already Applied...`;
+
             alert('Error');
         },
 
     });
 
 }
-function comment(missionid)
-{
+
+
+function comment(missionid) {
 
     //var crd = document.getElementById("comment");
     var comnt = $("#comment_text").val();
@@ -218,96 +248,3 @@ function comment(missionid)
         },
     });
 }
-//function comment() {
-
-//    var crd = document.getElementById("comment");
-//    var comnt = document.getElementById("exampleFormControlTextarea1");
-//    var mid = document.getElementById("mid");
-//    /*    var missionId = document.getElementsByClassName("mission_id").value;*/
-
-//    //if (comnt == null) {
-//    //    alert('Please Enter Comment...');
-//    //}
-
-//    $.ajax({
-//        url: "/Platform/AddComment",
-//        method: "POST",
-//        data: {
-//            'obj': mid,
-//            'comnt': comnt
-//        },
-//        dataType: "html", // return datatype like JSON and HTML
-//        success: function (data) {
-
-//            $("#comment").html();
-//            console.log("Added ");
-
-
-//        },
-//        error: function (e) {
-//            console.log("Bye");
-//            alert('Error');
-//        },
-//    });
-//}
-//function comment(mid) {
-
-//    //var crd = document.getElementById("comment").val();
-//    var comnt = "hiii";
-//    //var comnt = document.getElementById("exampleFormControlTextarea1").value();
-//    var mid = document.getElementById("mid");
-//    /*    var missionId = document.getElementsByClassName("mission_id").value;*/
-
-//    if (comnt == null) {
-//        alert('Please Enter Comment...');
-//    }
-
-//    $.ajax({
-//        method: "POST", // POST
-//        url: "/Platform/AddComment",
-//        data: {
-//            mid: mid,
-//            comnt: comnt
-//        },
-//        dataType: "html", // return datatype like JSON and HTML
-//        success: function () {
-//            alert('success')
-//            //$("#comment").html();
-//            //console.log("Added ");
-
-
-//        },
-//        error: function (e) {
-//            console.log("Bye");
-//            alert('Error');
-//        },
-//    });
-//}
-
-//function AddComment(userId, missionId) {
-//    var comment = $("#user-comment").val();
-
-//    if (comment == null || comment == "") {
-//        $("#comment-status").html("Comment cannot be empty.");
-//        $("#comment-status").css("color", "red");
-//    }
-//    else {
-//        console.log(comment);
-//        $.ajax({
-//            url: "/Mission/AddComment",
-//            method: "POST",
-//            data: {
-//                comment: comment,
-//                userId: userId,
-//                missionId: missionId
-//            },
-
-//            success: function () {
-//                $("#comment-status").html("Comment Sent For Approval.");
-//                $("#comment-status").css("color", "green");
-//            }
-
-//        })
-//    }
-
-//}

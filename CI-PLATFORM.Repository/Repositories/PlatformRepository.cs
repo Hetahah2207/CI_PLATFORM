@@ -58,7 +58,7 @@ namespace CI_PLATFORM.Repository.Repositories
        
         public List<Mission> GetMissionDetails()
         {
-            List<Mission> missionDetails = _CiPlatformContext.Missions.Include(m => m.City).Include(m => m.Theme).Include(m => m.MissionMedia).Include(m => m.MissionRatings).Include(m => m.GoalMissions).Include(m => m.MissionSkills).ToList();
+            List<Mission> missionDetails = _CiPlatformContext.Missions.Include(m => m.City).Include(m => m.Theme).Include(m => m.MissionMedia).Include(m => m.MissionRatings).Include(m => m.GoalMissions).Include(m => m.MissionSkills).Include(m => m.FavoriteMissions).ToList();
             return missionDetails;
         }
 
@@ -320,24 +320,31 @@ namespace CI_PLATFORM.Repository.Repositories
             //return true;
 
         }
-        //public bool addComment(MissionListingViewModel obj, int uid)
-        //{
-        //    long mid = obj.missions.MissionId;
-        //    string commentDescription = obj.commentDescription;
+        public bool applyMission(int mid, int uid)
+        {
+            MissionApplication application = new();
+            application.MissionId = mid;
+            application.UserId = uid;
 
 
-        //    Comment comment = new Comment();
-        //    {
-        //        comment.MissionId = mid;
-        //        comment.UserId = uid;
-        //        comment.CommentDescription = commentDescription;
-        //    }
-        //    _CiPlatformContext.Comments.Add(comment);
-        //    _CiPlatformContext.SaveChanges();
 
-        //    return true;
+            var applicable = _CiPlatformContext.MissionApplications.FirstOrDefault(a => a.MissionId == mid && a.UserId == uid );
 
-        //}
+            if (applicable == null)
+            {
+                application.CreatedAt = DateTime.Now;
+                application.AppliedAt = DateTime.Now;
+
+                _CiPlatformContext.MissionApplications.Add(application);
+
+                _CiPlatformContext.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
 
 
@@ -384,7 +391,7 @@ namespace CI_PLATFORM.Repository.Repositories
             List<MissionSkill> missionSkills = _CiPlatformContext.MissionSkills.Include(m => m.Skill).Where(x => x.MissionId == mid).ToList();
             List<MissionApplication> applications = _CiPlatformContext.MissionApplications.Include(m => m.User).Where(x => x.MissionId == mid).ToList();
             List<Comment> comments = _CiPlatformContext.Comments.Include(m => m.User).Where(x => x.MissionId == mid).ToList();
-            //List<FavoriteMission> favoriteMission = _CiPlatformContext.FavoriteMissions.Where(x => x.MissionId == mid && x.UserId == ).ToList();
+            List<FavoriteMission> favoriteMission = _CiPlatformContext.FavoriteMissions.ToList();
             MissionListingViewModel CardDetail = new MissionListingViewModel();
            
             {
@@ -392,7 +399,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 CardDetail.missionmedias = photos;
                 CardDetail.relatedmissions = relatedMissions;
                 CardDetail.missiondocuments = documents;
-              
+                CardDetail.favoriteMissions = favoriteMission;
                 CardDetail.missionskills = missionSkills;
                 CardDetail.missionapplications = applications;
                 CardDetail.comments = comments;

@@ -91,14 +91,14 @@ namespace CIPLATFORM.Controllers
         {
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
-            //int UserId = (int)HttpContext.Session.GetInt32("userid");
-            //ViewBag.UId = UserId;
-           
+            int UserId = (int)HttpContext.Session.GetInt32("UId");
+            ViewBag.UId = UserId;
 
-         
+            ViewBag.MId = mid;
+
 
             MissionListingViewModel ml = _PlatformRepository.GetCardDetail(mid);
-            //ViewBag.MId = mid;
+           
 
             return View(ml);
 
@@ -111,14 +111,24 @@ namespace CIPLATFORM.Controllers
             int UserId = (int)HttpContext.Session.GetInt32("UId");
             _PlatformRepository.addComment(obj, UserId, comnt);
 
-            //int mid = (int)obj.mission.MissionId;
-            //string name = HttpContext.Session.GetString("Uname");
-            //ViewBag.Uname = name;
-            //VolunteerModel volunteerModel = _volunteer.DisplayModel(mid);
+            
 
         }
 
-        
+        [HttpPost]
+        public bool applyMission(int missionId)
+        {
+            int UserId = (int)HttpContext.Session.GetInt32("UId");
+            var apply = _PlatformRepository.applyMission(missionId, UserId);
+            if (apply == true)
+            {
+                //TempData["success"] = "Applied Successfully...";
+                return apply;
+            }
+            //TempData["error"] = "You've already Applied... ";
+            return false;
+        }
+
 
 
 
