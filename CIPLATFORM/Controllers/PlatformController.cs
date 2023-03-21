@@ -126,7 +126,6 @@ namespace CIPLATFORM.Controllers
             
 
         }
-
         [HttpPost]
         public bool applyMission(int missionId)
         {
@@ -140,10 +139,6 @@ namespace CIPLATFORM.Controllers
             //TempData["error"] = "You've already Applied... ";
             return false;
         }
-
-
-
-
         [HttpPost]
         public bool AddMissionToFavourite(int missionId)
         {
@@ -201,7 +196,10 @@ namespace CIPLATFORM.Controllers
             List<MissionSkill> skills = _PlatformRepository.GetSkills();
             ViewBag.skills = skills;
 
-            return View();
+
+            StoryListingViewModel sl = _PlatformRepository.GetStoryDetail();
+
+            return View(sl);
         }
 
     }

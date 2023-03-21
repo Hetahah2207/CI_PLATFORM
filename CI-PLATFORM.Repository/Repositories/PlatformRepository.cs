@@ -380,7 +380,6 @@ namespace CI_PLATFORM.Repository.Repositories
             List<MissionDocument> documents = _CiPlatformContext.MissionDocuments.Where(x => x.MissionId == mid).ToList();
             return documents;
         }
-
         public void RecommandToCoWorker(int FromUserId, List<int> ToUserId, int mid)
         {
             var fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId && u.DeletedAt == null);
@@ -425,7 +424,6 @@ namespace CI_PLATFORM.Repository.Repositories
                 #endregion Send Mail
             }
         }
-
         public MissionListingViewModel GetCardDetail(int mid)
         {
             List<Mission> missions = GetMissionDetails();
@@ -456,7 +454,19 @@ namespace CI_PLATFORM.Repository.Repositories
 
             return CardDetail;
         }
-       
+
+        public StoryListingViewModel GetStoryDetail()
+        {
+            List<Story> stories = _CiPlatformContext.Stories.Include(m => m.User).Include(m => m.StoryMedia).ToList();
+            StoryListingViewModel StoryDetail = new StoryListingViewModel();
+            {
+                StoryDetail.stories = stories;
+            }
+
+
+            return StoryDetail;
+        }
+
 
     }
 }

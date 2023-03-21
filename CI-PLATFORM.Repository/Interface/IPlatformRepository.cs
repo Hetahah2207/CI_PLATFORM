@@ -12,16 +12,14 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public List<Mission> GetMissionDetails();
         public int GetMissionCount();
         public CardsViewModel getCards();
-        //public CardsViewModel getCards();
         //public List<MissionSkill> GetMissionSkills();
         public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort);
         public MissionListingViewModel GetCardDetail(int mid);
         public List<MissionMedium> media(int mid);
         public bool addToFav(int missionId, int userId);
-        //public int avgRating(int mid);
         public List<MissionDocument> document(int mid);
-        //public bool addComment(MissionListingViewModel obj, int uid);
         public void addComment(int mid, int uid, string comnt);
         public bool applyMission(int mid, int uid);
         public void RecommandToCoWorker(int FromUserId, List<int> ToUserId, int mid);
+        public StoryListingViewModel GetStoryDetail();
     }}
