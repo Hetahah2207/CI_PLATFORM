@@ -248,3 +248,36 @@ function comment(missionid) {
         },
     });
 }
+
+function recommandToCoWorker(x) {
+    //var toUserId = $('#recommand').find(":checked").val();
+    var Missiond = x;
+    var toUserId = [];
+    var recommand = document.getElementById("recommand");
+    var list = recommand.getElementsByTagName("input");
+    for (i = 0; i < list.length; i++) {
+        if (list[i].checked) {
+            toUserId.push(list[i].value);
+        }
+
+    }
+
+    /* debugger;*/
+    $.ajax({
+        url: "/Platform/RecommandToCoWorker",
+        method: "Post",
+        data: {
+            "toUserId": toUserId,
+            "mid": Missiond
+        },
+        success: function (data) {
+            console.log(toUserId);
+
+        }
+        ,
+        error: function (e) {
+            console.log("Bye");
+            alert('Error');
+        },
+    });
+}

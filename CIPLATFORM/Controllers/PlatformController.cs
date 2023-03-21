@@ -91,8 +91,12 @@ namespace CIPLATFORM.Controllers
         {
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
-            int UserId = (int)HttpContext.Session.GetInt32("UId");
-            ViewBag.UId = UserId;
+            if(name != null)
+            {
+                int UserId = (int)HttpContext.Session.GetInt32("UId");
+                ViewBag.UId = UserId;
+            }
+
 
             ViewBag.MId = mid;
 
@@ -104,7 +108,15 @@ namespace CIPLATFORM.Controllers
 
             
         }
+        public void RecommandToCoWorker(List<int> toUserId, int mid)
+        {
+            int FromUserId = (int)HttpContext.Session.GetInt32("UId");
 
+            _PlatformRepository.RecommandToCoWorker(FromUserId, toUserId, mid);
+
+            MissionListingViewModel volunteerModel = _PlatformRepository.GetCardDetail(mid);
+
+        }
         public void AddComment(int obj, string comnt)
         {
 
@@ -163,6 +175,33 @@ namespace CIPLATFORM.Controllers
 
 
             return Json(json);
+        }
+        public IActionResult StoryListing()
+        {
+            string name = HttpContext.Session.GetString("Uname");
+            ViewBag.Uname = name;
+
+            int UserId = (int)HttpContext.Session.GetInt32("UId");
+            ViewBag.UId = UserId;
+
+
+
+
+
+
+            List<Country> countries = _PlatformRepository.GetCountryData();
+            ViewBag.countries = countries;
+
+            List<City> Cities = _PlatformRepository.GetCitys();
+            ViewBag.Cities = Cities;
+
+            List<MissionTheme> themes = _PlatformRepository.GetMissionThemes();
+            ViewBag.themes = themes;
+
+            List<MissionSkill> skills = _PlatformRepository.GetSkills();
+            ViewBag.skills = skills;
+
+            return View();
         }
 
     }

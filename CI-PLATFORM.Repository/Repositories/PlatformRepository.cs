@@ -8,7 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using MimeKit;
+using MimeKit.Text;
+using System.Net.Mail;
+using MailKit.Security;
+using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace CI_PLATFORM.Repository.Repositories
 {
@@ -377,7 +381,50 @@ namespace CI_PLATFORM.Repository.Repositories
             return documents;
         }
 
-      
+        public void RecommandToCoWorker(int FromUserId, List<int> ToUserId, int mid)
+        {
+            var fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId && u.DeletedAt == null);
+            var fromEmailId = fromUser.Email;
+            //if (user1 == null)
+            //{
+            //    return null;
+            //}
+
+            foreach (var user in ToUserId)
+            {
+                var toUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == user && u.DeletedAt == null);
+                var toEmailId = toUser.Email;
+
+                MissionInvite invite = new MissionInvite();
+                {
+                    invite.FromUserId = FromUserId;
+                    invite.ToUserId = user;
+                    invite.MissionId = mid;
+                }
+                _CiPlatformContext.Add(invite);
+                _CiPlatformContext.SaveChanges();
+
+
+
+                #region Send Mail
+                var mailBody = "<h1></h1><br><h2><a href='" + "https://localhost:7251/Platform/MissionListing?mid=" + mid + "'>Check Out this Mission!</a></h2>";
+
+                // create email message
+                var email = new MimeMessage();
+                email.From.Add(MailboxAddress.Parse(fromEmailId));
+                email.To.Add(MailboxAddress.Parse(toEmailId));
+                email.Subject = "Reset Your Password";
+                email.Body = new TextPart(TextFormat.Html) { Text = mailBody };
+
+                // send email
+                using var smtp = new SmtpClient();
+                smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                smtp.Authenticate("hetshah2207@gmail.com", "lpoqtojvkcgkwdms");
+                smtp.Send(email);
+                smtp.Disconnect(true);
+                #endregion Send Mail
+            }
+        }
 
         public MissionListingViewModel GetCardDetail(int mid)
         {
@@ -393,7 +440,8 @@ namespace CI_PLATFORM.Repository.Repositories
             List<Comment> comments = _CiPlatformContext.Comments.Include(m => m.User).Where(x => x.MissionId == mid).ToList();
             List<FavoriteMission> favoriteMission = _CiPlatformContext.FavoriteMissions.ToList();
             MissionListingViewModel CardDetail = new MissionListingViewModel();
-           
+            List<User> users = _CiPlatformContext.Users.ToList();
+
             {
                 CardDetail.missions = mission;
                 CardDetail.missionmedias = photos;
@@ -403,6 +451,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 CardDetail.missionskills = missionSkills;
                 CardDetail.missionapplications = applications;
                 CardDetail.comments = comments;
+                CardDetail.coworkers = users;
             }
 
             return CardDetail;

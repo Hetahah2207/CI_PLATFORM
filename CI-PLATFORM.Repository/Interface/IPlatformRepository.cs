@@ -23,4 +23,5 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         //public bool addComment(MissionListingViewModel obj, int uid);
         public void addComment(int mid, int uid, string comnt);
         public bool applyMission(int mid, int uid);
+        public void RecommandToCoWorker(int FromUserId, List<int> ToUserId, int mid);
     }}
