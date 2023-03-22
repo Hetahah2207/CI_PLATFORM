@@ -239,7 +239,7 @@ function comment(missionid) {
 
             $("#comment").html();
             console.log("Added ");
-
+            window.location.reload();
 
         },
         error: function (e) {

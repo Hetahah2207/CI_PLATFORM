@@ -457,13 +457,11 @@ namespace CI_PLATFORM.Repository.Repositories
 
         public StoryListingViewModel GetStoryDetail()
         {
-            List<Story> stories = _CiPlatformContext.Stories.Include(m => m.User).Include(m => m.StoryMedia).ToList();
+            List<Story> stories = _CiPlatformContext.Stories.Include(m => m.User).Include(m => m.StoryMedia).Include(m => m.Mission).ToList();
             StoryListingViewModel StoryDetail = new StoryListingViewModel();
             {
                 StoryDetail.stories = stories;
             }
-
-
             return StoryDetail;
         }
 

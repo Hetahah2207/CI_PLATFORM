@@ -87,6 +87,7 @@ namespace CIPLATFORM.Controllers
 
 
         }
+     
         public IActionResult MissionListing(int mid)
         {
             string name = HttpContext.Session.GetString("Uname");
@@ -176,8 +177,11 @@ namespace CIPLATFORM.Controllers
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
 
-            int UserId = (int)HttpContext.Session.GetInt32("UId");
-            ViewBag.UId = UserId;
+            if (name != null)
+            {
+                int UserId = (int)HttpContext.Session.GetInt32("UId");
+                ViewBag.UId = UserId;
+            }
 
 
 
@@ -200,6 +204,13 @@ namespace CIPLATFORM.Controllers
             StoryListingViewModel sl = _PlatformRepository.GetStoryDetail();
 
             return View(sl);
+        }
+        public IActionResult ShareStory()
+        {
+            string name = HttpContext.Session.GetString("Uname");
+            ViewBag.Uname = name;
+
+            return View();  
         }
 
     }

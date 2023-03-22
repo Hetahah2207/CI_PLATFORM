@@ -19,6 +19,7 @@ public class Register
     public string ConfirmPassword { get; set; } = null!;
 
     [Required(ErrorMessage = "Please enter PhoneNumber.")]
+  
     public long PhoneNumber { get; set; }
 
 }

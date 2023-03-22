@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "xsBeQykF8sngCa3K0aADbw4S+6B8NSh6GnGxsknAtVQ=",
+  "Hash": "NZqruEpUVMu9Jo4Slv4RXrijl4/7plIcKW43bNBiNFA=",
   "Source": "CIPLATFORM",
   "BasePath": "_content/CIPLATFORM",
   "Mode": "Default",
@@ -102,6 +102,23 @@
       "OriginalItemSpec": "wwwroot\\css\\MissionListing.css"
     },
     {
+      "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\css\\ShareStory.css",
+      "SourceId": "CIPLATFORM",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\",
+      "BasePath": "_content/CIPLATFORM",
+      "RelativePath": "css/ShareStory.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\ShareStory.css"
+    },
+    {
       "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\css\\site.css",
       "SourceId": "CIPLATFORM",
       "SourceType": "Discovered",
@@ -136,23 +153,6 @@
       "OriginalItemSpec": "wwwroot\\css\\StoryListing.css"
     },
     {
-      "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\css\\StyleSheet.css",
-      "SourceId": "CIPLATFORM",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\",
-      "BasePath": "_content/CIPLATFORM",
-      "RelativePath": "css/StyleSheet.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\StyleSheet.css"
-    },
-    {
       "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\favicon.ico",
       "SourceId": "CIPLATFORM",
       "SourceType": "Discovered",
@@ -168,6 +168,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\images\\.~lock.CI-SRS-Final-23.docx#",
+      "SourceId": "CIPLATFORM",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\",
+      "BasePath": "_content/CIPLATFORM",
+      "RelativePath": "images/.~lock.CI-SRS-Final-23.docx#",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\.~lock.CI-SRS-Final-23.docx#"
     },
     {
       "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\images\\404-Page-image.png",
