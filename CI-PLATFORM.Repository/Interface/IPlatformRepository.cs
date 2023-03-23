@@ -24,4 +24,6 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public StoryListingViewModel GetStoryDetail();
         public List<StoryMedium> smedia(int sid);
         public StoryListingViewModel GetStory(int sid);
+        public void RecommandStory(int FromUserId, List<int> ToUserId, int sid);
+
     }}

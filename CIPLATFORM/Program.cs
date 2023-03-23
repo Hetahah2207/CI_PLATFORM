@@ -42,6 +42,6 @@ app.MapControllerRoute(
 
 //app.MapControllerRoute(
 //    name: "default",
-//    pattern: "{controller=Platform}/{action=StoryDetail}/{id?}");
+//    pattern: "{controller=Platform}/{action=ShareStory}/{id?}");
 
 app.Run();

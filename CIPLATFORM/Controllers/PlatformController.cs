@@ -106,6 +106,15 @@ namespace CIPLATFORM.Controllers
             MissionListingViewModel volunteerModel = _PlatformRepository.GetCardDetail(mid);
 
         }
+        public void RecommandStory(List<int> toUserId, int sid)
+        {
+            int FromUserId = (int)HttpContext.Session.GetInt32("UId");
+
+            _PlatformRepository.RecommandStory(FromUserId, toUserId, sid);
+
+            StoryListingViewModel volunteerModel = _PlatformRepository.GetStory(sid);
+
+        }
         public void AddComment(int obj, string comnt)
         {
 

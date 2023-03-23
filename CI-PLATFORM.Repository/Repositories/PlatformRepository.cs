@@ -421,6 +421,52 @@ namespace CI_PLATFORM.Repository.Repositories
                 #endregion Send Mail
             }
         }
+
+
+        public void RecommandStory(int FromUserId, List<int> ToUserId, int sid)
+        {
+            var fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId && u.DeletedAt == null);
+            var fromEmailId = fromUser.Email;
+            //if (user1 == null)
+            //{
+            //    return null;
+            //}
+
+            foreach (var user in ToUserId)
+            {
+                var toUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == user && u.DeletedAt == null);
+                var toEmailId = toUser.Email;
+
+                StoryInvite invite = new StoryInvite();
+                {
+                    invite.FromUserId = FromUserId;
+                    invite.ToUserId = user;
+                    invite.StoryId = sid;
+                }
+                _CiPlatformContext.Add(invite);
+                _CiPlatformContext.SaveChanges();
+
+
+
+                #region Send Mail
+                var mailBody = "<h1></h1><br><h2><a href='" + "https://localhost:7251/Platform/StoryDetail?sid=" + sid + "'>Check Out this Mission!</a></h2>";
+
+                // create email message
+                var email = new MimeMessage();
+                email.From.Add(MailboxAddress.Parse(fromEmailId));
+                email.To.Add(MailboxAddress.Parse(toEmailId));
+                email.Subject = "Reset Your Password";
+                email.Body = new TextPart(TextFormat.Html) { Text = mailBody };
+
+                // send email
+                using var smtp = new SmtpClient();
+                smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                smtp.Authenticate("hetshah2207@gmail.com", "lpoqtojvkcgkwdms");
+                smtp.Send(email);
+                smtp.Disconnect(true);
+                #endregion Send Mail
+            }
+        }
         public MissionListingViewModel GetCardDetail(int mid)
         {
             List<Mission> missions = GetMissionDetails();
@@ -455,12 +501,15 @@ namespace CI_PLATFORM.Repository.Repositories
         public StoryListingViewModel GetStoryDetail()
         {
             List<Story> stories = _CiPlatformContext.Stories.Include(m => m.User).Include(m => m.StoryMedia).Include(m => m.Mission).ToList();
-           
+            
+
 
             StoryListingViewModel StoryDetail = new StoryListingViewModel();
             {
                 StoryDetail.stories = stories;
-                
+               
+
+
             }
             return StoryDetail;
         }
@@ -469,11 +518,13 @@ namespace CI_PLATFORM.Repository.Repositories
         {
             Story story = _CiPlatformContext.Stories.Include(m => m.User).FirstOrDefault(m => m.StoryId == sid);
             List<StoryMedium> photos = smedia(sid);
+            List<User> users = _CiPlatformContext.Users.ToList();
 
             StoryListingViewModel StoryDetail = new StoryListingViewModel();
             {
                 StoryDetail.storymedias = photos;
                 StoryDetail.story = story;
+                StoryDetail.coworkers = users;
             }
             return StoryDetail;
         }
