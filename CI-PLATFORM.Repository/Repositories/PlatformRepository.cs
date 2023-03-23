@@ -306,12 +306,13 @@ namespace CI_PLATFORM.Repository.Repositories
             return photos;
         }
 
-
+        public List<StoryMedium> smedia(int sid)
+        {
+            List<StoryMedium> photos = _CiPlatformContext.StoryMedia.Where(x => x.StoryId == sid).ToList();
+            return photos;
+        }
         public void addComment(int mid, int uid, string comnt)
         {
-
-
-
             Comment comment = new Comment();
             {
                 comment.MissionId = mid;
@@ -349,10 +350,6 @@ namespace CI_PLATFORM.Repository.Repositories
                 return false;
             }
         }
-
-
-
-
         public bool addToFav(int missionId, int userId)
         {
             FavoriteMission favorite = new();
@@ -458,9 +455,25 @@ namespace CI_PLATFORM.Repository.Repositories
         public StoryListingViewModel GetStoryDetail()
         {
             List<Story> stories = _CiPlatformContext.Stories.Include(m => m.User).Include(m => m.StoryMedia).Include(m => m.Mission).ToList();
+           
+
             StoryListingViewModel StoryDetail = new StoryListingViewModel();
             {
                 StoryDetail.stories = stories;
+                
+            }
+            return StoryDetail;
+        }
+        
+        public StoryListingViewModel GetStory(int sid)
+        {
+            Story story = _CiPlatformContext.Stories.Include(m => m.User).FirstOrDefault(m => m.StoryId == sid);
+            List<StoryMedium> photos = smedia(sid);
+
+            StoryListingViewModel StoryDetail = new StoryListingViewModel();
+            {
+                StoryDetail.storymedias = photos;
+                StoryDetail.story = story;
             }
             return StoryDetail;
         }

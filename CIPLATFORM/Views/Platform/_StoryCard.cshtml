@@ -12,18 +12,24 @@
                          class="card-img-top" alt="...">
                         <div class="banner-header d-flex justify-content-center ">
                             <div class="  apply2">
-                                <button type="button" class="btn btn-outline apply " style="margin-bottom: 200px;  ">
-                                    View Detail
-                                    <i class="bi bi-arrow-right"></i>
+                                <button type="button" class="btn btn-outline apply " style="margin-bottom: 200px;">
+                                    <a asp-controller="Platform" asp-action="StoryDetail" asp-route-sid="@item.StoryId"  style="text-decoration:none;color:black">
+                                        View Detail
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
                                 </button>
                             </div>
                         </div>
                     </div>
-                     <div class="position-relative">                        <div class="position-absolute top-100 start-50 translate-middle round px-3 title"                             style="background-color: white;">                            @item.Mission.Theme.Title                        </div>                    </div>
+                    <div class="position-relative">
+                        <div class="position-absolute top-100 start-50 translate-middle round px-3 title" style="background-color: white;">
+                            @item.Mission.Theme.Title
+                        </div>
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">@item.Title</h5>
                         <p class="card-text">
-                           @item.Description
+                            @item.Description
                         </p>
 
 

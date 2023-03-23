@@ -12,7 +12,7 @@ builder.Services.AddDbContext<CiPlatformContext>();
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
 builder.Services.AddDbContext<CiPlatformContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSession();
 
@@ -42,6 +42,6 @@ app.MapControllerRoute(
 
 //app.MapControllerRoute(
 //    name: "default",
-//    pattern: "{controller=Platform}/{action=MissionListing}/{id?}");
+//    pattern: "{controller=Platform}/{action=StoryDetail}/{id?}");
 
 app.Run();

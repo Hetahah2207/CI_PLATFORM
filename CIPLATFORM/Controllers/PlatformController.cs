@@ -11,17 +11,14 @@ namespace CIPLATFORM.Controllers
     {
         public readonly IPlatformRepository _PlatformRepository;
         public readonly CiPlatformContext _CiPlatformContext;
-        //public PlatformRepository(CiPlatformContext CiPlatformContext)
-        //{
-        //    _CiPlatformContext = CiPlatformContext;
-        //}
-        public PlatformController(CiPlatformContext CiPlatformContext,IPlatformRepository PlatformRepository)
+
+        public PlatformController(CiPlatformContext CiPlatformContext, IPlatformRepository PlatformRepository)
         {
             _PlatformRepository = PlatformRepository;
             _CiPlatformContext = CiPlatformContext;
         }
-        public  IActionResult HomeGrid()
-        {           
+        public IActionResult HomeGrid()
+        {
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
 
@@ -52,13 +49,9 @@ namespace CIPLATFORM.Controllers
             List<Mission> missionDeails = _PlatformRepository.GetMissionDetails();
             ViewBag.MissionDeails = missionDeails;
 
-            //List<MissionRating> missionRatings = _PlatformRepository.GetMissionDetails();
-            //ViewBag.missionRatings = missionRatings;
-
             var totalMission = _PlatformRepository.GetMissionCount();
             ViewBag.totalMission = totalMission;
 
-            //return View();
 
             CardsViewModel ms = _PlatformRepository.getCards();
 
@@ -69,30 +62,25 @@ namespace CIPLATFORM.Controllers
         {
             List<Mission> cards = _PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort);
             CardsViewModel platformModel = new CardsViewModel();
-            
+
             platformModel.missions = cards;
-            
-            if(cards.Count == 0)
+
+            if (cards.Count == 0)
             {
                 return PartialView("_nomissionfound");
             }
-            else if(cards.Count >= 1)
+            else if (cards.Count >= 1)
             {
                 ViewBag.totalMission = cards.Count;
             }
-
-
             return PartialView("_FilterMission", platformModel);
-            //return View(platformModel);
-
-
         }
-     
+
         public IActionResult MissionListing(int mid)
         {
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
-            if(name != null)
+            if (name != null)
             {
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
@@ -103,11 +91,11 @@ namespace CIPLATFORM.Controllers
 
 
             MissionListingViewModel ml = _PlatformRepository.GetCardDetail(mid);
-           
+
 
             return View(ml);
 
-            
+
         }
         public void RecommandToCoWorker(List<int> toUserId, int mid)
         {
@@ -124,7 +112,7 @@ namespace CIPLATFORM.Controllers
             int UserId = (int)HttpContext.Session.GetInt32("UId");
             _PlatformRepository.addComment(obj, UserId, comnt);
 
-            
+
 
         }
         [HttpPost]
@@ -156,23 +144,14 @@ namespace CIPLATFORM.Controllers
             }
             return fav;
         }
-
-
-        //public IActionResult HomeList()
-        //{
-        //    string name = HttpContext.Session.GetString("Uname");
-        //    ViewBag.Uname = name;
-        //    return View();
-        //}
         public JsonResult GetCitys(int countryId)
         {
             List<City> city = _PlatformRepository.GetCityData(countryId);
             var json = JsonConvert.SerializeObject(city);
 
-
             return Json(json);
         }
-        public IActionResult StoryListing()
+        public IActionResult StoryListing ( )
         {
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
@@ -182,12 +161,6 @@ namespace CIPLATFORM.Controllers
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
             }
-
-
-
-
-
-
             List<Country> countries = _PlatformRepository.GetCountryData();
             ViewBag.countries = countries;
 
@@ -210,7 +183,31 @@ namespace CIPLATFORM.Controllers
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
 
-            return View();  
+            if (name != null)
+            {
+                int UserId = (int)HttpContext.Session.GetInt32("UId");
+                ViewBag.UId = UserId;
+            }
+
+            return View();
+        }
+
+        public IActionResult StoryDetail(int sid)
+        {
+            string name = HttpContext.Session.GetString("Uname");
+            ViewBag.Uname = name;
+
+            if (name != null)
+            {
+                int UserId = (int)HttpContext.Session.GetInt32("UId");
+                ViewBag.UId = UserId;
+            }
+
+            ViewBag.sid = sid;
+
+            StoryListingViewModel sd = _PlatformRepository.GetStory(sid);
+
+            return View(sd);
         }
 
     }

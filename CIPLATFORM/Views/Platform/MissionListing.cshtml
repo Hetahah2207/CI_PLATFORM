@@ -164,14 +164,21 @@
                         </div>
                     </div>
 
-                    <div class="d-flex pt-5 mt-5 justify-content-center" id="ok" style="font-size:25px;color:green;"></div>
-                    <div class="d-flex pt-5 mt-5 justify-content-center" id="nok" style="font-size:25px;color:red;"></div>
+                    <div class="d-flex justify-content-center" id="ok" style="font-size:25px;color:green;"></div>
+                    <div class="d-flex justify-content-center" id="nok" style="font-size:25px;color:red;"></div>
                     <div class="row mt-2">
                         <div class="apply2 d-flex justify-content-center">
-                            @if (Model.missionapplications.Any(x => x.MissionId == Model.missions.MissionId && x.UserId == @ViewBag.UId))
+                            @if (Model.missionapplications.Any(x => x.MissionId == Model.missions.MissionId && x.UserId == @ViewBag.UId && x.ApprovalStatus=="Approve"))
                             {
                                 <button type="button" class="btn btn-outline apply" id="applyMission" onclick="applyMission(@Model.missions.MissionId)" disabled>
                                     Applied
+
+                                </button>
+                            }
+                            else if (Model.missionapplications.Any(x => x.MissionId == Model.missions.MissionId && x.UserId == @ViewBag.UId && x.ApprovalStatus=="Pending"))
+                            {
+                                <button type="button" class="btn btn-outline apply" id="applyMission" onclick="applyMission(@Model.missions.MissionId)" disabled>
+                                    Your Request has been sent for Approve
 
                                 </button>
                             }

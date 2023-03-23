@@ -200,7 +200,7 @@ function applyMission(missionId) {
                 console.log("done");
 
                 $('#applyMission').prop('disabled', true);
-                $('#applyMission').text("Applied");
+                $('#applyMission').text("Your Request has been sent for Approve");
                 $('#applyMission').css("color", "red");
                 document.getElementById("ok").innerHTML += `Applied Successfully...`;
             }
