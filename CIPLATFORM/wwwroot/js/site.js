@@ -157,6 +157,7 @@ function openlist() {
 
 
 function AddMissionToFavourite(missionId) {
+   
     $.ajax({
 
         url: '/Platform/AddMissionToFavourite',
@@ -171,11 +172,19 @@ function AddMissionToFavourite(missionId) {
                 $('#addToFav').removeClass();
                 $('#addToFav').addClass("bi bi-heart-fill");
                 $('#addToFav').css("color", "red");
+           /*     document.getElementById(missionId).className.removeClass();*/
+                document.getElementById(missionId).className="bi bi-heart-fill text-danger";
+              /*  document.getElementById(missionId).className=.st("color", "red");*/
             }
             else {
                 $('#addToFav').css("color", "black");
                 $('#addToFav').removeClass();
                 $('#addToFav').addClass("bi bi-heart");
+
+
+                //document.getElementById(missionId).className.css("color", "black");
+                //document.getElementById(missionId).className.removeClass();
+                document.getElementById(missionId).className = "bi bi-heart";
             }
         },
         error: function (request, error) {
@@ -315,3 +324,4 @@ function recommandStory(x) {
         },
     });
 }
+

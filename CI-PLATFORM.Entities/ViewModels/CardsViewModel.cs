@@ -16,5 +16,6 @@ namespace CI_PLATFORM.Entities.ViewModels
         public List<MissionRating> rating { get; set; }
         public List<MissionTheme> missionthemes { get; set; }
         public List<MissionSkill> missionskill { get; set; }
+        public List<FavoriteMission> favoriteMissions { get; set; }
     }
 }

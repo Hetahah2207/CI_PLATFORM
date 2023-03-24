@@ -92,8 +92,10 @@
 
                         <div class="col-12 col-md-6 mt-2 apply2">
                             <button type="button" class="btn btn-outline w-100 apply">
-                                Apply now
+                                <a asp-controller="Platform" asp-action="MissionListing" asp-route-mid="@Model.story.MissionId" style="text-decoration:none;color:black"> 
+                                 Open Mission
                                 <i class=" ms-2 bi bi-arrow-right-short"></i>
+                                </a>
                             </button>
                         </div>
                     </div>

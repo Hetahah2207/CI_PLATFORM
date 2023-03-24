@@ -22,7 +22,12 @@ namespace CIPLATFORM.Controllers
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
 
+            if (name != null)
+            {
+                int UserId = (int)HttpContext.Session.GetInt32("UId");
+                ViewBag.UId = UserId;
 
+            }
             //ViewBag.country = _PlatformRepository.GetCountryData();
 
             //ViewBag.skill = _PlatformRepository.GetSkills();
@@ -97,6 +102,14 @@ namespace CIPLATFORM.Controllers
 
 
         }
+        [HttpPost]
+        public JsonResult MissionRating(int mid, int rating)
+        {
+            int UserId = (int)HttpContext.Session.GetInt32("UId");
+            bool success = _PlatformRepository.MissionRating(UserId, mid, rating);
+            return Json(success);
+        }
+
         public void RecommandToCoWorker(List<int> toUserId, int mid)
         {
             int FromUserId = (int)HttpContext.Session.GetInt32("UId");
@@ -137,6 +150,7 @@ namespace CIPLATFORM.Controllers
             //TempData["error"] = "You've already Applied... ";
             return false;
         }
+       
         [HttpPost]
         public bool AddMissionToFavourite(int missionId)
         {

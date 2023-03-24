@@ -65,7 +65,6 @@ namespace CI_PLATFORM.Repository.Repositories
             List<Mission> missionDetails = _CiPlatformContext.Missions.Include(m => m.City).Include(m => m.Theme).Include(m => m.MissionMedia).Include(m => m.MissionRatings).Include(m => m.GoalMissions).Include(m => m.MissionSkills).Include(m => m.FavoriteMissions).ToList();
             return missionDetails;
         }
-
         public CardsViewModel getCards()
         {
             List<Mission> missions = _CiPlatformContext.Missions.ToList();
@@ -75,7 +74,7 @@ namespace CI_PLATFORM.Repository.Repositories
             List<MissionRating> rating = _CiPlatformContext.MissionRatings.ToList();
             List<City> cities = _CiPlatformContext.Cities.ToList();
             List<Country> countries = _CiPlatformContext.Countries.ToList();
-
+            List<FavoriteMission> favoriteMission = _CiPlatformContext.FavoriteMissions.ToList();
 
 
 
@@ -89,6 +88,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 missionCards.rating = rating;
                 missionCards.countries = countries;
                 missionCards.cities = cities;
+                missionCards.favoriteMissions = favoriteMission;
             }
             return missionCards;
 
@@ -298,14 +298,11 @@ namespace CI_PLATFORM.Repository.Repositories
             return cards;
 
         }
-
-
         public List<MissionMedium> media(int mid)
         {
             List<MissionMedium> photos = _CiPlatformContext.MissionMedia.Where(x => x.MissionId == mid).ToList();
             return photos;
         }
-
         public List<StoryMedium> smedia(int sid)
         {
             List<StoryMedium> photos = _CiPlatformContext.StoryMedia.Where(x => x.StoryId == sid).ToList();
@@ -348,6 +345,36 @@ namespace CI_PLATFORM.Repository.Repositories
             else
             {
                 return false;
+            }
+        }
+        public bool MissionRating(int userId, int mid, int rating)
+        {
+            MissionRating CheckRating = _CiPlatformContext.MissionRatings.FirstOrDefault(a => a.UserId == userId && a.MissionId == mid);
+            if (CheckRating != null)
+            {
+                
+                //CheckRating.UserId = userId;
+                //CheckRating.MissionId = mid;
+                CheckRating.Rating = rating;
+                CheckRating.UpdatedAt = DateTime.Now;
+
+                _CiPlatformContext.Update(CheckRating);
+                _CiPlatformContext.SaveChanges();
+
+                return false;
+            }
+            else
+            {
+                MissionRating missionRating = new MissionRating();
+                missionRating.UserId = userId;
+                missionRating.MissionId = mid;
+                missionRating.Rating = rating;
+
+
+
+                _CiPlatformContext.Add(missionRating);
+                _CiPlatformContext.SaveChanges();
+                return true;
             }
         }
         public bool addToFav(int missionId, int userId)
@@ -473,7 +500,6 @@ namespace CI_PLATFORM.Repository.Repositories
             Mission mission = missions.FirstOrDefault(x => x.MissionId == mid);
             List<MissionMedium> photos = media(mid);
             List<MissionDocument> documents = document(mid);
-       
             List <Mission> relatedMissions = missions.Where(x =>  x.OrganizationName == mission.OrganizationName || x.ThemeId == mission.ThemeId || x.CountryId == mission.CountryId ).ToList();
             relatedMissions.Remove(mission);
             List<MissionSkill> missionSkills = _CiPlatformContext.MissionSkills.Include(m => m.Skill).Where(x => x.MissionId == mid).ToList();

@@ -2,7 +2,8 @@
 @model MissionListingViewModel
 <link rel="stylesheet" href="~/css/MissionListing.css">
 
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <hr class="d-none d-md-block">
 
@@ -85,12 +86,12 @@
                             @if (Model.favoriteMissions.Any(x => x.MissionId == Model.missions.MissionId && x.UserId == @ViewBag.UId))
                             {
                                 <button type="button" class="btn btn-outline-dark rounded-pill w-100" onclick="AddMissionToFavourite(@Model.missions.MissionId)">
-                                    <i class="bi bi-heart-fill" style="color:red;"  id="addToFav"></i>
-                                   
+                                    <i class="bi bi-heart-fill" style="color:red;" id="addToFav"></i>
+
                                     Add to Favourite
                                 </button>
                             }
-                            else 
+                            else
                             {
                                 <button type="button" class="btn btn-outline-dark rounded-pill w-100" onclick="AddMissionToFavourite(@Model.missions.MissionId)">
                                     <i class="bi bi-heart" id="addToFav"></i>
@@ -119,17 +120,17 @@
                     <div class="row">
                         <div class="wrapper  d-flex justify-content-center">
                             <hr class="divider">
-                            <div class=" d-flex justify-content-center  ">
+                            <p class="d-none" id="getMissionId">@Model.missions.MissionId</p>
 
-                                <div class="d-flex justify-content-center align-items-center .left .right ">
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                </div>
-
+                            <div class='rating' id="mission-rating">
+                                <span class="fa fa-star star1" value="5"></span>
+                                <span class="fa fa-star star1" value="4"></span>
+                                <span class="fa fa-star star1" value="3"></span>
+                                <span class="fa fa-star star1" value="2"></span>
+                                <span class="fa fa-star star1" value="1"></span>
                             </div>
+
+
                             <hr class="divider">
                         </div>
                     </div>
@@ -168,14 +169,14 @@
                     <div class="d-flex justify-content-center" id="nok" style="font-size:25px;color:red;"></div>
                     <div class="row mt-2">
                         <div class="apply2 d-flex justify-content-center">
-                            @if (Model.missionapplications.Any(x => x.MissionId == Model.missions.MissionId && x.UserId == @ViewBag.UId && x.ApprovalStatus=="Approve"))
+                            @if (Model.missionapplications.Any(x => x.MissionId == Model.missions.MissionId && x.UserId == @ViewBag.UId && x.ApprovalStatus == "Approve"))
                             {
                                 <button type="button" class="btn btn-outline apply" id="applyMission" onclick="applyMission(@Model.missions.MissionId)" disabled>
                                     Applied
 
                                 </button>
                             }
-                            else if (Model.missionapplications.Any(x => x.MissionId == Model.missions.MissionId && x.UserId == @ViewBag.UId && x.ApprovalStatus=="Pending"))
+                            else if (Model.missionapplications.Any(x => x.MissionId == Model.missions.MissionId && x.UserId == @ViewBag.UId && x.ApprovalStatus == "Pending"))
                             {
                                 <button type="button" class="btn btn-outline apply" id="applyMission" onclick="applyMission(@Model.missions.MissionId)" disabled>
                                     Your Request has been sent for Approve
@@ -509,6 +510,8 @@
 
 </div>
 <hr>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script>
     let slideIndex = 1;
     showSlides(slideIndex);
@@ -540,5 +543,49 @@
         dots[slideIndex - 1].className += " active";
         //captionText.innerHTML = dots[slideIndex - 1].alt;
     }
+</script>
+<script>
+    
+$('#mission-rating .fa-star').click
+    (function () {
+    var rating = $(this).attr('value');
+
+    console.log(rating);
+    var id = parseInt($('#getMissionId').text());
+    console.log(id);
+    debugger
+    $.ajax({
+        url: "/Platform/MissionRating",
+        method: "Post",
+        data: {
+            "mid": id,
+            "rating": rating
+        },
+        success: function (data) {
+
+
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            };
+            if (data == true) {
+                toastr.success('Applied Rating successfully');
+            }
+            else {
+                toastr.error('Your Rating Updated successfully');
+            }
+
+        },
+        error: function (e) {
+            console.log("Bye");
+            alert('Error');
+        },
+
+    });
+
+})
+
+
+
 </script>
 
