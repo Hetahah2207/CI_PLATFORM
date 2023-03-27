@@ -49,8 +49,6 @@ namespace CI_PLATFORM.Repository.Repositories
             return themes;
 
         }
-
-       
         public List<MissionSkill> GetSkills()
         {
 
@@ -58,8 +56,6 @@ namespace CI_PLATFORM.Repository.Repositories
             return skills;
 
         }
-
-       
         public List<Mission> GetMissionDetails()
         {
             List<Mission> missionDetails = _CiPlatformContext.Missions.Include(m => m.City).Include(m => m.Theme).Include(m => m.MissionMedia).Include(m => m.MissionRatings).Include(m => m.GoalMissions).Include(m => m.MissionSkills).Include(m => m.FavoriteMissions).ToList();
@@ -100,8 +96,9 @@ namespace CI_PLATFORM.Repository.Repositories
             return missionNumber;
 
         }
-        public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort)
+        public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg)
         {
+            var pageSize = 6;
             List<Mission> cards = new List<Mission>();
             var missioncards = GetMissionDetails();
             var Missionskills = GetSkills();
@@ -163,22 +160,6 @@ namespace CI_PLATFORM.Repository.Repositories
                             cards.Add(missioncards.FirstOrDefault(x => x.MissionId == item.MissionId));
                         }
                     }
-                    //foreach (var item in Missionskills)
-                    //{
-                    //    if (item.SkillId == n)
-                    //    {
-                    //        temp.Add((int)item.MissionId);
-                    //    }
-                    //    foreach (var item2 in temp)
-                    //    {
-                    //        bool skillchek = missionDetails.Any(x => x.MissionId == item2);
-                    //        if (skillchek == false)
-                    //        {
-                    //            cards.Add(missioncards.FirstOrDefault(x => x.MissionId == item2));
-                    //        }
-                    //    }
-
-                    //}
                 }
 
                 if (search != null)
@@ -191,57 +172,90 @@ namespace CI_PLATFORM.Repository.Repositories
                             cards.Add(n);
                         }
                     }
+                    if (pg != 0)
+                    {
+                        cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+                    }
                 }
                 if (sort != null)
                 {
-
-
                     if (sort == 1)
                     {
-                        //if (cards.Count != 0)
-                        //{
                         cards = cards.OrderByDescending(x => x.CreatedAt).ToList();
-                        //}
-
-                        //else
-                        //{
-                        //    missioncards = missioncards.OrderByDescending(x => x.CreatedAt).ToList();
-                        //    return missioncards;
-                        //}
                     }
                     if (sort == 2)
                     {
-                        //if (cards.Count != 0)
-                        //{
-                        cards = cards.OrderBy(x => x.CreatedAt).ToList();
-                        //}
-
-                        //else
-                        //{
-                        //    missioncards = missioncards.OrderBy(x => x.CreatedAt).ToList();
-                        //    return missioncards;
-                        //}
+                        cards = cards.OrderBy(x => x.CreatedAt).ToList(); 
                     }
-
-
-
-
+                }
+                if (pg != 0)
+                {
+                    cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
                 }
                 return cards;
             }
 
-            //else if (cityId.Count == 0 && countryId.Count == 0 && themeId.Count == 0 && skillId.Count == 0 && search == null)
-            //{
-            //    foreach (var item in missioncards)
-            //    {
-            //        cards.Add(item);
-            //    }
-            //    //return missioncards;
-            //}
+            else if (cityId.Count == 0 && countryId.Count == 0 && themeId.Count == 0 && skillId.Count == 0 && search == null)
+            {
+                foreach (var item in missioncards)
+                {
+                    cards.Add(item);
+                }
 
+                if (search != null)
+                {
+
+                    foreach (var n in missioncards)
+                    {
+                        var title = n.Title.ToLower();
+                        if (title.Contains(search.ToLower()))
+                        {
+                            cards.Add(n);
+                        }
+                    }
+                    if (pg != 0)
+                    {
+                        cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+                    }
+                }
+                if (sort != null)
+                {
+                    if (sort == 1)
+                    {
+                        missioncards = missioncards.OrderByDescending(x => x.CreatedAt).ToList();
+                        if (pg != 0)
+                        {
+                            missioncards = missioncards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+                        }
+                        return missioncards;
+                    }
+                    if (sort == 2)
+                    {
+                        missioncards = missioncards.OrderBy(x => x.CreatedAt).ToList();
+                        if (pg != 0)
+                        {
+                            missioncards = missioncards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+                        }
+                        return missioncards;
+                    }
+                }
+                if (pg != 0)
+                {
+                    cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+                }
+
+            }
+            return cards;
+
+        }
+        public List<Story> StoryFilter(string? search)
+        {
+            List<Story> cards = new List<Story>();
+            var missioncards = _CiPlatformContext.Stories.Include(m => m.StoryMedia).Include(m => m.Mission).Include(m => m.Mission.Theme).Include(m => m.User).ToList();
+            var Missionskills = _CiPlatformContext.MissionSkills.Include(m => m.Skill).ToList();
+            List<int> temp = new List<int>();
             if (search != null)
             {
-
                 foreach (var n in missioncards)
                 {
                     var title = n.Title.ToLower();
@@ -250,53 +264,8 @@ namespace CI_PLATFORM.Repository.Repositories
                         cards.Add(n);
                     }
                 }
-
-            }
-            if (sort != null)
-            {
-
-
-                if (sort == 1)
-                {
-                    //if (cards.Count != 0)
-                    //{
-                    //    cards = cards.OrderByDescending(x => x.CreatedAt).ToList();
-                    //}
-
-                    //else
-                    //{
-                    missioncards = missioncards.OrderByDescending(x => x.CreatedAt).ToList();
-                    return missioncards;
-                    //}
-                }
-                if (sort == 2)
-                {
-                    //if (cards.Count != 0)
-                    //{
-                    //    cards = cards.OrderBy(x => x.CreatedAt).ToList();
-                    //}
-
-                    //else
-                    //{
-                    missioncards = missioncards.OrderBy(x => x.CreatedAt).ToList();
-                    return missioncards;
-                    //}
-                }
-
-
-
-
-            }
-            else if (cityId.Count == 0 && countryId.Count == 0 && themeId.Count == 0 && skillId.Count == 0 && search == null)
-            {
-                foreach (var item in missioncards)
-                {
-                    cards.Add(item);
-                }
-                //return missioncards;
             }
             return cards;
-
         }
         public List<MissionMedium> media(int mid)
         {
@@ -448,8 +417,6 @@ namespace CI_PLATFORM.Repository.Repositories
                 #endregion Send Mail
             }
         }
-
-
         public void RecommandStory(int FromUserId, List<int> ToUserId, int sid)
         {
             var fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId && u.DeletedAt == null);
@@ -523,23 +490,16 @@ namespace CI_PLATFORM.Repository.Repositories
 
             return CardDetail;
         }
-
         public StoryListingViewModel GetStoryDetail()
         {
             List<Story> stories = _CiPlatformContext.Stories.Include(m => m.User).Include(m => m.StoryMedia).Include(m => m.Mission).ToList();
-            
-
 
             StoryListingViewModel StoryDetail = new StoryListingViewModel();
             {
                 StoryDetail.stories = stories;
-               
-
-
             }
             return StoryDetail;
         }
-        
         public StoryListingViewModel GetStory(int sid)
         {
             Story story = _CiPlatformContext.Stories.Include(m => m.User).FirstOrDefault(m => m.StoryId == sid);
@@ -554,7 +514,21 @@ namespace CI_PLATFORM.Repository.Repositories
             }
             return StoryDetail;
         }
+        public List<MissionApplication> Mission(int UId)
+        {
+           
+            List<MissionApplication> missions = _CiPlatformContext.MissionApplications.Include(m => m.Mission).Where(x=>x.UserId== UId).ToList();
+            return missions;
+        } 
+        public StoryListingViewModel ShareStory(int UId)
+        {
 
-
+            List<MissionApplication> mission = Mission(UId);
+            StoryListingViewModel StoryDetail = new StoryListingViewModel();
+            {
+                StoryDetail.missions = mission;
+            }
+            return StoryDetail;
+        }
     }
 }

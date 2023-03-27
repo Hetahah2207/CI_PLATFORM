@@ -13,7 +13,8 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public int GetMissionCount();
         public CardsViewModel getCards();
         //public List<MissionSkill> GetMissionSkills();
-        public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort);
+        public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg);
+        public List<Story> StoryFilter(string? search);
         public MissionListingViewModel GetCardDetail(int mid);
         public List<MissionMedium> media(int mid);
         public bool addToFav(int missionId, int userId);
@@ -26,5 +27,7 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public StoryListingViewModel GetStory(int sid);
         public void RecommandStory(int FromUserId, List<int> ToUserId, int sid);
         public bool MissionRating(int userId, int mid, int rating);
+        public List<MissionApplication> Mission(int UId);
+        public StoryListingViewModel ShareStory(int UId);
 
     }}

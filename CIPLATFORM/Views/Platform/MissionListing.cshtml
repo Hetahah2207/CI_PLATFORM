@@ -164,7 +164,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="d-flex justify-content-center" id="ok" style="font-size:25px;color:green;"></div>
                     <div class="d-flex justify-content-center" id="nok" style="font-size:25px;color:red;"></div>
                     <div class="row mt-2">
@@ -253,7 +252,7 @@
                     @Model.missions.OrganizationDetail
                 </div>
                 <div class="tab-pane fade" id="tab-3" role="tabpanel">
-                    @*<form method="post">*@
+                  
                     <div class="form-group" id="comment">
                         @ViewBag.ComntAdded
                         <input type="hidden" value="mission.MissionId" id="mid" />
@@ -309,7 +308,6 @@
                         <div class="row">
                             <div class="col-3">Skills</div>
                             <div class="col-9">
-                                @*@Model.missionskills.Skill.SkillName*@
                                 @foreach (var item in Model.missionskills)
                                 {
                                     @item.Skill.SkillName <br />
@@ -340,7 +338,7 @@
                     </div>
                 </div>
             </div>
-            <!-- ...............rec vol............. -->
+          
             <div class="container pt-5">
                 <div class="border">
                     <div class="container">

@@ -13,5 +13,6 @@ namespace CI_PLATFORM.Entities.ViewModels
         public List<Story> stories { get; set; }
         public List<StoryMedium> storymedias { get; set; }
         public List<User>? coworkers { get; set; }
+        public List<MissionApplication> missions { get; set; }
     }
 }

@@ -28,17 +28,6 @@ namespace CIPLATFORM.Controllers
                 ViewBag.UId = UserId;
 
             }
-            //ViewBag.country = _PlatformRepository.GetCountryData();
-
-            //ViewBag.skill = _PlatformRepository.GetSkills();
-
-            //ViewBag.theme = _PlatformRepository.GetMissionThemes();
-
-
-            //var data = _PlatformRepository.getCards();
-
-
-
             List<Country> countries = _PlatformRepository.GetCountryData();
             ViewBag.countries = countries;
 
@@ -61,14 +50,32 @@ namespace CIPLATFORM.Controllers
             CardsViewModel ms = _PlatformRepository.getCards();
 
 
+            ViewBag.Totalpages = Math.Ceiling(ms.missions.Count() / 6.0);
+            ms.missions = ms.missions.Skip((1 - 1) * 6).Take(6).ToList();
+            ViewBag.pg_no = 1;
+
             return View(ms);
         }
-        public IActionResult Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort)
+        public IActionResult Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg)
         {
-            List<Mission> cards = _PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort);
+            string name = HttpContext.Session.GetString("Uname");
+            ViewBag.Uname = name;
+
+            if (name != null)
+            {
+                int UserId = (int)HttpContext.Session.GetInt32("UId");
+                ViewBag.UId = UserId;
+
+            }
+
+
+            List<Mission> cards = _PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort, pg);
             CardsViewModel platformModel = new CardsViewModel();
 
             platformModel.missions = cards;
+
+          
+
 
             if (cards.Count == 0)
             {
@@ -76,11 +83,24 @@ namespace CIPLATFORM.Controllers
             }
             else if (cards.Count >= 1)
             {
-                ViewBag.totalMission = cards.Count;
+                ViewBag.totalMission = _PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort, 0).Count;
             }
+
+            ViewBag.pg_no = pg;
+            ViewBag.Totalpages = Math.Ceiling(_PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort, 0).Count() / 6.0);
+            platformModel.missions = cards.Skip((1 - 1) * 6).Take(6).ToList();
             return PartialView("_FilterMission", platformModel);
         }
+        public IActionResult StoryFilter(string? search)
+        {
+            List<Story> cards = _PlatformRepository.StoryFilter(search);
 
+            StoryListingViewModel sModel = new StoryListingViewModel();
+            {
+                sModel.stories = cards;
+            }
+            return PartialView("_StoryCard", sModel);
+        }
         public IActionResult MissionListing(int mid)
         {
             string name = HttpContext.Session.GetString("Uname");
@@ -109,7 +129,6 @@ namespace CIPLATFORM.Controllers
             bool success = _PlatformRepository.MissionRating(UserId, mid, rating);
             return Json(success);
         }
-
         public void RecommandToCoWorker(List<int> toUserId, int mid)
         {
             int FromUserId = (int)HttpContext.Session.GetInt32("UId");
@@ -150,7 +169,6 @@ namespace CIPLATFORM.Controllers
             //TempData["error"] = "You've already Applied... ";
             return false;
         }
-       
         [HttpPost]
         public bool AddMissionToFavourite(int missionId)
         {
@@ -211,10 +229,11 @@ namespace CIPLATFORM.Controllers
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
             }
-
-            return View();
+            //List<MissionApplication> missions = _PlatformRepository.Mission(@ViewBag.UId);
+            //ViewBag.storymissions = missions;
+            StoryListingViewModel ss = _PlatformRepository.ShareStory(@ViewBag.UId);
+            return View(ss);
         }
-
         public IActionResult StoryDetail(int sid)
         {
             string name = HttpContext.Session.GetString("Uname");

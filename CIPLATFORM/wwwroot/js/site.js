@@ -26,9 +26,10 @@
         },
     });
 }
-
-
-function temp() {
+function temp(pg) {
+    if (pg == undefined) {
+        pg = 1;
+    }
     var checkedcntryvalues = [];
     var div1 = document.getElementById("countryId");
     var list = div1.getElementsByTagName("option");
@@ -100,7 +101,8 @@ function temp() {
             'themeId': checkedthemevalues,
             'skillId': checkedskillvalues,
             'search': search,
-            'sort': sort
+            'sort': sort,
+            'pg': pg,
         },
         dataType: "html", // return datatype like JSON and HTML
         success: function (data) {
@@ -109,6 +111,8 @@ function temp() {
             $("#filter").empty();
             console.log("grid Hii");
             $("#filter").html(data);
+           
+
             //$("#grid-view").empty();
             //console.log("grid Hii");
             //$("#grid-view").html(data);
@@ -118,6 +122,7 @@ function temp() {
 
             var div1 = document.getElementById("list-view");
             div1.style.display = 'none';
+          
         },
         error: function (e) {
             console.log("Bye");
@@ -125,11 +130,38 @@ function temp() {
         },
     });
 }
+function story() {
+    var search = document.getElementById("searchb").value;
+    console.log(search)
+    //debugger
+    $.ajax({
+        type: "POST", // POST
+        url: '/Platform/StoryFilter',
+        data: {
+            'search': search,
+        },
+        dataType: "html", // return datatype like JSON and HTML
+        success: function (data) {
+            /*debugger*/
+
+            console.log(data);
+            $("#StoryFilter").empty();
+            $("#StoryFilter").html(data);
+            //$("#StoriesId").empty();
+            //console.log("Filtered Story");
+            //$("#StoriesId").html(data);
 
 
 
 
-
+        },
+        error: function (e) {
+            /*    debugger*/
+            console.log("Bye");
+            alert('Error');
+        },
+    });
+}
 window.onload = opengrid();
 function opengrid() {
     console.log("Grid");
@@ -147,15 +179,6 @@ function openlist() {
     div2.style.display = 'none';
     console.log("Done");
 }
-
-
-
-//function preventBack() { window.history.forward(); }
-//setTimeout("preventBack()", 0);
-//window.onunload = function () { null }
-
-
-
 function AddMissionToFavourite(missionId) {
    
     $.ajax({
@@ -165,25 +188,21 @@ function AddMissionToFavourite(missionId) {
         data: {
             'missionId': missionId,
         },
-        success: function (missions) {
+        success: function (c) {
 
             console.log("hii")
-            if (missions == true) {
+            if (c == true) {
                 $('#addToFav').removeClass();
                 $('#addToFav').addClass("bi bi-heart-fill");
                 $('#addToFav').css("color", "red");
-           /*     document.getElementById(missionId).className.removeClass();*/
-                document.getElementById(missionId).className="bi bi-heart-fill text-danger";
-              /*  document.getElementById(missionId).className=.st("color", "red");*/
+
+                document.getElementById(missionId).className="bi bi-heart-fill text-danger"; 
             }
             else {
                 $('#addToFav').css("color", "black");
                 $('#addToFav').removeClass();
                 $('#addToFav').addClass("bi bi-heart");
 
-
-                //document.getElementById(missionId).className.css("color", "black");
-                //document.getElementById(missionId).className.removeClass();
                 document.getElementById(missionId).className = "bi bi-heart";
             }
         },
@@ -193,7 +212,6 @@ function AddMissionToFavourite(missionId) {
         },
     });
 }
-
 function applyMission(missionId) {
     debugger
     $.ajax({
@@ -211,21 +229,29 @@ function applyMission(missionId) {
                 $('#applyMission').prop('disabled', true);
                 $('#applyMission').text("Your Request has been sent for Approve");
                 $('#applyMission').css("color", "red");
-                document.getElementById("ok").innerHTML += `Applied Successfully...`;
+                /*document.getElementById("ok").innerHTML += `Applied Successfully...`;*/
+               
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true
+                };
+                toastr.success('Applied successfully');
             }
         },
         error: function (request, error) {
             console.log("function not working");
-            document.getElementById("ok").innerHTML += `You've already Applied...`;
-
+           /* document.getElementById("ok").innerHTML += `You've already Applied...`;*/
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            };
+            toastr.success('function not working');
             alert('Error');
         },
 
     });
 
 }
-
-
 function comment(missionid) {
 
     //var crd = document.getElementById("comment");
@@ -246,10 +272,15 @@ function comment(missionid) {
         dataType: "html", // return datatype like JSON and HTML
         success: function (data) {
 
+
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            };
             $("#comment").html();
             console.log("Added ");
-            window.location.reload();
-
+            toastr.success('Comment Added  successfully');
+            setTimeout(function () { window.location.reload(); }, 3000);
         },
         error: function (e) {
             console.log("Bye");
@@ -257,7 +288,6 @@ function comment(missionid) {
         },
     });
 }
-
 function recommandToCoWorker(x) {
     //var toUserId = $('#recommand').find(":checked").val();
     var Missiond = x;
@@ -280,7 +310,12 @@ function recommandToCoWorker(x) {
             "mid": Missiond
         },
         success: function (data) {
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            };
             console.log(toUserId);
+            toastr.success('Email send  successfully');
 
         }
         ,
@@ -290,7 +325,6 @@ function recommandToCoWorker(x) {
         },
     });
 }
-
 function recommandStory(x) {
     //var toUserId = $('#recommand').find(":checked").val();
     var Storyd = x;
@@ -314,7 +348,13 @@ function recommandStory(x) {
         },
         success: function (data)
         {
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            };
             console.log(toUserId);
+            toastr.success('Email send  successfully');
+          
 
         }
         ,
