@@ -96,59 +96,264 @@ namespace CI_PLATFORM.Repository.Repositories
             return missionNumber;
 
         }
-        public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg)
+        //public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg)
+        //{
+        //    var pageSize = 6;
+        //    List<Mission> cards = new List<Mission>();
+        //    var missioncards = GetMissionDetails();
+        //    var Missionskills = GetSkills();
+        //    List<int> temp = new List<int>();
+
+
+        //    if (cityId.Count != 0 || countryId.Count != 0 )
+        //    {
+        //        foreach (var n in countryId)
+        //        {
+        //            foreach (var item in missioncards)
+        //            {
+        //                bool countrychek = cards.Any(x => x.MissionId == item.MissionId);
+        //                if (item.CountryId == n && countrychek == false)
+        //                {
+        //                    cards.Add(item);
+        //                }
+        //            }
+        //        }
+
+        //        if (cityId.Count != 0)
+        //        {
+        //            cards.Clear();
+        //            foreach (var n in cityId)
+        //            {
+        //                foreach (var item in missioncards)
+        //                {
+        //                    bool citychek = cards.Any(x => x.MissionId == item.MissionId);
+        //                    if (item.CityId == n && citychek == false)
+        //                    {
+        //                        cards.Add(item);
+        //                    }
+
+        //                }
+        //            }
+        //        }
+
+        //        //if (themeId.Count != 0)
+        //        //{
+        //        //    foreach (var n in themeId)
+        //        //    {
+        //        //        foreach (var item in missioncards)
+        //        //        {
+        //        //            bool themechek = cards.Any(x => x.MissionId == item.MissionId);
+        //        //            if (item.ThemeId == n && themechek == false)
+        //        //            {
+        //        //                cards.Add(item);
+        //        //            }
+        //        //        }
+        //        //    }
+        //        //}
+        //        //if (skillId.Count != 0)
+        //        //{
+        //        //    foreach (var n in skillId)
+        //        //    {
+        //        //        foreach (var item in Missionskills)
+        //        //        {
+        //        //            bool skillchek = cards.Any(x => x.MissionId == item.MissionId);
+        //        //            if (item.SkillId == n && skillchek == false)
+        //        //            {
+
+        //        //                cards.Add(missioncards.FirstOrDefault(x => x.MissionId == item.MissionId));
+        //        //            }
+        //        //        }
+        //        //    }
+        //        //}
+
+        //        if (search != null)
+        //        {
+        //            foreach (var n in missioncards)
+        //            {
+        //                var title = n.Title.ToLower();
+        //                if (title.Contains(search.ToLower()))
+        //                {
+        //                    cards.Add(n);
+        //                }
+        //            }
+        //            if (pg != 0)
+        //            {
+        //                cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+        //            }
+        //        }
+        //        if (sort != null)
+        //        {
+        //            if (sort == 1)
+        //            {
+        //                cards = cards.OrderByDescending(x => x.CreatedAt).ToList();
+        //            }
+        //            if (sort == 2)
+        //            {
+        //                cards = cards.OrderBy(x => x.CreatedAt).ToList(); 
+        //            }
+        //        }
+        //        if (pg != 0)
+        //        {
+        //            cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+        //        }
+        //        return cards;
+        //    }
+
+        //    if (themeId.Count != 0)
+        //    {
+        //        foreach (var n in themeId)
+        //        {
+        //            foreach (var item in missioncards)
+        //            {
+        //                bool themechek = cards.Any(x => x.MissionId == item.MissionId);
+        //                if (item.ThemeId == n && themechek == false)
+        //                {
+        //                    cards.Add(item);
+        //                }
+        //            }
+        //        }
+        //        if (sort != null)
+        //        {
+        //            if (sort == 1)
+        //            {
+        //                cards = cards.OrderByDescending(x => x.CreatedAt).ToList();
+        //            }
+        //            if (sort == 2)
+        //            {
+        //                cards = cards.OrderBy(x => x.CreatedAt).ToList();
+        //            }
+        //        }
+        //        if (pg != 0)
+        //        {
+        //            cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+        //        }
+        //        return cards;
+        //    }
+
+        //    if (skillId.Count != 0)
+        //    {
+        //        foreach (var n in skillId)
+        //        {
+        //            foreach (var item in Missionskills)
+        //            {
+        //                bool skillchek = cards.Any(x => x.MissionId == item.MissionId);
+        //                if (item.SkillId == n && skillchek == false)
+        //                {
+
+        //                    cards.Add(missioncards.FirstOrDefault(x => x.MissionId == item.MissionId));
+
+        //                }
+        //            }
+        //        }
+        //        if (sort != null)
+        //        {
+        //            if (sort == 1)
+        //            {
+        //                cards = cards.OrderByDescending(x => x.CreatedAt).ToList();
+        //            }
+        //            if (sort == 2)
+        //            {
+        //                cards = cards.OrderBy(x => x.CreatedAt).ToList();
+        //            }
+        //        }
+        //        if (pg != 0)
+        //        {
+        //            cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+        //        }
+        //        return cards;
+        //    }
+
+        //    else if (cityId.Count == 0 && countryId.Count == 0 && themeId.Count == 0 && skillId.Count == 0 && search == null)
+        //    {
+        //        foreach (var item in missioncards)
+        //        {
+        //            cards.Add(item);
+        //        }
+
+
+        //        if (sort != null)
+        //        {
+        //            if (sort == 1)
+        //            {
+        //                missioncards = missioncards.OrderByDescending(x => x.CreatedAt).ToList();
+        //                if (pg != 0)
+        //                {
+        //                    missioncards = missioncards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+        //                }
+        //                return missioncards;
+        //            }
+        //            if (sort == 2)
+        //            {
+        //                missioncards = missioncards.OrderBy(x => x.CreatedAt).ToList();
+        //                if (pg != 0)
+        //                {
+        //                    missioncards = missioncards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+        //                }
+        //                return missioncards;
+        //            }
+        //        }
+        //        if (pg != 0)
+        //        {
+        //            cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+        //        }
+
+        //    }
+        //    if (search != null && cityId.Count == 0 && countryId.Count == 0 && themeId.Count == 0 && skillId.Count == 0 && sort == null)
+        //    {
+
+        //        foreach (var n in missioncards)
+        //        {
+        //            var title = n.Title.ToLower();
+        //            if (title.Contains(search.ToLower()))
+        //            {
+        //                cards.Add(n);
+        //            }
+        //        }
+        //        if (pg != 0)
+        //        {
+        //            cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+        //        }
+        //    }
+        //    return cards;
+
+        //}
+        public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg,int UId)
         {
             var pageSize = 6;
+
             List<Mission> cards = new List<Mission>();
             var missioncards = GetMissionDetails();
             var Missionskills = GetSkills();
             List<int> temp = new List<int>();
 
-
-            if (cityId.Count != 0 || countryId.Count != 0 || themeId.Count != 0 || skillId.Count != 0)
+            if (search != null)
             {
-                foreach (var n in countryId)
-                {
-                    foreach (var item in missioncards)
-                    {
-                        bool countrychek = cards.Any(x => x.MissionId == item.MissionId);
-                        if (item.CountryId == n && countrychek == false)
-                        {
-                            cards.Add(item);
-                        }
-                    }
+                search = search.ToLower();
+                missioncards = missioncards.Where(x => x.Title.ToLower().Contains(search)).ToList();
 
-                }
 
-                if (cityId.Count != 0)
-                {
-                    cards.Clear();
-                    foreach (var n in cityId)
-                    {
-                        foreach (var item in missioncards)
-                        {
-                            bool citychek = cards.Any(x => x.MissionId == item.MissionId);
-                            if (item.CityId == n && citychek == false)
-                            {
-                                cards.Add(item);
-                            }
+            }
+            if (countryId.Count > 0)
+            {
 
-                        }
-                    }
-                }
+                missioncards = missioncards.Where(c => countryId.Contains((int)c.CountryId)).ToList();
 
-                foreach (var n in themeId)
-                {
-                    foreach (var item in missioncards)
-                    {
-                        bool themechek = cards.Any(x => x.MissionId == item.MissionId);
-                        if (item.ThemeId == n && themechek == false)
-                        {
-                            cards.Add(item);
-                        }
-                    }
-                }
+            }
+            if (cityId.Count > 0)
+            {
+                missioncards = missioncards.Where(c => cityId.Contains((int)c.CityId)).ToList();
 
+
+            }
+            if (themeId.Count > 0)
+
+            {
+                missioncards = missioncards.Where(c => themeId.Contains((int)c.ThemeId)).ToList();
+
+            }
+            if (skillId.Count != 0)
+            {
+                //missioncards = missioncards.Where(c => skillId.Contains((int)c.MissionSkills.Any(x=>x.SkillId==(long)skillId))).ToList();
                 foreach (var n in skillId)
                 {
                     foreach (var item in Missionskills)
@@ -156,96 +361,40 @@ namespace CI_PLATFORM.Repository.Repositories
                         bool skillchek = cards.Any(x => x.MissionId == item.MissionId);
                         if (item.SkillId == n && skillchek == false)
                         {
-
                             cards.Add(missioncards.FirstOrDefault(x => x.MissionId == item.MissionId));
                         }
                     }
                 }
-
-                if (search != null)
-                {
-                    foreach (var n in missioncards)
-                    {
-                        var title = n.Title.ToLower();
-                        if (title.Contains(search.ToLower()))
-                        {
-                            cards.Add(n);
-                        }
-                    }
-                    if (pg != 0)
-                    {
-                        cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-                    }
-                }
-                if (sort != null)
-                {
-                    if (sort == 1)
-                    {
-                        cards = cards.OrderByDescending(x => x.CreatedAt).ToList();
-                    }
-                    if (sort == 2)
-                    {
-                        cards = cards.OrderBy(x => x.CreatedAt).ToList(); 
-                    }
-                }
-                if (pg != 0)
-                {
-                    cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-                }
-                return cards;
+                missioncards = cards;
             }
-
-            else if (cityId.Count == 0 && countryId.Count == 0 && themeId.Count == 0 && skillId.Count == 0 && search == null)
+            if (sort != null)
             {
-                foreach (var item in missioncards)
-                {
-                    cards.Add(item);
-                }
-
-                if (search != null)
+                if (sort == 1)
                 {
 
-                    foreach (var n in missioncards)
-                    {
-                        var title = n.Title.ToLower();
-                        if (title.Contains(search.ToLower()))
-                        {
-                            cards.Add(n);
-                        }
-                    }
-                    if (pg != 0)
-                    {
-                        cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-                    }
-                }
-                if (sort != null)
-                {
-                    if (sort == 1)
-                    {
-                        missioncards = missioncards.OrderByDescending(x => x.CreatedAt).ToList();
-                        if (pg != 0)
-                        {
-                            missioncards = missioncards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-                        }
-                        return missioncards;
-                    }
-                    if (sort == 2)
-                    {
-                        missioncards = missioncards.OrderBy(x => x.CreatedAt).ToList();
-                        if (pg != 0)
-                        {
-                            missioncards = missioncards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-                        }
-                        return missioncards;
-                    }
-                }
-                if (pg != 0)
-                {
-                    cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-                }
+                    missioncards = missioncards.OrderByDescending(x => x.CreatedAt).ToList();
 
+                }
+                if (sort == 2)
+                {
+
+                    missioncards = missioncards.OrderBy(x => x.CreatedAt).ToList();
+
+                }
+                if (sort == 3)
+                {
+
+                    missioncards = missioncards.Where(x => x.FavoriteMissions.Any(x=>x.UserId == UId)).ToList();
+                    
+
+                }
             }
-            return cards;
+            if (pg != 0)
+            {
+                missioncards = missioncards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+            }
+
+            return missioncards;
 
         }
         public List<Story> StoryFilter(string? search)

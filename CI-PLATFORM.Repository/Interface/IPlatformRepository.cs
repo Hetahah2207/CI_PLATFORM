@@ -13,7 +13,7 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public int GetMissionCount();
         public CardsViewModel getCards();
         //public List<MissionSkill> GetMissionSkills();
-        public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg);
+        public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg, int UId);
         public List<Story> StoryFilter(string? search);
         public MissionListingViewModel GetCardDetail(int mid);
         public List<MissionMedium> media(int mid);

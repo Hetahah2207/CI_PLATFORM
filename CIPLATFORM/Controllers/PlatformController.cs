@@ -22,6 +22,9 @@ namespace CIPLATFORM.Controllers
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
 
+            string avtar = HttpContext.Session.GetString("Avtar");
+            ViewBag.Avtar = avtar;
+
             if (name != null)
             {
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
@@ -61,21 +64,19 @@ namespace CIPLATFORM.Controllers
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
 
+            string avtar = HttpContext.Session.GetString("Avtar");
+            ViewBag.Avtar = avtar;  
+
             if (name != null)
             {
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
-
             }
 
-
-            List<Mission> cards = _PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort, pg);
+            List<Mission> cards = _PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort, pg, @ViewBag.UId);
             CardsViewModel platformModel = new CardsViewModel();
 
             platformModel.missions = cards;
-
-          
-
 
             if (cards.Count == 0)
             {
@@ -83,11 +84,11 @@ namespace CIPLATFORM.Controllers
             }
             else if (cards.Count >= 1)
             {
-                ViewBag.totalMission = _PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort, 0).Count;
+                ViewBag.totalMission = _PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort, 0, @ViewBag.UId).Count;
             }
 
             ViewBag.pg_no = pg;
-            ViewBag.Totalpages = Math.Ceiling(_PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort, 0).Count() / 6.0);
+            ViewBag.Totalpages = Math.Ceiling(_PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort, 0, @ViewBag.UId).Count / 6.0);
             platformModel.missions = cards.Skip((1 - 1) * 6).Take(6).ToList();
             return PartialView("_FilterMission", platformModel);
         }
@@ -105,22 +106,21 @@ namespace CIPLATFORM.Controllers
         {
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
+
+            string avtar = HttpContext.Session.GetString("Avtar");
+            ViewBag.Avtar = avtar;
+
             if (name != null)
             {
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
             }
 
-
             ViewBag.MId = mid;
-
-
+            
             MissionListingViewModel ml = _PlatformRepository.GetCardDetail(mid);
-
-
+            
             return View(ml);
-
-
         }
         [HttpPost]
         public JsonResult MissionRating(int mid, int rating)
@@ -149,12 +149,8 @@ namespace CIPLATFORM.Controllers
         }
         public void AddComment(int obj, string comnt)
         {
-
             int UserId = (int)HttpContext.Session.GetInt32("UId");
             _PlatformRepository.addComment(obj, UserId, comnt);
-
-
-
         }
         [HttpPost]
         public bool applyMission(int missionId)
@@ -197,6 +193,9 @@ namespace CIPLATFORM.Controllers
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
 
+            string avtar = HttpContext.Session.GetString("Avtar");
+            ViewBag.Avtar = avtar;
+
             if (name != null)
             {
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
@@ -224,6 +223,9 @@ namespace CIPLATFORM.Controllers
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
 
+            string avtar = HttpContext.Session.GetString("Avtar");
+            ViewBag.Avtar = avtar;
+
             if (name != null)
             {
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
@@ -239,6 +241,9 @@ namespace CIPLATFORM.Controllers
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
 
+            string avtar = HttpContext.Session.GetString("Avtar");
+            ViewBag.Avtar = avtar;
+
             if (name != null)
             {
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
@@ -251,6 +256,5 @@ namespace CIPLATFORM.Controllers
 
             return View(sd);
         }
-
     }
 }
