@@ -13,6 +13,7 @@ using MimeKit.Text;
 using System.Net.Mail;
 using MailKit.Security;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
+using Microsoft.AspNetCore.Http;
 
 namespace CI_PLATFORM.Repository.Repositories
 {
@@ -666,7 +667,7 @@ namespace CI_PLATFORM.Repository.Repositories
         public List<MissionApplication> Mission(int UId)
         {
            
-            List<MissionApplication> missions = _CiPlatformContext.MissionApplications.Include(m => m.Mission).Where(x=>x.UserId== UId).ToList();
+            List<MissionApplication> missions = _CiPlatformContext.MissionApplications.Include(m => m.Mission).Where(x=>x.UserId== UId && x.ApprovalStatus=="Approve").ToList();
             return missions;
         } 
         public StoryListingViewModel ShareStory(int UId)
@@ -678,6 +679,57 @@ namespace CI_PLATFORM.Repository.Repositories
                 StoryDetail.missions = mission;
             }
             return StoryDetail;
+        }
+        public bool saveStory(StoryListingViewModel obj, int status, int uid)
+        {
+
+            Story str = new Story();
+            {
+                str.Title = obj.story.Title;
+                str.Description = obj.story.Description;
+                str.UserId = uid;
+                str.MissionId = obj.story.MissionId;
+            }
+
+            if (status == 1)
+            {
+                str.Status = "DRAFT";
+            }
+            if (status == 2)
+            {
+                str.Status = "PENDING";
+            }
+
+            _CiPlatformContext.Stories.Add(str);
+            _CiPlatformContext.SaveChanges();
+
+            return true;
+        }
+        public bool SaveImage(StoryListingViewModel obj, List<IFormFile> file)
+        {
+            var xyz = _CiPlatformContext.Stories.FirstOrDefault(x => x.Title == obj.story.Title);
+            var filePaths = new List<string>();
+            foreach (var formFile in file)
+            {
+                StoryMedium mediaobj = new StoryMedium();
+
+                if (formFile.Length > 0)
+                {
+                    // full path to file in temp location
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/", formFile.FileName); //we are using Temp file name just for the example. Add your own file path.
+                    filePaths.Add(filePath);
+
+                }
+
+                mediaobj.StoryId = xyz.StoryId;
+                //mediaobj.StoryId = obj.story.StoryId;
+                mediaobj.Path = formFile.FileName;
+                mediaobj.Type = "png";
+
+                _CiPlatformContext.StoryMedia.Add(mediaobj);
+                _CiPlatformContext.SaveChanges();
+            }
+            return true;
         }
     }
 }

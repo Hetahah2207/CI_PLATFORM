@@ -1,4 +1,5 @@
 ﻿using CI_PLATFORM.Entities.Models;using CI_PLATFORM.Entities.ViewModels;
+using Microsoft.AspNetCore.Http;
 using System;using System.Collections.Generic;using System.Linq;using System.Text;using System.Threading.Tasks;namespace CI_PLATFORM.Repository.Interface{
     public interface IPlatformRepository
     {
@@ -29,5 +30,6 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public bool MissionRating(int userId, int mid, int rating);
         public List<MissionApplication> Mission(int UId);
         public StoryListingViewModel ShareStory(int UId);
-
+        public bool saveStory(StoryListingViewModel obj, int status, int uid);
+        public bool SaveImage(StoryListingViewModel obj, List<IFormFile> file);
     }}

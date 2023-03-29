@@ -15,4 +15,5 @@ namespace CI_PLATFORM.Entities.ViewModels
         public List<User>? coworkers { get; set; }
         public List<MissionApplication> missions { get; set; }
     }
+
 }

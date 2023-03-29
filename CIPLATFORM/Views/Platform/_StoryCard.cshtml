@@ -1,4 +1,5 @@
 ﻿@using CI_PLATFORM.Entities.ViewModels
+@using Microsoft.AspNetCore.Html
 @model StoryListingViewModel
 <div class="container mt-3">
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -29,7 +30,7 @@
                     <div class="card-body">
                         <h5 class="card-title">@item.Title</h5>
                         <p class="card-text">
-                            @item.Description
+                             @{                            string htmlString = @item.Description;                            HtmlString renderedHtml = new HtmlString(htmlString);                            }                            @renderedHtml
                         </p>
 
 

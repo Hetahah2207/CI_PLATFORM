@@ -225,16 +225,16 @@ function applyMission(missionId) {
             debugger
             if (missions == true) {
                 console.log("done");
-
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true
+                };
                 $('#applyMission').prop('disabled', true);
                 $('#applyMission').text("Your Request has been sent for Approve");
                 $('#applyMission').css("color", "red");
                 /*document.getElementById("ok").innerHTML += `Applied Successfully...`;*/
                
-                toastr.options = {
-                    "closeButton": true,
-                    "progressBar": true
-                };
+             
                 toastr.success('Applied successfully');
             }
         },
@@ -364,4 +364,3 @@ function recommandStory(x) {
         },
     });
 }
-

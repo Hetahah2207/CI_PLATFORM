@@ -231,10 +231,39 @@ namespace CIPLATFORM.Controllers
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
             }
-            //List<MissionApplication> missions = _PlatformRepository.Mission(@ViewBag.UId);
-            //ViewBag.storymissions = missions;
             StoryListingViewModel ss = _PlatformRepository.ShareStory(@ViewBag.UId);
             return View(ss);
+        }
+        [HttpPost]
+        public IActionResult ShareStory(StoryListingViewModel obj, int status, List<IFormFile> file)
+        {
+
+            string name = HttpContext.Session.GetString("Uname");
+            ViewBag.Uname = name;
+
+            string avtar = HttpContext.Session.GetString("Avtar");
+            ViewBag.Avtar = avtar;
+
+            if (name != null)
+            {
+                int UserId = (int)HttpContext.Session.GetInt32("UId");
+                ViewBag.UId = UserId;
+            }
+           
+            bool abc = _PlatformRepository.saveStory(obj, status, @ViewBag.UId);
+            bool image = _PlatformRepository.SaveImage(obj, file);
+            
+            if (status == 1)
+            {
+                StoryListingViewModel ss = _PlatformRepository.ShareStory(@ViewBag.UId);
+               
+                return View(ss);
+            }
+            if (status == 2)
+            {
+                return RedirectToAction("StoryListing", "Platform");
+            }
+            return View();
         }
         public IActionResult StoryDetail(int sid)
         {
