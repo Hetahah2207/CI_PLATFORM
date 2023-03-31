@@ -1,54 +1,0 @@
-﻿@using CI_PLATFORM.Entities.ViewModels
-@using Microsoft.AspNetCore.Html
-@model StoryListingViewModel
-<div class="container mt-3">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        @foreach (var item in Model.stories)
-        {
-            <div class="col">
-                <div class="card">
-
-                    <div class="bg">
-                        <img src=~/images/@item.StoryMedia.FirstOrDefault()?.Path class="banner1"
-                         class="card-img-top" alt="...">
-                        <div class="banner-header d-flex justify-content-center ">
-                            <div class="  apply2">
-                                <button type="button" class="btn btn-outline apply " style="margin-bottom: 200px;">
-                                    <a asp-controller="Platform" asp-action="StoryDetail" asp-route-sid="@item.StoryId"  style="text-decoration:none;color:black">
-                                        View Detail
-                                        <i class="bi bi-arrow-right"></i>
-                                    </a>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="position-relative">
-                        <div class="position-absolute top-100 start-50 translate-middle round px-3 title" style="background-color: white;">
-                            @item.Mission.Theme.Title
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Title</h5>
-                        <p class="card-text">
-                             @{                            string htmlString = @item.Description;                            HtmlString renderedHtml = new HtmlString(htmlString);                            }                            @renderedHtml
-                        </p>
-
-
-                        <div class="col-12">
-                            <div class="row mt-3" style="background-color: white">
-                                <div class="col-12 d-flex justify-content-start align-items-start">
-                                    <img src=~/images/@item.User.Avatar style="border-radius: 50%; height: 4.5em;" alt="">
-                                    <span class="d-flex justify-content-center  mt-4 ms-3"> @item.User.FirstName @item.User.LastName</span>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-        }
-    </div>
-</div>
