@@ -323,7 +323,7 @@ namespace CI_PLATFORM.Repository.Repositories
 
             var pageSize = 6;
 
-            List<Mission> cards = new List<Mission>();            
+            List<Mission> cards = new List<Mission>();
             var missioncards = GetMissionDetails();
             //var missionskill = _CiPlatformContext.MissionSkills.FirstOrDefault(u => u.MissionId == missioncards.);
             var Missionskills = GetSkills();
@@ -396,8 +396,8 @@ namespace CI_PLATFORM.Repository.Repositories
         {
             var pageSize = 6;
             List<Story> cards = new List<Story>();
-            var missioncards = _CiPlatformContext.Stories.Include(m => m.StoryMedia).Include(m => m.Mission).Include(m => m.Mission.Theme).Include(m => m.User).ToList();
-            var Missionskills = _CiPlatformContext.MissionSkills.Include(m => m.Skill).ToList();
+            var storycards = _CiPlatformContext.Stories.Include(m => m.StoryMedia).Include(m => m.Mission).Include(m => m.Mission.Theme).Include(m => m.User).ToList();
+            //var Missionskills = _CiPlatformContext.MissionSkills.Include(m => m.Skill).ToList();
             List<int> temp = new List<int>();
 
 
@@ -405,15 +405,15 @@ namespace CI_PLATFORM.Repository.Repositories
             if (search != null)
             {
                 search = search.ToLower();
-                missioncards = missioncards.Where(x => x.Title.ToLower().Contains(search)).ToList();
+                storycards = storycards.Where(x => x.Title.ToLower().Contains(search)).ToList();
 
 
             }
             if (pg != 0)
             {
-                missioncards = missioncards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+                storycards = storycards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
             }
-            return missioncards;
+            return storycards;
 
 
         }
@@ -701,28 +701,57 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public bool saveStory(StoryListingViewModel obj, int status, int uid)
         {
+            Story story = _CiPlatformContext.Stories.FirstOrDefault(x => x.UserId == uid && x.MissionId == obj.story.MissionId);
 
-            Story str = new Story();
+            if (story == null)
             {
-                str.Title = obj.story.Title;
-                str.Description = obj.story.Description;
-                str.UserId = uid;
-                str.MissionId = obj.story.MissionId;
+                Story str = new Story();
+                {
+                    str.Title = obj.story.Title;
+                    str.Description = obj.story.Description;
+                    str.UserId = uid;
+                    str.MissionId = obj.story.MissionId;
+                    
+                }
+
+                if (status == 1)
+                {
+                    str.Status = "DRAFT";
+                }
+                if (status == 2)
+                {
+                    str.Status = "PENDING";
+                }
+
+                _CiPlatformContext.Stories.Add(str);
+                _CiPlatformContext.SaveChanges();
             }
 
-            if (status == 1)
+            if (story != null)
             {
-                str.Status = "DRAFT";
-            }
-            if (status == 2)
-            {
-                str.Status = "PENDING";
+                
+                {
+                    story.Title = obj.story.Title;
+                    story.Description = obj.story.Description;
+                    story.UserId = uid;
+                    story.MissionId = obj.story.MissionId;
+                    story.UpdatedAt = DateTime.Now;
+                }
+
+                if (status == 1)
+                {
+                    story.Status = "DRAFT";
+                }
+                if (status == 2)
+                {
+                    story.Status = "PENDING";
+                }
+
+                _CiPlatformContext.Stories.Update(story);
+                _CiPlatformContext.SaveChanges();
             }
 
-            _CiPlatformContext.Stories.Add(str);
-            _CiPlatformContext.SaveChanges();
-
-            return true;
+                return true;
         }
         public bool SaveImage(StoryListingViewModel obj, List<IFormFile> file)
         {
@@ -743,12 +772,12 @@ namespace CI_PLATFORM.Repository.Repositories
 
                 if (formFile.Length > 0)
                 {
-                   
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/A", formFile.FileName); 
+
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/A", formFile.FileName);
                     filePaths.Add(filePath);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                         formFile.CopyToAsync(stream);
+                        formFile.CopyToAsync(stream);
                     }
 
                 }

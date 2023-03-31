@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CIPLATFORM\\CIPLATFORM.csproj": {}
+    "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\CIPLATFORM.csproj": {}
   },
   "projects": {
-    "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj": {
+    "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj",
+        "projectUniqueName": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj",
         "projectName": "CI-PLATFORM.Entities",
-        "projectPath": "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj",
+        "projectPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj",
         "packagesPath": "C:\\Users\\pci106\\.nuget\\packages\\",
-        "outputPath": "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CI-PLATFORM.Entities\\obj\\",
+        "outputPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -101,14 +101,14 @@
         }
       }
     },
-    "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CI-PLATFORM.Repository\\CI-PLATFORM.Repository.csproj": {
+    "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Repository\\CI-PLATFORM.Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CI-PLATFORM.Repository\\CI-PLATFORM.Repository.csproj",
+        "projectUniqueName": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Repository\\CI-PLATFORM.Repository.csproj",
         "projectName": "CI-PLATFORM.Repository",
-        "projectPath": "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CI-PLATFORM.Repository\\CI-PLATFORM.Repository.csproj",
+        "projectPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Repository\\CI-PLATFORM.Repository.csproj",
         "packagesPath": "C:\\Users\\pci106\\.nuget\\packages\\",
-        "outputPath": "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CI-PLATFORM.Repository\\obj\\",
+        "outputPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Repository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -130,8 +130,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj": {
-                "projectPath": "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj"
+              "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj": {
+                "projectPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj"
               }
             }
           }
@@ -202,14 +202,14 @@
         }
       }
     },
-    "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CIPLATFORM\\CIPLATFORM.csproj": {
+    "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\CIPLATFORM.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CIPLATFORM\\CIPLATFORM.csproj",
+        "projectUniqueName": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\CIPLATFORM.csproj",
         "projectName": "CIPLATFORM",
-        "projectPath": "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CIPLATFORM\\CIPLATFORM.csproj",
+        "projectPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\CIPLATFORM.csproj",
         "packagesPath": "C:\\Users\\pci106\\.nuget\\packages\\",
-        "outputPath": "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CIPLATFORM\\obj\\",
+        "outputPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -231,11 +231,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj": {
-                "projectPath": "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj"
+              "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj": {
+                "projectPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj"
               },
-              "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CI-PLATFORM.Repository\\CI-PLATFORM.Repository.csproj": {
-                "projectPath": "D:\\CI_PLATFORM-main\\CI_PLATFORM-main\\CI-PLATFORM.Repository\\CI-PLATFORM.Repository.csproj"
+              "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Repository\\CI-PLATFORM.Repository.csproj": {
+                "projectPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Repository\\CI-PLATFORM.Repository.csproj"
               }
             }
           }
