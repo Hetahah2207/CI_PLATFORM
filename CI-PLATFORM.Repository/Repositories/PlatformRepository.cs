@@ -708,10 +708,11 @@ namespace CI_PLATFORM.Repository.Repositories
                 Story str = new Story();
                 {
                     str.Title = obj.story.Title;
+                    str.PublishedAt =obj.story.PublishedAt;
                     str.Description = obj.story.Description;
                     str.UserId = uid;
                     str.MissionId = obj.story.MissionId;
-                    
+              
                 }
 
                 if (status == 1)
@@ -732,6 +733,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 
                 {
                     story.Title = obj.story.Title;
+                    story.PublishedAt = obj.story.PublishedAt;
                     story.Description = obj.story.Description;
                     story.UserId = uid;
                     story.MissionId = obj.story.MissionId;
@@ -783,6 +785,20 @@ namespace CI_PLATFORM.Repository.Repositories
                 }
             }
             return true;
+        }
+        public StoryListingViewModel getData(int mid, int uid)
+        {
+            StoryListingViewModel obj = new StoryListingViewModel();
+            Story story = _CiPlatformContext.Stories.FirstOrDefault(m => m.MissionId == mid && m.UserId == uid && m.Status == "DRAFT");
+
+            if (story != null)
+            {
+                {
+                    obj.story = story;
+                }
+                return obj;
+            }
+            return null;
         }
     }
 }

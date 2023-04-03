@@ -111,7 +111,7 @@ function temp(pg) {
             $("#filter").empty();
             console.log("grid Hii");
             $("#filter").html(data);
-           
+
 
             //$("#grid-view").empty();
             //console.log("grid Hii");
@@ -122,7 +122,7 @@ function temp(pg) {
 
             var div1 = document.getElementById("list-view");
             div1.style.display = 'none';
-          
+
         },
         error: function (e) {
             console.log("Bye");
@@ -146,18 +146,10 @@ function story(pg) {
         },
         dataType: "html", // return datatype like JSON and HTML
         success: function (data) {
-            /*debugger*/
 
             console.log(data);
             $("#StoryFilter").empty();
             $("#StoryFilter").html(data);
-            //$("#StoriesId").empty();
-            //console.log("Filtered Story");
-            //$("#StoriesId").html(data);
-
-
-
-
         },
         error: function (e) {
             /*    debugger*/
@@ -184,7 +176,7 @@ function openlist() {
     console.log("Done");
 }
 function AddMissionToFavourite(missionId) {
-   
+
     $.ajax({
 
         url: '/Platform/AddMissionToFavourite',
@@ -200,7 +192,7 @@ function AddMissionToFavourite(missionId) {
                 $('#addToFav').addClass("bi bi-heart-fill");
                 $('#addToFav').css("color", "red");
 
-                document.getElementById(missionId).className="bi bi-heart-fill text-danger"; 
+                document.getElementById(missionId).className = "bi bi-heart-fill text-danger";
             }
             else {
                 $('#addToFav').css("color", "black");
@@ -237,14 +229,14 @@ function applyMission(missionId) {
                 $('#applyMission').text("Your Request has been sent for Approve");
                 $('#applyMission').css("color", "red");
                 /*document.getElementById("ok").innerHTML += `Applied Successfully...`;*/
-               
-             
+
+
                 toastr.success('Applied successfully');
             }
         },
         error: function (request, error) {
             console.log("function not working");
-           /* document.getElementById("ok").innerHTML += `You've already Applied...`;*/
+            /* document.getElementById("ok").innerHTML += `You've already Applied...`;*/
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true
@@ -350,20 +342,63 @@ function recommandStory(x) {
             "toUserId": toUserId,
             "sid": Storyd
         },
-        success: function (data)
-        {
+        success: function (data) {
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true
             };
             console.log(toUserId);
             toastr.success('Email send  successfully');
-          
+
 
         }
         ,
         error: function (e) {
             console.log("Bye");
+            alert('Error');
+        },
+    });
+}
+
+function Sdata() {
+    var div1 = document.getElementById("getData");
+    var selectedOption = div1.options[div1.selectedIndex];
+    var selectedValue = selectedOption.value;
+    console.log(selectedValue);
+    debugger
+    $.ajax({
+        type: "POST", // POST
+        url: '/Platform/CheckData',
+        data: {
+            'mid': selectedValue,
+        },
+        success: function (data) {
+            console.log(data);
+            data = JSON.parse(data);
+            console.log(data);
+            {
+                let myDateObj = new Date(data.story.PublishedAt);
+                const year = myDateObj.getFullYear();
+                const month = String(myDateObj.getMonth() + 1).padStart(2, '0');
+                const day = String(myDateObj.getDate()).padStart(2, '0');
+                const formattedDate = `${year}-${month}-${day}`;
+                data.PublishedAt = formattedDate;
+
+                // The data exists, so populate the form with the retrieved data
+                $("#formGroupExampleInput").val(data.story.Title);
+
+                $("#sDate").val(data.PublishedAt);
+                console.log(data.Description);
+                var editor1 = CKEDITOR.instances.editor;
+
+                // Set the content of the editor
+                editor1.setData('Your content goes here');
+
+            }
+            debugger
+        },
+        error: function (e) {
+            debugger
             alert('Error');
         },
     });

@@ -193,7 +193,7 @@ namespace CIPLATFORM.Controllers
 
             return Json(json);
         }
-        public IActionResult StoryListing ( )
+        public IActionResult StoryListing ()
         {
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
@@ -294,6 +294,30 @@ namespace CIPLATFORM.Controllers
             StoryListingViewModel sd = _PlatformRepository.GetStory(sid);
 
             return View(sd);
+        }
+
+        [HttpPost]
+        public JsonResult CheckData(int mid)
+        {
+            string name = HttpContext.Session.GetString("Uname");
+            ViewBag.Uname = name;
+
+            if (name != null)
+            {
+                int UserId = (int)HttpContext.Session.GetInt32("UId");
+                ViewBag.UId = UserId;
+            }
+            // Check if the saved data exists in your data store based on the selected option
+            var SM = _PlatformRepository.getData(mid, @ViewBag.UId);
+
+            var dataExists = JsonConvert.SerializeObject(SM);
+
+
+
+            // Return a boolean value indicating whether the data exists
+            return Json(dataExists);
+
+            //return View("~/Story/StoryApply", StoryModel);
         }
     }
 }
