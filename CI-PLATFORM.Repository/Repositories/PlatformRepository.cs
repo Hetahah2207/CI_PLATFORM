@@ -1,19 +1,13 @@
 ﻿using CI_PLATFORM.Entities.Data;
 using CI_PLATFORM.Entities.Models;
-using CI_PLATFORM.Repository.Interface;
-using Microsoft.EntityFrameworkCore;
 using CI_PLATFORM.Entities.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CI_PLATFORM.Repository.Interface;
+using MailKit.Security;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using MimeKit;
 using MimeKit.Text;
-using System.Net.Mail;
-using MailKit.Security;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
-using Microsoft.AspNetCore.Http;
 
 namespace CI_PLATFORM.Repository.Repositories
 {
@@ -696,25 +690,23 @@ namespace CI_PLATFORM.Repository.Repositories
             StoryListingViewModel StoryDetail = new StoryListingViewModel();
             {
                 StoryDetail.missions = mission;
+                //StoryDetail.storymedia = _CiPlatformContext.
             }
             return StoryDetail;
         }
         public bool saveStory(StoryListingViewModel obj, int status, int uid)
         {
             Story story = _CiPlatformContext.Stories.FirstOrDefault(x => x.UserId == uid && x.MissionId == obj.story.MissionId);
-
             if (story == null)
             {
                 Story str = new Story();
                 {
                     str.Title = obj.story.Title;
-                    str.PublishedAt =obj.story.PublishedAt;
+                    str.PublishedAt = obj.story.PublishedAt;
                     str.Description = obj.story.Description;
                     str.UserId = uid;
                     str.MissionId = obj.story.MissionId;
-              
                 }
-
                 if (status == 1)
                 {
                     str.Status = "DRAFT";
@@ -724,13 +716,15 @@ namespace CI_PLATFORM.Repository.Repositories
                     str.Status = "PENDING";
                 }
 
-                _CiPlatformContext.Stories.Add(str);
+
+                _CiPlatformContext.Add(str);
                 _CiPlatformContext.SaveChanges();
+
             }
 
             if (story != null)
             {
-                
+
                 {
                     story.Title = obj.story.Title;
                     story.PublishedAt = obj.story.PublishedAt;
@@ -753,10 +747,11 @@ namespace CI_PLATFORM.Repository.Repositories
                 _CiPlatformContext.SaveChanges();
             }
 
-                return true;
+            return true;
         }
         public bool SaveImage(StoryListingViewModel obj, List<IFormFile> file)
         {
+
             var xyz = _CiPlatformContext.Stories.FirstOrDefault(x => x.Title == obj.story.Title);
             var filePaths = new List<string>();
             foreach (var formFile in file)
@@ -784,18 +779,54 @@ namespace CI_PLATFORM.Repository.Repositories
 
                 }
             }
+
+            if (obj.url != null)
+            {
+                var checkurl = _CiPlatformContext.StoryMedia.Where(m => m.StoryId == xyz.StoryId && m.Type == "video").FirstOrDefault();
+
+                if (checkurl != null)
+                {
+                    checkurl.Path = obj.url;
+                    checkurl.UpdatedAt = DateTime.Now;
+
+                    _CiPlatformContext.StoryMedia.Update(checkurl);
+                    _CiPlatformContext.SaveChanges();
+                }
+                else
+                {
+                    StoryMedium forUrl = new StoryMedium();
+                    {
+                        forUrl.StoryId = xyz.StoryId;
+                        forUrl.Type = "video";
+                        forUrl.Path = obj.url;
+                    }
+                    _CiPlatformContext.StoryMedia.Add(forUrl);
+                    _CiPlatformContext.SaveChanges();
+                }
+            }
             return true;
         }
-        public StoryListingViewModel getData(int mid, int uid)
+        public StoryListingViewModel? getData(int mid, int uid)
         {
-            StoryListingViewModel obj = new StoryListingViewModel();
-            Story story = _CiPlatformContext.Stories.FirstOrDefault(m => m.MissionId == mid && m.UserId == uid && m.Status == "DRAFT");
 
+            var story = _CiPlatformContext.Stories.FirstOrDefault(m => m.MissionId == mid && m.UserId == uid && m.Status == "DRAFT");
+            StoryListingViewModel obj = new StoryListingViewModel();
+            
             if (story != null)
             {
+                List<StoryMedium> simgs = _CiPlatformContext.StoryMedia.Where(m => m.StoryId == story.StoryId && m.Type == "png").ToList();
+                StoryMedium? url = _CiPlatformContext.StoryMedia.FirstOrDefault(m => m.StoryId == story.StoryId && m.Type == "video");
                 {
                     obj.story = story;
+                    obj.url = url.Path;
                 }
+
+                foreach (var item in simgs)
+                {
+                    obj.simg.Add(item.Path);
+                    story.StoryMedia.Remove(item);
+                }
+                story.StoryMedia.Remove(url);
                 return obj;
             }
             return null;

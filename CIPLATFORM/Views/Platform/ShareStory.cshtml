@@ -1,11 +1,9 @@
 ﻿@using CI_PLATFORM.Entities.ViewModels
 @model StoryListingViewModel
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<link rel="stylesheet" href="./CSS/css.css">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 
+<script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
 
 <link rel="stylesheet" href="~/css/StoryListing.css">
 <link rel="stylesheet" href="~/css/ShareStory.css">
@@ -23,7 +21,7 @@
             <div class="col-12">
                 <div class="row">
                     <div class="col-lg-12">
-                        <span class="story">Share your story</span>
+                        <h1 class="story">Share your story</h1>
                     </div>
                 </div><br>
                 <div class="row">
@@ -36,7 +34,7 @@
                                 <option value="0">Select your mission</option>
                                 @foreach (var obj in Model.missions)
                                 {
-                                        <option value="@obj.Mission.MissionId">@obj.Mission.Title</option>
+                                    <option value="@obj.Mission.MissionId">@obj.Mission.Title</option>
                                 }
                             </select>
                         </div>
@@ -69,16 +67,23 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
+                        <textarea id="editor" asp-for="story.Description" name=story.Description cols="172" rows="10" maxlength="40000"></textarea>
+                       @* <span class=text-danger></span>*@
+                        <script>
+                            CKEDITOR.replace('story.Description');
+                        </script>
+                    </div>
+                    @* <div class="col-lg-12">
                         <textarea asp-for="story.Description" id="editor"></textarea>
 
                         <script>
-                            ClassicEditor
-                                .create(document.querySelector('#editor'))
-                                .catch(error => {
-                                    console.error(error);
-                                });
+                        ClassicEditor
+                        .create(document.querySelector('#editor'))
+                        .catch(error => {
+                        console.error(error);
+                        });
                         </script>
-                    </div>
+                        </div>*@
                 </div><br>
                 <div class="row">
                     <div class="col-lg-12">
@@ -86,7 +91,7 @@
                     </div>
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Enter your url">
+                            <input type="text" id="surl" asp-for="url" class="form-control" placeholder="Enter your url">
                         </div>
                     </div>
                 </div><br>
@@ -173,7 +178,7 @@
 
 </script>
 
-
+@*<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>*@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
 

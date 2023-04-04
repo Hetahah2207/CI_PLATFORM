@@ -366,40 +366,72 @@ function Sdata() {
     var selectedValue = selectedOption.value;
     console.log(selectedValue);
     debugger
-    $.ajax({
-        type: "POST", // POST
-        url: '/Platform/CheckData',
-        data: {
-            'mid': selectedValue,
-        },
-        success: function (data) {
-            console.log(data);
-            data = JSON.parse(data);
-            console.log(data);
-            {
-                let myDateObj = new Date(data.story.PublishedAt);
-                const year = myDateObj.getFullYear();
-                const month = String(myDateObj.getMonth() + 1).padStart(2, '0');
-                const day = String(myDateObj.getDate()).padStart(2, '0');
-                const formattedDate = `${year}-${month}-${day}`;
-                data.PublishedAt = formattedDate;
+    $.ajax(
+        {
+            type: "POST", // POST
+            url: '/Platform/CheckData',
+            data: {
+                'mid': selectedValue,
+            },
 
-                // The data exists, so populate the form with the retrieved data
-                $("#formGroupExampleInput").val(data.story.Title);
 
-                $("#sDate").val(data.PublishedAt);
-                console.log(data.Description);
-                var editor1 = CKEDITOR.instances.editor;
+            success: function (data) {
+                console.log(data);
 
-                // Set the content of the editor
-                editor1.setData('Your content goes here');
+                data = JSON.parse(data);
+                console.log(data);
+                if (data != null) {
+                    {
+                        let myDateObj = new Date(data.story.PublishedAt);
+                        const year = myDateObj.getFullYear();
+                        const month = String(myDateObj.getMonth() + 1).padStart(2, '0');
+                        const day = String(myDateObj.getDate()).padStart(2, '0');
+                        const formattedDate = `${year}-${month}-${day}`;
+                        data.PublishedAt = formattedDate;
 
-            }
-            debugger
-        },
-        error: function (e) {
-            debugger
-            alert('Error');
-        },
-    });
+                        // The data exists, so populate the form with the retrieved data
+                        $("#formGroupExampleInput").val(data.story.Title);
+
+                        $("#sDate").val(data.PublishedAt);
+                        $("#surl").val(data.url);
+                        //console.log(data.Description);
+                        //var editor1 = CKEDITOR.instances.editor;
+
+                        // Set the content of the editor
+                        //editor1.setData('Your content goes here');
+
+                        if (data.simg != null) {
+                            debugger
+                            console.log(data.simg);
+                            let images = ""
+                            data.simg.forEach((image, index) => {
+                                images += `<div class="image"><img src="/images/A/${image}" alt="image"><span onclick="deleteImage(${index})">&times;</span></div>`
+
+                            })
+                            output.innerHTML = images;
+
+                        }
+                        else {
+                            output.innerHTML = "No Images Are Choosen";
+                        }
+                        CKEDITOR.instances.editor.setData(data.story.Description);
+
+                    }
+                }
+                else {
+                    $("#formGroupExampleInput").val("");
+                    $("#sDate").val("");
+                    $("#surl").val("");
+                    output.innerHTML = "No Images Are Choosen";
+                    CKEDITOR.instances.editor.setData("");
+                }
+                debugger
+            },
+
+            error: function (e) {
+                debugger
+                alert('Error');
+            },
+        }
+    );
 }
