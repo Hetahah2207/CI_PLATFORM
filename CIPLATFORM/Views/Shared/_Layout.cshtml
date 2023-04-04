@@ -11,6 +11,7 @@
 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/StoryListing.css">
 
 
 </head>
@@ -60,8 +61,8 @@
                             @ViewBag.Uname
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action1</a></li>
-                            <li><a class="dropdown-item" href="#">Action1</a></li>
+                            <li><a class="dropdown-item" asp-controller="Profile" asp-action="Profile" >Add Profile</a></li>
+                            <li><a class="dropdown-item" >Volunteering Timesheet</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
