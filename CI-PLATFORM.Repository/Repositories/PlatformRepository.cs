@@ -437,7 +437,7 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public List<StoryMedium> smedia(int sid)
         {
-            List<StoryMedium> photos = _CiPlatformContext.StoryMedia.Where(x => x.StoryId == sid).ToList();
+            List<StoryMedium> photos = _CiPlatformContext.StoryMedia.Where(x => x.StoryId == sid && x.Type == "png").ToList();
             return photos;
         }
         public void addComment(int mid, int uid, string comnt)
@@ -665,7 +665,7 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public StoryListingViewModel GetStory(int sid)
         {
-            Story story = _CiPlatformContext.Stories.Include(m => m.User).FirstOrDefault(m => m.StoryId == sid);
+            Story? story = _CiPlatformContext.Stories.Include(m => m.User).FirstOrDefault(m => m.StoryId == sid);
             List<StoryMedium> photos = smedia(sid);
             List<User> users = _CiPlatformContext.Users.ToList();
 
@@ -751,14 +751,11 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public bool SaveImage(StoryListingViewModel obj, List<IFormFile> file)
         {
-
             var xyz = _CiPlatformContext.Stories.FirstOrDefault(x => x.Title == obj.story.Title);
             var filePaths = new List<string>();
             foreach (var formFile in file)
             {
                 StoryMedium mediaobj = new StoryMedium();
-
-
 
                 mediaobj.StoryId = xyz.StoryId;
                 mediaobj.Path = formFile.FileName;
@@ -771,10 +768,13 @@ namespace CI_PLATFORM.Repository.Repositories
                 {
 
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/A", formFile.FileName);
-                    filePaths.Add(filePath);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    if (File.Exists(filePath) == false)
                     {
-                        formFile.CopyToAsync(stream);
+                        filePaths.Add(filePath);
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            formFile.CopyToAsync(stream);
+                        }
                     }
 
                 }
@@ -811,7 +811,7 @@ namespace CI_PLATFORM.Repository.Repositories
 
             var story = _CiPlatformContext.Stories.FirstOrDefault(m => m.MissionId == mid && m.UserId == uid && m.Status == "DRAFT");
             StoryListingViewModel obj = new StoryListingViewModel();
-            
+
             if (story != null)
             {
                 List<StoryMedium> simgs = _CiPlatformContext.StoryMedia.Where(m => m.StoryId == story.StoryId && m.Type == "png").ToList();

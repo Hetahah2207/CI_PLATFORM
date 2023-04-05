@@ -382,33 +382,66 @@ function Sdata() {
                 console.log(data);
                 if (data != null) {
                     {
-                        let myDateObj = new Date(data.story.PublishedAt);
-                        const year = myDateObj.getFullYear();
-                        const month = String(myDateObj.getMonth() + 1).padStart(2, '0');
-                        const day = String(myDateObj.getDate()).padStart(2, '0');
-                        const formattedDate = `${year}-${month}-${day}`;
-                        data.PublishedAt = formattedDate;
+                        if (data.story.PublishedAt != null)
+                        {
+                            let myDateObj = new Date(data.story.PublishedAt);
+                            const year = myDateObj.getFullYear();
+                            const month = String(myDateObj.getMonth() + 1).padStart(2, '0');
+                            const day = String(myDateObj.getDate()).padStart(2, '0');
+                            const formattedDate = `${year}-${month}-${day}`;
+                            data.PublishedAt = formattedDate;
+                        }
 
-                        // The data exists, so populate the form with the retrieved data
+                        
                         $("#formGroupExampleInput").val(data.story.Title);
-
                         $("#sDate").val(data.PublishedAt);
                         $("#surl").val(data.url);
-                        //console.log(data.Description);
-                        //var editor1 = CKEDITOR.instances.editor;
-
-                        // Set the content of the editor
-                        //editor1.setData('Your content goes here');
+                        
 
                         if (data.simg != null) {
+                            function toDataUrl(url, callback) {
+                                console.log(url);
+                                var newUrl = url;
+                                var xhr = new XMLHttpRequest();
+                                xhr.onload = function () {
+                                    callback(xhr.response);
+                                };
+                                xhr.open('GET', newUrl);
+                                xhr.responseType = 'blob';
+                                xhr.send();
+                            }
+
+                            function rtType(filename) {
+                                var x = filename.split(".");
+                                return x[0]
+                            }
+                            const dT = new DataTransfer();
+                            let image;
+
+
+
                             debugger
                             console.log(data.simg);
                             let images = ""
                             data.simg.forEach((image, index) => {
-                                images += `<div class="image"><img src="/images/A/${image}" alt="image"><span onclick="deleteImage(${index})">&times;</span></div>`
+                                /*returnImage = image;*/
+                                showImg = "/images/A/" + image;
+                                toDataUrl(showImg, function (x) {
+                                    image = x;
+                                    
+                                    dT.items.add(new File([image], image, {
+                                        type: "image/png"
+                                    }));
+                                    imagesArray.push(new File([image], image, {
+                                        type: "image/png"
+                                    }));
+                                    debugger
+                                });
+                                images += `<div class="image"><img src="${showImg}" alt="image"><span onclick="deleteImage(${index})">&times;</span></div>`
 
                             })
                             output.innerHTML = images;
+                           
 
                         }
                         else {
@@ -435,3 +468,8 @@ function Sdata() {
         }
     );
 }
+
+//function saveprofile()
+//{
+
+//}
