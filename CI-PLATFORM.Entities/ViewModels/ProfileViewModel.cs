@@ -16,8 +16,6 @@ namespace CI_PLATFORM.Entities.ViewModels
 
         public string? LastName { get; set; }
 
-       
-
         public long? PhoneNumber { get; set; }
 
         public string? Avatar { get; set; }
@@ -47,12 +45,13 @@ namespace CI_PLATFORM.Entities.ViewModels
     }
     public class ResetPassword
     {
-        //[Required(ErrorMessage = "OldPassword is Required")]
+        [Required(ErrorMessage = "OldPassword is Required")]
         public string OldPassword { get; set; } = null!;
-        //[Required(ErrorMessage = "Password is Required")]
+        [Required(ErrorMessage = "Password is Required")]
         public string Password { get; set; } = null!;
-        //[Compare("Password", ErrorMessage = "Password must match")]
-        //[Required(ErrorMessage = "Confirm PassWord is Required")]
+        
+        [Required(ErrorMessage = "Confirm PassWord is Required")]
+        [Compare("Password", ErrorMessage = "Password must match")]
         public string ConfirmPassword { get; set; } = null!;
     }
 }

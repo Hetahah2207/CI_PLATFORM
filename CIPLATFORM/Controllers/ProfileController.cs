@@ -3,6 +3,7 @@ using CI_PLATFORM.Entities.ViewModels;
 using CI_PLATFORM.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace CIPLATFORM.Controllers
 {
     public class ProfileController : Controller
@@ -58,10 +59,31 @@ namespace CIPLATFORM.Controllers
                 int? UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
             }
-            //if (ModelState.IsValid)
-            //{
-            //}
+            if (!ModelState.ContainsKey("resetPass"))
+            {
+                bool resetpass = _ProfileRepository.saveProfile(obj, save, @ViewBag.UId);
+
+                if (resetpass)
+                {
+                    TempData["true"] = "password updated";
+
+                }
+                else
+                {
+                    TempData["false"] = "entered password is wrong";
+                    
+                }
+
+                return View();
+            }
+
+            if (save == 1)
+            {
+                save = 0;
+            }
+
             bool saveprofile = _ProfileRepository.saveProfile(obj, save, @ViewBag.UId);
+
             return View();
         }
     }

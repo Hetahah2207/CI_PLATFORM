@@ -2,6 +2,7 @@
 using CI_PLATFORM.Entities.Models;
 using CI_PLATFORM.Entities.ViewModels;
 using CI_PLATFORM.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,29 +39,51 @@ namespace CI_PLATFORM.Repository.Repositories
                     pm.CityId = user.CityId;
                     pm.LinkedInUrl = user.LinkedInUrl;
                 }
-
             }
             return pm;
         }
-        public bool saveProfile(ProfileViewModel obj, int save, int UId)
+        public bool saveProfile(ProfileViewModel user, int save, int UId)
         {
 
-            User user = _CiPlatformContext.Users.FirstOrDefault(x => x.UserId == UId);
-            //ProfileViewModel pm = new ProfileViewModel();
-            if (user != null)
+            User pm = _CiPlatformContext.Users.FirstOrDefault(x => x.UserId == UId);
+            //PasswordReset pr = _CiPlatformContext.PasswordResets;
+            if (pm != null)
             {
-                //{
-                //    pm.UserId = user.UserId;
-                //    pm.FirstName = user.FirstName;
-                //    pm.LastName = user.LastName;
-                //}
-
                 if (save == 1)
                 {
+                    if (user.resetPass.OldPassword == pm.Password)
                     {
-                        user.Password = obj.resetPass.Password;
+                        {
+                            pm.Password = user.resetPass.Password;
+
+                        }
+                        _CiPlatformContext.Users.Update(pm);
+                        _CiPlatformContext.SaveChanges();
+                        return true;
                     }
-                    _CiPlatformContext.Users.Update(user);
+                    else
+                    {
+                        return false;
+                    }
+
+                }
+                if(save == 3)
+                {
+                    {
+                        
+                        pm.FirstName = user.FirstName;
+                        pm.LastName = user.LastName;
+                        pm.EmployeeId = user.EmployeeId;
+                        pm.Title = user.Title;
+                        pm.Department = user.Department;
+                        pm.ProfileText = user.ProfileText;
+                        pm.Department = user.Department;
+                        pm.WhyIVolunteer = user.WhyIVolunteer;
+                        pm.CountryId = user.CountryId;
+                        pm.CityId = user.CityId;
+                        pm.LinkedInUrl = user.LinkedInUrl;
+                    }
+                    _CiPlatformContext.Users.Update(pm);
                     _CiPlatformContext.SaveChanges();
                 }
 

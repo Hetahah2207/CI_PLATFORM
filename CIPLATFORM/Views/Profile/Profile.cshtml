@@ -5,6 +5,8 @@
 
 <div class="container">
     <div class="row">
+        <span class="d-flex  mt-3 mb-3 justify-content-center" style="font-size:35px;color:green;">@TempData["true"]</span>
+        <span class="d-flex  mt-3 mb-3 justify-content-center" style="font-size:35px;color:red;">@TempData["false"]</span>
         <div class="col-lg-3 col-sm-4">
 
             <div class="border p-3 d-flex justify-content-center align-items-center flex-column">
@@ -28,12 +30,12 @@
                                 <div class="modal-body">
 
                                     <input type="text" asp-for="resetPass.OldPassword" class="form-control " placeholder="Enter old password">
-                                    @*<span style="color:red;" asp-validation-for="resetPass.OldPassword"></span>*@
+                                    <span style="color:red;" asp-validation-for="resetPass.OldPassword"></span>
                                     <input type="text" asp-for="resetPass.Password" class="form-control mt-3" placeholder="Enter  New password">
-                                    @*<span style="color:red;" asp-validation-for="resetPass.Password"></span>*@
+                                    <span style="color:red;" asp-validation-for="resetPass.Password"></span>
                                     <input type="text" asp-for="resetPass.ConfirmPassword" class="form-control mt-3"
                                            placeholder="Enter Confirm password">
-                                    @*<span style="color:red;" asp-validation-for="resetPass.ConfirmPassword"></span>*@
+                                    <span style="color:red;" asp-validation-for="resetPass.ConfirmPassword"></span>
 
                                 </div>
                                 <div class="modal-footer">
@@ -45,6 +47,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
         <div class="col-lg-9 col-sm-8">
             <h4 style="color: #414141;">Basic Information</h4>
@@ -73,16 +76,16 @@
                 <div class="row mt-3">
                     <div class="col-12 col-sm-6">
                         <label>Title</label>
-                        <input type="text"  asp-for="Title" class="form-control" placeholder="Enter your employee id">
+                        <input type="text" asp-for="Title" class="form-control" placeholder="Enter your employee id">
                     </div>
                     <div class="col-12 col-sm-6">
                         <label>Department</label>
-                        <input type="text"  asp-for="Department" class="form-control" placeholder="Enter your Department details">
+                        <input type="text" asp-for="Department" class="form-control" placeholder="Enter your Department details">
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label for="exampleFormControlTextarea1">My Profile*</label>
-                    <textarea  asp-for="ProfileText" class="form-control" id="exampleFormControlTextarea1" rows="4"
+                    <textarea asp-for="ProfileText" class="form-control" id="exampleFormControlTextarea1" rows="4"
                               placeholder="Enter your comments..."></textarea>
                 </div>
                 <div class="form-group mt-3">
@@ -95,7 +98,7 @@
                 <div class="row mt-3">
                     <div class="col-12 col-sm-6">
                         <label>Country*</label>
-                        <select id="countryId"  asp-for="CountryId" onchange="GetCity();" class="form-select" aria-label="Default select example"
+                        <select id="countryId" asp-for="CountryId" onchange="GetCity();" class="form-select" aria-label="Default select example"
                                 aria-placeholder="Select your country">
                             <option value="0">Select your country</option>
                             @foreach (var obj in @ViewBag.countries)
@@ -106,7 +109,7 @@
                     </div>
                     <div class="col-12 col-sm-6">
                         <label>City*</label>
-                        <select class="form-select"  asp-for="CityId" aria-label="Default select example"
+                        <select class="form-select" asp-for="CityId" aria-label="Default select example"
                                 aria-placeholder="Select your City" id="selectCityList" onchange="temp()">
                             <option value="0">Select your City</option>
                             @foreach (var item in @ViewBag.Cities)
@@ -133,7 +136,7 @@
                     </div>
                     <div class="col-12 col-sm-6">
                         <label>LinkedIn</label><br>
-                        <input  asp-for="LinkedInUrl" type="text" class="form-control" placeholder="Enter linkedIn URL">
+                        <input asp-for="LinkedInUrl" type="text" class="form-control" placeholder="Enter linkedIn URL">
                     </div>
 
                 </div>
