@@ -41,17 +41,27 @@ namespace CI_PLATFORM.Entities.ViewModels
         public DateTime? UpdatedAt { get; set; }
 
         public ResetPassword resetPass { get; set; }
-       
+        public List<UserSkill> userSkills { get; set; } = new List<UserSkill>();
+        public List<Skill> skills { get; set; } = new List<Skill>();
+        public List<int>? skillsToAdd { get; set; }
+        public Contactus contactus { get; set; }
     }
     public class ResetPassword
     {
-        [Required(ErrorMessage = "OldPassword is Required")]
+        //[Required(ErrorMessage = "OldPassword is Required")]
         public string OldPassword { get; set; } = null!;
-        [Required(ErrorMessage = "Password is Required")]
+        //[Required(ErrorMessage = "Password is Required")]
         public string Password { get; set; } = null!;
         
-        [Required(ErrorMessage = "Confirm PassWord is Required")]
-        [Compare("Password", ErrorMessage = "Password must match")]
+        //[Required(ErrorMessage = "Confirm PassWord is Required")]
+        //[Compare("Password", ErrorMessage = "Password must match")]
         public string ConfirmPassword { get; set; } = null!;
+    }
+    public class Contactus
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string subject { get; set; }
+        public string Message { get; set; }
     }
 }

@@ -365,6 +365,7 @@ function Sdata() {
     var selectedOption = div1.options[div1.selectedIndex];
     var selectedValue = selectedOption.value;
     console.log(selectedValue);
+   
     debugger
     $.ajax(
         {
@@ -411,10 +412,7 @@ function Sdata() {
                                 xhr.send();
                             }
 
-                            function rtType(filename) {
-                                var x = filename.split(".");
-                                return x[0]
-                            }
+                            
                             const dT = new DataTransfer();
                             let image;
 

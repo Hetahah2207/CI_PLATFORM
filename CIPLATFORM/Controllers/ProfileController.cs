@@ -2,7 +2,8 @@
 using CI_PLATFORM.Entities.ViewModels;
 using CI_PLATFORM.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 
 namespace CIPLATFORM.Controllers
 {
@@ -41,7 +42,7 @@ namespace CIPLATFORM.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Profile(ProfileViewModel obj,int save)
+        public IActionResult Profile(ProfileViewModel obj, int save)
         {
             List<Country> countries = _PlatformRepository.GetCountryData();
             ViewBag.countries = countries;
@@ -59,32 +60,73 @@ namespace CIPLATFORM.Controllers
                 int? UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
             }
-            if (!ModelState.ContainsKey("resetPass"))
-            {
-                bool resetpass = _ProfileRepository.saveProfile(obj, save, @ViewBag.UId);
-
-                if (resetpass)
-                {
-                    TempData["true"] = "password updated";
-
-                }
-                else
-                {
-                    TempData["false"] = "entered password is wrong";
-                    
-                }
-
-                return View();
-            }
 
             if (save == 1)
             {
-                save = 0;
+
+                if (obj.resetPass.Password == null || obj.resetPass.ConfirmPassword == null || obj.resetPass.OldPassword == null)
+                {
+                    TempData["false"] = "All fields are required! Plz Enter Value For All 3 Fields";
+                }
+                if (obj.resetPass.ConfirmPassword != obj.resetPass.Password)
+                {
+                    TempData["morefalse"] = "Password & ConfirmPassword is Diffrent";
+                }
+                else
+                {
+
+                    bool resetpass = _ProfileRepository.changepassword(obj, @ViewBag.UId);
+                    if (resetpass)
+                    {
+                        TempData["true"] = "password updated";
+                    }
+                    else
+                    {
+                        TempData["false"] = "entered password is wrong";
+                    }
+                }
+
+                return View(obj);
             }
 
-            bool saveprofile = _ProfileRepository.saveProfile(obj, save, @ViewBag.UId);
+            //if (save == 2)
+            //{
+            //    bool saveskills = _ProfileRepository.saveSkills(obj, save, @ViewBag.UId);
+            //    if (saveskills)
+            //    {
+            //        TempData["true"] = "Profile Updated Successfully";
+            //    }
+            //}
 
-            return View();
+
+            if (save == 3)
+            {
+                bool saveprofile = _ProfileRepository.saveProfile(obj, @ViewBag.UId);
+
+                if (saveprofile)
+                {
+                    TempData["true"] = "Profile Updated Successfully";
+                }
+                else
+                {
+                    TempData["false"] = "User does not exist";
+                }
+                return View(obj);
+            }
+            if (save == 4)
+            {
+                bool ContactUs = _ProfileRepository.ContactUs(obj);
+                if (ContactUs)
+                {
+                    TempData["true"] = "Your Mail Has Been Sent";
+                }
+                else
+                {
+                    TempData["false"] = "Error occured during the process";
+                }
+                return View(obj);
+            }
+            return View(obj);
         }
     }
 }
