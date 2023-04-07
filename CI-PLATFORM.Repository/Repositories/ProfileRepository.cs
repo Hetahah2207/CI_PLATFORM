@@ -120,13 +120,12 @@ namespace CI_PLATFORM.Repository.Repositories
             }
             return true;
         }
-        //public bool ContactUs(ProfileViewModel obj, List<int> ToUserId, int mid)
-
+        
         public bool ContactUs(ProfileViewModel obj)
         {
           
                 #region Send Mail
-                var mailBody = "<h2>I hope this email finds you well. My name is" + obj.contactus.Name + "and I wanted to take a moment to you.</h1>" +  "<h1>" + obj.contactus.Message + "</h1><br><h2>" + "</h2>";
+                var mailBody = "<h2>I hope this email finds you well. My name is " + obj.contactus.Name + " and I wanted to take a moment to you.</h1>" +  "<h1>" + obj.contactus.Message + "</h1><br><h2>" + "</h2>";
 
                 // create email message
                 var email = new MimeMessage();

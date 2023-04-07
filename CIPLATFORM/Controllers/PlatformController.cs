@@ -31,6 +31,7 @@ namespace CIPLATFORM.Controllers
                 ViewBag.UId = UserId;
 
             }
+            
             List<Country> countries = _PlatformRepository.GetCountryData();
             ViewBag.countries = countries;
 
@@ -173,8 +174,9 @@ namespace CIPLATFORM.Controllers
         [HttpPost]
         public bool AddMissionToFavourite(int missionId)
         {
-            int UserId = (int)HttpContext.Session.GetInt32("UId");
-            var fav = _PlatformRepository.addToFav(missionId, UserId);
+            var userId = (int)HttpContext.Session.GetInt32("UId");
+
+            var fav = _PlatformRepository.addToFav(missionId, userId);
             if (fav != true)
             {
                 _CiPlatformContext.SaveChanges();

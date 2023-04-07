@@ -176,7 +176,6 @@ function openlist() {
     console.log("Done");
 }
 function AddMissionToFavourite(missionId) {
-
     $.ajax({
 
         url: '/Platform/AddMissionToFavourite',
@@ -186,28 +185,63 @@ function AddMissionToFavourite(missionId) {
         },
         success: function (c) {
 
-            console.log("hii")
             if (c == true) {
                 $('#addToFav').removeClass();
                 $('#addToFav').addClass("bi bi-heart-fill");
                 $('#addToFav').css("color", "red");
-
+               
                 document.getElementById(missionId).className = "bi bi-heart-fill text-danger";
             }
             else {
                 $('#addToFav').css("color", "black");
                 $('#addToFav').removeClass();
                 $('#addToFav').addClass("bi bi-heart");
-
+               
                 document.getElementById(missionId).className = "bi bi-heart";
             }
+           
         },
         error: function (request, error) {
             console.log("Bye city");
             alert('Error');
         },
+
     });
+
 }
+//function AddMissionToFavourite(missionId) {
+
+//    $.ajax({
+
+//        url: '/Platform/AddMissionToFavourite',
+//        method: "POST",
+//        data: {
+//            'missionId': missionId,
+//        },
+//        success: function (c) {
+
+//            console.log("hii")
+//            if (c == true) {
+//                $('#addToFav').removeClass();
+//                $('#addToFav').addClass("bi bi-heart-fill");
+//                $('#addToFav').css("color", "red");
+
+//                document.getElementById(missionId).className = "bi bi-heart-fill text-danger";
+//            }
+//            else {
+//                $('#addToFav').css("color", "black");
+//                $('#addToFav').removeClass();
+//                $('#addToFav').addClass("bi bi-heart");
+
+//                document.getElementById(missionId).className = "bi bi-heart";
+//            }
+//        },
+//        error: function (request, error) {
+//            console.log("Bye city");
+//            alert('Error');
+//        },
+//    });
+//}
 function applyMission(missionId) {
     debugger
     $.ajax({
@@ -276,7 +310,7 @@ function comment(missionid) {
             $("#comment").html();
             console.log("Added ");
             toastr.success('Comment Added  successfully');
-            setTimeout(function () { window.location.reload(); }, 3000);
+            /*setTimeout(function () { window.location.reload(); }, 3000);*/
         },
         error: function (e) {
             console.log("Bye");
@@ -434,6 +468,7 @@ function Sdata() {
                                         type: "image/png"
                                     }));
                                     debugger
+                                     //document.querySelector('#imageupload').files = dT.files;
                                 });
                                 images += `<div class="image"><img src="${showImg}" alt="image"><span onclick="deleteImage(${index})">&times;</span></div>`
 
@@ -466,8 +501,3 @@ function Sdata() {
         }
     );
 }
-
-//function saveprofile()
-//{
-
-//}

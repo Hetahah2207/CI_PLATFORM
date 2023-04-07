@@ -12,9 +12,7 @@ namespace CI_PLATFORM.Repository.Interface
     {
         public ProfileViewModel getUser(int UId);
         public bool changepassword(ProfileViewModel user, int UId);
-        //public bool saveSkills(ProfileViewModel user, int save, int UId);
         public bool saveProfile(ProfileViewModel obj, int UId);
-        //public bool ContactUs(int FromUserId, List<int> ToUserId, int mid);
         public bool ContactUs(ProfileViewModel obj);
     }
 }

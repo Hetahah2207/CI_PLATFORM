@@ -2,57 +2,78 @@
 @model ProfileViewModel
 
 <link rel="stylesheet" href=~/css/Profile.css>
+<form method="post">
+    <div class="container">
+        <div class="row">
+            @if (TempData["true"] != null)
+            {
+                <script type="text/javascript">
+                    toastr.success('@TempData["true"]')
+                </script>
+            }
+            @if (TempData["false"] != null)
+            {
+                <script type="text/javascript">
+                    toastr.error('@TempData["false"]')
+                </script>
+            }
+            @if (TempData["morefalse"] != null)
+            {
+                <script type="text/javascript">
+                    toastr.error('@TempData["morefalse"]')
+                </script>
+            }
+            <div class="col-lg-3 col-sm-4">
 
-<div class="container">
-    <div class="row">
-        <span class="d-flex  pt-3 pb-3 justify-content-center" style="font-size:35px;color:green;">@TempData["true"]</span>
-        <span class="d-flex  pt-3 pb-3 justify-content-center" style="font-size:35px;color:red;">@TempData["false"] @TempData["morefalse"]</span>
-        <div class="col-lg-3 col-sm-4">
+                <div class="border p-3 d-flex justify-content-center align-items-center flex-column">
+                    @*<div class="d-flex justify-content-center align-items-center border input-div position-relative" style="height:150px">
 
-            <div class="border p-3 d-flex justify-content-center align-items-center flex-column">
-                <img src="~/images/@ViewBag.Avtar" style="border-radius: 50%; height:125px; width:125px" class="">
-                <span style="color: #414141;" class="">@Model.FirstName @Model.LastName</span>
-                <button class="border-0 p-0" style="background-color: white;" class="btn btn-primary"
-                        data-toggle="modal" data-target="#exampleModal">
-                    <span class="" style="color: #414141;">Change Password</span>
-                </button>
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                     aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Chane Password</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <form method="post">
+
+                        <input id="imageupload" type="file" name="file" class="file" multiple accept="image/jpeg, image/png, image/jpg"><img src="~/images/drag-and-drop.png">
+
+                    </div>*@
+                    <img src="~/images/@ViewBag.Avtar" style="border-radius: 50%; height:125px; width:125px" class="">
+                    <span style="color: #414141;" class="">@Model.FirstName @Model.LastName</span>
+                    <button type="button" class="border-0 p-0" style="background-color: white;"
+                            data-toggle="modal" data-target="#exampleModal">
+                        <span class="" style="color: #414141;">Change Password</span>
+                    </button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                                    <button type="button" class="close border-0" style="background-color:white;" data-dismiss="modal">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
                                 <div class="modal-body">
 
                                     <input type="text" asp-for="resetPass.OldPassword" class="form-control " placeholder="Enter old password">
-                                    <span style="color:red;" asp-validation-for="resetPass.OldPassword"></span>
+
                                     <input type="text" asp-for="resetPass.Password" class="form-control mt-3" placeholder="Enter  New password">
-                                    <span style="color:red;" asp-validation-for="resetPass.Password"></span>
+
                                     <input type="text" asp-for="resetPass.ConfirmPassword" class="form-control mt-3"
                                            placeholder="Enter Confirm password">
-                                    <span style="color:red;" asp-validation-for="resetPass.ConfirmPassword"></span>
 
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="submit" value="1" name="save" class="btn btn-primary">Save changes</button>
                                 </div>
-                            </form>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-        <div class="col-lg-9 col-sm-8">
-            <h4 style="color: #414141;">Basic Information</h4>
-            <hr>
-            <form method="post">
+            </div>
+            <div class="col-lg-9 col-sm-8">
+                <h4 style="color: #414141;">Basic Information</h4>
+                <hr>
+
                 <div class="row mt-3">
                     <div class="col-12 col-sm-6">
                         <label>Name</label>
@@ -146,8 +167,17 @@
 
 
                 <div class="form-group mt-3">
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="8"
-                              placeholder=""></textarea>
+                    <div class="form-control" id="PrintSkills" rows="8"
+                         placeholder="">
+                        @for (int item = 0; item < @Model.userSkills.Count; item++)
+                        {
+                            <li>
+                                <input asp-for="skillsToAdd" type="hidden"
+                                   value="@Model.userSkills[item].SkillId" \>
+                                @Model.userSkills[@item].Skill.SkillName
+                            </li>
+                        }
+                    </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-12 ">
@@ -171,8 +201,8 @@
 
                                                         @foreach (var item in @Model.skills)
                                                         {
+                                                            <option value="@item.SkillId">@item.SkillName</option>
 
-                                                            <option value="@item.SkillId"> @item.SkillName</option>
                                                         }
                                                     </select>
                                                 </div>
@@ -187,12 +217,12 @@
                                             </div>
                                             <div class="col-5 p-0">
                                                 <div class="scroll-hide p-0">
-                                                    <select class="form-control p-0" asp-for="skillsToAdd" size="9"
+                                                    <select class="form-control p-0" size="9"
                                                             id="selected_features" multiple="multiple"
                                                             style="max-height:500px;">
                                                         @foreach (var item in @Model.userSkills)
                                                         {
-                                                            <option value="@item.SkillId" selected> @item.Skill.SkillName</option>
+                                                            <option value="@item.SkillId"> @item.Skill.SkillName</option>
                                                         }
                                                     </select>
                                                 </div>
@@ -204,7 +234,7 @@
                                                 data-bs-dismiss="modal">
                                             Cancel
                                         </button>
-                                        <button type="button" class="btn btn-outline apply">
+                                        <button type="button" class="btn btn-outline apply" onclick="printSelect();">
                                             Save
                                         </button>
                                     </div>
@@ -220,36 +250,36 @@
                         </button>
                     </div>
                 </div>
-            </form>
+
+            </div>
         </div>
     </div>
-</div>
-<hr>
-<div class="container">
-    <div class="row">
-        <div class="col-12 ">
-            <a href="#" style="text-decoration: none; color: #333333;">Privacy Policy</a>
-            <button class="border-0 p-0" style="background-color: white;" class="btn btn-primary"
-                    data-toggle="modal" data-target="#exampleModal1">
-                <a href="#" class="ms-3" style="text-decoration: none;color: #333333;">Contact Us</a>
-            </button>
-            <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
-                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Contact Us</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form method="post">
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 ">
+                <a href="#" style="text-decoration: none; color: #333333;">Privacy Policy</a>
+                <button type="button" class="border-0 p-0" style="background-color: white;"
+                        data-toggle="modal" data-target="#exampleModal1">
+                    <span href="#" class="ms-3" style="text-decoration: none;color: #333333;">Contact Us</span>
+                </button>
+                <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Contact Us</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
                             <div class="modal-body">
 
                                 <label>Name*</label>
                                 <input type="text" asp-for="contactus.Name" class="form-control" placeholder="Enter your name">
                                 <label class="mt-3">Email Address*</label>
-                                <input type="text" asp-for="contactus.Email" class="form-control" placeholder="Enter your Email Address">
+                                <input type="email" asp-for="contactus.Email" class="form-control" placeholder="Enter your Email Address">
                                 <label class="mt-3">Subject*</label>
                                 <input type="text" class="form-control" asp-for="contactus.subject" placeholder="Enter your Subject">
                                 <label class="mt-3" for="exampleFormControlTextarea1">Message*</label>
@@ -261,14 +291,15 @@
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" value="4" name="save" class="btn btn-primary">Save changes</button>
                             </div>
-                        </form>
+
+                        </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
-</div>
+</form>
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -282,13 +313,38 @@
         crossorigin="anonymous"></script>
 
 
+
+<script>
+      function printSelect()
+      {
+          console.log("Add TO Skill Text");
+        var selectValue = document.getElementById("selected_features");
+          console.log(selectValue);
+
+             var list = selectValue.getElementsByTagName("option");
+              console.log(list);
+               $("#PrintSkills").empty();
+
+             for (i = 0; i < list.length; i++)
+             {
+                document.getElementById("PrintSkills").innerHTML +=
+                `<li>
+                    <input asp-for="skillsToAdd" name="skillsToAdd" type="hidden"value="${list[i].value}" \ >  ${list[i].text}
+                 </li>`;
+                console.log(list[i].text);
+             }
+    }
+</script>
+
+
+
 <script>
     console.log("hi");
     var exampleModal = document.getElementById('exampleModal')
     exampleModal.addEventListener('show.bs.modal', function (event) {
-        // Button that triggered the modal
+
         var button = event.relatedTarget
-        // Extract info from data-bs-* attributes
+
         var recipient = button.getAttribute('data-bs-whatever')
         // If necessary, you could initiate an AJAX request here
         // and then do the updating in a callback.
@@ -346,3 +402,48 @@
         }
     });
 </script>
+@*<script>
+
+    const inputDiv = document.querySelector(".input-div")
+     const input = document.querySelector("#imageupload")
+     const output = document.querySelector("#preview")
+     let imagesArray = []
+
+     input.addEventListener("change", () => {
+
+         const files = input.files
+         for (let i = 0; i < files.length; i++) {
+             imagesArray.push(files[i])
+         }
+         displayImages()
+     })
+
+     inputDiv.addEventListener("drop", () => {
+         e.preventDefault()
+         const files = e.dataTransfer.files
+         for (let i = 0; i < files.length; i++) {
+             if (!files[i].type.match("image")) continue;
+
+             if (imagesArray.every(image => image.name !== files[i].name))
+                 imagesArray.push(files[i])
+         }
+         displayImages()
+     })
+      function displayImages() {
+
+         let images = ""
+         imagesArray.forEach((image, index) => {
+             images += `<div class="image storyimages">
+                            <img src="${URL.createObjectURL(image)}" alt="image">
+                            <span onclick="deleteImage(${index})">&times;</span>
+                        </div>`
+         })
+         output.innerHTML = images
+     }
+
+     function deleteImage(index) {
+         imagesArray.splice(index, 1)
+         displayImages()
+     }
+
+</script>*@

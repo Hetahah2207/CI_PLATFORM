@@ -59,6 +59,7 @@ namespace CIPLATFORM.Controllers
             {
                 int? UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
+
             }
 
             if (save == 1)
@@ -68,7 +69,7 @@ namespace CIPLATFORM.Controllers
                 {
                     TempData["false"] = "All fields are required! Plz Enter Value For All 3 Fields";
                 }
-                if (obj.resetPass.ConfirmPassword != obj.resetPass.Password)
+                else if (obj.resetPass.ConfirmPassword != obj.resetPass.Password)
                 {
                     TempData["morefalse"] = "Password & ConfirmPassword is Diffrent";
                 }
@@ -76,6 +77,8 @@ namespace CIPLATFORM.Controllers
                 {
 
                     bool resetpass = _ProfileRepository.changepassword(obj, @ViewBag.UId);
+                    obj.skills = _ProfileRepository.getUser(@ViewBag.UId).skills;
+                    obj.userSkills = _ProfileRepository.getUser(@ViewBag.UId).userSkills;
                     if (resetpass)
                     {
                         TempData["true"] = "password updated";
@@ -89,19 +92,11 @@ namespace CIPLATFORM.Controllers
                 return View(obj);
             }
 
-            //if (save == 2)
-            //{
-            //    bool saveskills = _ProfileRepository.saveSkills(obj, save, @ViewBag.UId);
-            //    if (saveskills)
-            //    {
-            //        TempData["true"] = "Profile Updated Successfully";
-            //    }
-            //}
-
-
             if (save == 3)
             {
                 bool saveprofile = _ProfileRepository.saveProfile(obj, @ViewBag.UId);
+                obj.skills = _ProfileRepository.getUser(@ViewBag.UId).skills;
+                obj.userSkills = _ProfileRepository.getUser(@ViewBag.UId).userSkills;
 
                 if (saveprofile)
                 {
@@ -115,15 +110,25 @@ namespace CIPLATFORM.Controllers
             }
             if (save == 4)
             {
-                bool ContactUs = _ProfileRepository.ContactUs(obj);
-                if (ContactUs)
+                if (obj.contactus.Name == null || obj.contactus.Message == null || obj.contactus.Email == null || obj.contactus.subject == null)
                 {
-                    TempData["true"] = "Your Mail Has Been Sent";
+                    TempData["false"] = "All fields are required! Plz Enter Value For All 4 Fields";
                 }
                 else
                 {
-                    TempData["false"] = "Error occured during the process";
+                    bool ContactUs = _ProfileRepository.ContactUs(obj);
+                    
+                    if (ContactUs)
+                    {
+                        TempData["true"] = "Your Mail Has Been Sent";
+                    }
+                    else
+                    {
+                        TempData["false"] = "Error occured during the process";
+                    }
                 }
+                obj.skills = _ProfileRepository.getUser(@ViewBag.UId).skills;
+                obj.userSkills = _ProfileRepository.getUser(@ViewBag.UId).userSkills;
                 return View(obj);
             }
             return View(obj);

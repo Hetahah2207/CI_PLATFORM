@@ -1,6 +1,17 @@
 ﻿@using CI_PLATFORM.Entities.ViewModels
 @model CardsViewModel
+
+
 <link rel="stylesheet" href="~/css/HomeGrid.css">
+
+
+@if (TempData["logins"] != null)
+{
+    <script type="text/javascript">
+        toastr.success('@TempData["logins"]')
+    </script>
+}
+
 
 <hr class="d-none d-md-block">
 
@@ -22,15 +33,9 @@
                 </select>
             </div>
             <div class="">
-                @* <a asp-controller="Platform" asp-action="HomeGrid">
-                    <i class="bi bi-grid"></i>
-                    </a>*@
                 <a onclick="opengrid()"><i class="bi bi-grid"></i></a>
             </div>
             <div class="">
-                @*<a asp-controller="Platform" asp-action="HomeList">
-                    <i class="bi bi-list"></i>
-                    </a>*@
                 <a onclick="openlist()"><i class="bi bi-list"></i></a>
             </div>
         </div>
@@ -40,13 +45,8 @@
 <div class="container">
 
     @{
-
         Html.RenderPartial("_FilterMission");
-
     }
-
-
-
 
 </div>
 

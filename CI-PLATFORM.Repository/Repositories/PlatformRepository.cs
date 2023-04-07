@@ -630,7 +630,7 @@ namespace CI_PLATFORM.Repository.Repositories
             relatedMissions.Remove(mission);
             List<MissionSkill> missionSkills = _CiPlatformContext.MissionSkills.Include(m => m.Skill).Where(x => x.MissionId == mid).ToList();
             List<MissionApplication> applications = _CiPlatformContext.MissionApplications.Include(m => m.User).Where(x => x.MissionId == mid).ToList();
-            List<Comment> comments = _CiPlatformContext.Comments.Include(m => m.User).Where(x => x.MissionId == mid).ToList();
+            List<Comment> comments = _CiPlatformContext.Comments.Include(m => m.User).Where(x => x.MissionId == mid && x.ApprovalStatus == "Published").ToList();
             List<FavoriteMission> favoriteMission = _CiPlatformContext.FavoriteMissions.ToList();
             MissionListingViewModel CardDetail = new MissionListingViewModel();
             List<User> users = _CiPlatformContext.Users.ToList();

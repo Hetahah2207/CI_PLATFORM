@@ -16,8 +16,6 @@ namespace CI_PLATFORM.Entities.ViewModels
 
         public string? LastName { get; set; }
 
-        public long? PhoneNumber { get; set; }
-
         public string? Avatar { get; set; }
 
         public string? WhyIVolunteer { get; set; }
@@ -35,8 +33,6 @@ namespace CI_PLATFORM.Entities.ViewModels
         public string? LinkedInUrl { get; set; }
 
         public string? Title { get; set; }
-
-        public int Status { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
 
