@@ -1,4 +1,5 @@
 ﻿using CI_PLATFORM.Entities.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,6 +18,7 @@ namespace CI_PLATFORM.Entities.ViewModels
         public string? LastName { get; set; }
 
         public string? Avatar { get; set; }
+        public IFormFile? Avatarfile { get; set; }
 
         public string? WhyIVolunteer { get; set; }
 
@@ -55,9 +57,9 @@ namespace CI_PLATFORM.Entities.ViewModels
     }
     public class Contactus
     {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string subject { get; set; }
-        public string Message { get; set; }
+        public string? Name { get; set; }
+        public string? Email { get; set; }
+        public string? subject { get; set; }
+        public string? Message { get; set; }
     }
 }

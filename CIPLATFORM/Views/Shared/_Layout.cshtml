@@ -36,19 +36,10 @@
                             <a asp-action="StoryListing" asp-controller="Platform" class="nav-link ms-lg-5">Stories</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle ms-lg-5" href="#" id="navbarDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                policy
+                            <a asp-controller="Home" asp-action="Privacy" class="nav-link ms-lg-5" role="button">
+                                Policy
                             </a>
-                            <ul class="dropdown-menu text-center w-50" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Action1</a></li>
-                                <li><a class="dropdown-item" href="#">Action2</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Action3</a></li>
-
-                            </ul>
+                           
                         </li>
 
 
@@ -64,7 +55,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" asp-controller="Profile" asp-action="Profile" >Add Profile</a></li>
-                            <li><a class="dropdown-item" >Volunteering Timesheet</a></li>
+                            <li><a class="dropdown-item" asp-controller="Profile" asp-action="Timesheet" >Volunteering Timesheet</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

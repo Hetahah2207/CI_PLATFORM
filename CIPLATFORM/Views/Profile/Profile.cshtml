@@ -2,7 +2,16 @@
 @model ProfileViewModel
 
 <link rel="stylesheet" href=~/css/Profile.css>
-<form method="post">
+<style>
+    .Avatarfile {
+        width: 125px;
+        height: 125px;
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+</style>
+<form method="post" enctype="multipart/form-data">
     <div class="container">
         <div class="row">
             @if (TempData["true"] != null)
@@ -26,13 +35,8 @@
             <div class="col-lg-3 col-sm-4">
 
                 <div class="border p-3 d-flex justify-content-center align-items-center flex-column">
-                    @*<div class="d-flex justify-content-center align-items-center border input-div position-relative" style="height:150px">
-
-
-                        <input id="imageupload" type="file" name="file" class="file" multiple accept="image/jpeg, image/png, image/jpg"><img src="~/images/drag-and-drop.png">
-
-                    </div>*@
-                    <img src="~/images/@ViewBag.Avtar" style="border-radius: 50%; height:125px; width:125px" class="">
+                    <input id="profileImageInput" type="file" asp-for="Avatarfile" class="Avatarfile" accept="image/jpeg, image/png, image/jpg" />
+                    <img src="~/images/@Model.Avatar" style="border-radius: 50%; height:125px; width:125px" class="ProfileImage">
                     <span style="color: #414141;" class="">@Model.FirstName @Model.LastName</span>
                     <button type="button" class="border-0 p-0" style="background-color: white;"
                             data-toggle="modal" data-target="#exampleModal">
@@ -131,7 +135,7 @@
                     <div class="col-12 col-sm-6">
                         <label>City*</label>
                         <select class="form-select" asp-for="CityId" aria-label="Default select example"
-                                aria-placeholder="Select your City" id="selectCityList" onchange="temp()">
+                                aria-placeholder="Select your City" id="selectCityList">
                             <option value="0">Select your City</option>
                             @foreach (var item in @ViewBag.Cities)
                             {
@@ -167,7 +171,7 @@
 
 
                 <div class="form-group mt-3">
-                    <div class="form-control" id="PrintSkills" rows="8"
+                    <div class="form-control" id="PrintSkills" 
                          placeholder="">
                         @for (int item = 0; item < @Model.userSkills.Count; item++)
                         {
@@ -258,10 +262,10 @@
     <div class="container">
         <div class="row">
             <div class="col-12 ">
-                <a href="#" style="text-decoration: none; color: #333333;">Privacy Policy</a>
+                <a asp-controller="Home" asp-action="Privacy" style="text-decoration: none; color: #333333;">Privacy Policy</a>
                 <button type="button" class="border-0 p-0" style="background-color: white;"
                         data-toggle="modal" data-target="#exampleModal1">
-                    <span href="#" class="ms-3" style="text-decoration: none;color: #333333;">Contact Us</span>
+                    <span class="ms-3" style="text-decoration: none;color: #333333;">Contact Us</span>
                 </button>
                 <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
                      aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -302,9 +306,7 @@
 </form>
 
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
         integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
         crossorigin="anonymous"></script>
@@ -402,48 +404,23 @@
         }
     });
 </script>
-@*<script>
 
-    const inputDiv = document.querySelector(".input-div")
-     const input = document.querySelector("#imageupload")
-     const output = document.querySelector("#preview")
-     let imagesArray = []
+<script>
+       var readURL = function(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('.ProfileImage').attr('src', e.target.result);
 
-     input.addEventListener("change", () => {
+            }
 
-         const files = input.files
-         for (let i = 0; i < files.length; i++) {
-             imagesArray.push(files[i])
-         }
-         displayImages()
-     })
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+     $("#profileImageInput").on('change', function(){
 
-     inputDiv.addEventListener("drop", () => {
-         e.preventDefault()
-         const files = e.dataTransfer.files
-         for (let i = 0; i < files.length; i++) {
-             if (!files[i].type.match("image")) continue;
+        readURL(this);
 
-             if (imagesArray.every(image => image.name !== files[i].name))
-                 imagesArray.push(files[i])
-         }
-         displayImages()
-     })
-      function displayImages() {
+    });
 
-         let images = ""
-         imagesArray.forEach((image, index) => {
-             images += `<div class="image storyimages">
-                            <img src="${URL.createObjectURL(image)}" alt="image">
-                            <span onclick="deleteImage(${index})">&times;</span>
-                        </div>`
-         })
-         output.innerHTML = images
-     }
-
-     function deleteImage(index) {
-         imagesArray.splice(index, 1)
-         displayImages()
-     }
-
-</script>*@
+</script>

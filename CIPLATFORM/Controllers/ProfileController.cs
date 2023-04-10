@@ -77,8 +77,9 @@ namespace CIPLATFORM.Controllers
                 {
 
                     bool resetpass = _ProfileRepository.changepassword(obj, @ViewBag.UId);
-                    obj.skills = _ProfileRepository.getUser(@ViewBag.UId).skills;
-                    obj.userSkills = _ProfileRepository.getUser(@ViewBag.UId).userSkills;
+                    //obj.skills = _ProfileRepository.getUser(@ViewBag.UId).skills;
+                    //obj.userSkills = _ProfileRepository.getUser(@ViewBag.UId).userSkills;
+
                     if (resetpass)
                     {
                         TempData["true"] = "password updated";
@@ -88,16 +89,16 @@ namespace CIPLATFORM.Controllers
                         TempData["false"] = "entered password is wrong";
                     }
                 }
-
+                obj = _ProfileRepository.getUser(@ViewBag.UId);
                 return View(obj);
             }
 
             if (save == 3)
             {
                 bool saveprofile = _ProfileRepository.saveProfile(obj, @ViewBag.UId);
-                obj.skills = _ProfileRepository.getUser(@ViewBag.UId).skills;
-                obj.userSkills = _ProfileRepository.getUser(@ViewBag.UId).userSkills;
-
+                //obj.skills = _ProfileRepository.getUser(@ViewBag.UId).skills;
+                //obj.userSkills = _ProfileRepository.getUser(@ViewBag.UId).userSkills;
+                obj = _ProfileRepository.getUser(@ViewBag.UId);
                 if (saveprofile)
                 {
                     TempData["true"] = "Profile Updated Successfully";
@@ -117,7 +118,7 @@ namespace CIPLATFORM.Controllers
                 else
                 {
                     bool ContactUs = _ProfileRepository.ContactUs(obj);
-                    
+
                     if (ContactUs)
                     {
                         TempData["true"] = "Your Mail Has Been Sent";
@@ -132,6 +133,22 @@ namespace CIPLATFORM.Controllers
                 return View(obj);
             }
             return View(obj);
+        }
+        public IActionResult Timesheet()
+        {
+            string? name = HttpContext.Session.GetString("Uname");
+            ViewBag.Uname = name;
+
+            string? avtar = HttpContext.Session.GetString("Avtar");
+            ViewBag.Avtar = avtar;
+
+            if (name != null)
+            {
+                int? UserId = (int)HttpContext.Session.GetInt32("UId");
+                ViewBag.UId = UserId;
+            }
+
+            return View();
         }
     }
 }

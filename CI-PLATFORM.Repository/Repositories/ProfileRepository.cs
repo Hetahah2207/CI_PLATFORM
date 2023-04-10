@@ -40,6 +40,7 @@ namespace CI_PLATFORM.Repository.Repositories
                     pm.UserId = user.UserId;
                     pm.FirstName = user.FirstName;
                     pm.LastName = user.LastName;
+                    pm.Avatar = user.Avatar;
                     pm.EmployeeId = user.EmployeeId;
                     pm.Title = user.Title;
                     pm.Department = user.Department;
@@ -57,7 +58,7 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public bool changepassword(ProfileViewModel user, int UId)
         {
-            User pm = _CiPlatformContext.Users.FirstOrDefault(x => x.UserId == UId);
+            User? pm = _CiPlatformContext.Users.FirstOrDefault(x => x.UserId == UId);
             if (pm != null)
             {
                 if (user.resetPass.OldPassword == pm.Password)
@@ -82,12 +83,16 @@ namespace CI_PLATFORM.Repository.Repositories
         public bool saveProfile(ProfileViewModel user, int UId)
         {
 
-            User pm = _CiPlatformContext.Users.FirstOrDefault(x => x.UserId == UId);
+            User? pm = _CiPlatformContext.Users.FirstOrDefault(x => x.UserId == UId);
             if (pm != null)
             {
                 {
                     pm.FirstName = user.FirstName;
                     pm.LastName = user.LastName;
+                    if (user.Avatarfile != null)
+                    {
+                        pm.Avatar = user.Avatarfile.FileName;
+                    }
                     pm.EmployeeId = user.EmployeeId;
                     pm.Title = user.Title;
                     pm.Department = user.Department;
@@ -120,28 +125,28 @@ namespace CI_PLATFORM.Repository.Repositories
             }
             return true;
         }
-        
+
         public bool ContactUs(ProfileViewModel obj)
         {
-          
-                #region Send Mail
-                var mailBody = "<h2>I hope this email finds you well. My name is " + obj.contactus.Name + " and I wanted to take a moment to you.</h1>" +  "<h1>" + obj.contactus.Message + "</h1><br><h2>" + "</h2>";
 
-                // create email message
-                var email = new MimeMessage();
-                email.From.Add(MailboxAddress.Parse(obj.contactus.Email));
-                email.To.Add(MailboxAddress.Parse("hetshah2207@gmail.com"));
-                email.Subject = obj.contactus.subject;
-                email.Body = new TextPart(TextFormat.Html) { Text = mailBody };
+            #region Send Mail
+            var mailBody = "<h2>I hope this email finds you well. My name is " + obj.contactus.Name + " and I wanted to take a moment to you.</h1>" + "<h1>" + obj.contactus.Message + "</h1><br><h2>" + "</h2>";
 
-                // send email
-                using var smtp = new SmtpClient();
-                smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-                smtp.Authenticate("hetshah2207@gmail.com", "lpoqtojvkcgkwdms");
-                smtp.Send(email);
-                smtp.Disconnect(true);
-                #endregion Send Mail
-            
+            // create email message
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse(obj.contactus.Email));
+            email.To.Add(MailboxAddress.Parse("hetshah2207@gmail.com"));
+            email.Subject = obj.contactus.subject;
+            email.Body = new TextPart(TextFormat.Html) { Text = mailBody };
+
+            // send email
+            using var smtp = new SmtpClient();
+            smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate("hetshah2207@gmail.com", "lpoqtojvkcgkwdms");
+            smtp.Send(email);
+            smtp.Disconnect(true);
+            #endregion Send Mail
+
             return true;
         }
     }
