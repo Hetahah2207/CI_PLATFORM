@@ -14,5 +14,10 @@ namespace CI_PLATFORM.Repository.Interface
         public bool changepassword(ProfileViewModel user, int UId);
         public bool saveProfile(ProfileViewModel obj, int UId);
         public bool ContactUs(ProfileViewModel obj);
+        public List<MissionApplication> TimeMission(int UId);
+        public List<MissionApplication> GoalMission(int UId);
+        public List<Timesheet> timesheet(int UId);
+        public List<Timesheet> goaltimesheet(int UId);
+        public ProfileViewModel GetTimsheet(int UId);
     }
 }

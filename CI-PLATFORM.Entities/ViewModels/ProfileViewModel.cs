@@ -38,11 +38,15 @@ namespace CI_PLATFORM.Entities.ViewModels
 
         public DateTime? UpdatedAt { get; set; }
 
-        public ResetPassword resetPass { get; set; }
+        public ResetPassword resetPass { get; set; } = new ResetPassword();
         public List<UserSkill> userSkills { get; set; } = new List<UserSkill>();
         public List<Skill> skills { get; set; } = new List<Skill>();
-        public List<int>? skillsToAdd { get; set; }
+        public List<int> skillsToAdd { get; set; } = new List<int>();
         public Contactus contactus { get; set; }
+        public List<MissionApplication> timemissions { get; set; } = new List<MissionApplication>();
+        public List<MissionApplication> goalmissions { get; set; } = new List<MissionApplication>();
+        public List<Timesheet> timesheets { get; set; } = new List<Timesheet>();
+        public List<Timesheet> goaltimesheets { get; set; } = new List<Timesheet>();
     }
     public class ResetPassword
     {

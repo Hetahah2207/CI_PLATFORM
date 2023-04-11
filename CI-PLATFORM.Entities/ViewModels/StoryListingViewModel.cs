@@ -9,11 +9,11 @@ namespace CI_PLATFORM.Entities.ViewModels
 {
     public class StoryListingViewModel
     {
-        public Story story { get; set; }
-        public List<Story> stories { get; set; }
-        public List<StoryMedium> storymedias { get; set; }
-        public List<User>? coworkers { get; set; }
-        public List<MissionApplication>? missions { get; set; }
+        public Story story { get; set; } = new Story();
+        public List<Story> stories { get; set; } = new List<Story>();
+        public List<StoryMedium> storymedias { get; set; } = new List<StoryMedium>();
+        public List<User> coworkers { get; set; } = new List<User>();
+        public List<MissionApplication> missions { get; set; } = new List<MissionApplication>();
         public List<string> simg { get; set; } = new List<string>();
         public string? url { get; set; }
     }

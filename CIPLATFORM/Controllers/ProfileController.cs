@@ -144,11 +144,11 @@ namespace CIPLATFORM.Controllers
 
             if (name != null)
             {
-                int? UserId = (int)HttpContext.Session.GetInt32("UId");
+                int UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
             }
-
-            return View();
+            ProfileViewModel pm = _ProfileRepository.GetTimsheet(@ViewBag.UId);
+            return View(pm);
         }
     }
 }
