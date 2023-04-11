@@ -189,17 +189,17 @@ function AddMissionToFavourite(missionId) {
                 $('#addToFav').removeClass();
                 $('#addToFav').addClass("bi bi-heart-fill");
                 $('#addToFav').css("color", "red");
-               
+
                 document.getElementById(missionId).className = "bi bi-heart-fill text-danger";
             }
             else {
                 $('#addToFav').css("color", "black");
                 $('#addToFav').removeClass();
                 $('#addToFav').addClass("bi bi-heart");
-               
+
                 document.getElementById(missionId).className = "bi bi-heart";
             }
-           
+
         },
         error: function (request, error) {
             console.log("Bye city");
@@ -399,7 +399,7 @@ function Sdata() {
     var selectedOption = div1.options[div1.selectedIndex];
     var selectedValue = selectedOption.value;
     console.log(selectedValue);
-   
+
     debugger
     $.ajax(
         {
@@ -417,8 +417,7 @@ function Sdata() {
                 console.log(data);
                 if (data != null) {
                     {
-                        if (data.story.PublishedAt != null)
-                        {
+                        if (data.story.PublishedAt != null) {
                             let myDateObj = new Date(data.story.PublishedAt);
                             const year = myDateObj.getFullYear();
                             const month = String(myDateObj.getMonth() + 1).padStart(2, '0');
@@ -427,11 +426,11 @@ function Sdata() {
                             data.PublishedAt = formattedDate;
                         }
 
-                        
+
                         $("#formGroupExampleInput").val(data.story.Title);
                         $("#sDate").val(data.PublishedAt);
                         $("#surl").val(data.url);
-                        
+
 
                         if (data.simg != null) {
                             function toDataUrl(url, callback) {
@@ -446,7 +445,7 @@ function Sdata() {
                                 xhr.send();
                             }
 
-                            
+
                             const dT = new DataTransfer();
                             let image;
 
@@ -460,7 +459,7 @@ function Sdata() {
                                 showImg = "/images/A/" + image;
                                 toDataUrl(showImg, function (x) {
                                     image = x;
-                                    
+
                                     dT.items.add(new File([image], image, {
                                         type: "image/png"
                                     }));
@@ -468,13 +467,13 @@ function Sdata() {
                                         type: "image/png"
                                     }));
                                     debugger
-                                     //document.querySelector('#imageupload').files = dT.files;
+                                    //document.querySelector('#imageupload').files = dT.files;
                                 });
                                 images += `<div class="image"><img src="${showImg}" alt="image"><span onclick="deleteImage(${index})">&times;</span></div>`
 
                             })
                             output.innerHTML = images;
-                           
+
 
                         }
                         else {
@@ -500,4 +499,37 @@ function Sdata() {
             },
         }
     );
+}
+
+function getActivity(x) {
+    console.log("TimeSheet!!!!!!!!");
+    {
+        if (x > 0) {
+            $.ajax({
+                url: "/Profile/getActivity",
+                method: "Post",
+                data:
+                {
+                    "tid": x,
+                },
+                success: function (data) {
+                    console.log(data);
+                    debugger
+                    $("#TimesheetTime").empty();
+                    $("#TimesheetTime").html(data);
+                },
+                error: function (e) {
+                    console.log("Bye");
+                    alert('Error');
+                },
+            });
+        }
+        else {
+            const myForm = document.querySelector('#timesheetform');
+
+            myForm.querySelectorAll('.form-control').forEach((element, index) => {
+                element.value = "";
+            });
+        }
+    }
 }

@@ -37,7 +37,15 @@
 
                 <div class="border p-3 d-flex justify-content-center align-items-center flex-column">
                     <input id="profileImageInput" type="file" asp-for="Avatarfile" class="Avatarfile" accept="image/jpeg, image/png, image/jpg" />
-                    <img src="~/images/@Model.Avatar" style="border-radius: 50%; height:125px; width:125px" class="ProfileImage">
+                    @if(Model.Avatar != null)
+                    {
+                        <img src="~/images/@Model.Avatar" style="border-radius: 50%; height:125px; width:125px" class="ProfileImage">
+                    }
+                    else
+                    {
+                        <img src="~/images/user1.png" style="border-radius: 50%; height:125px; width:125px" class="ProfileImage">
+                    }
+                    @*<img src="~/images/@Model.Avatar" style="border-radius: 50%; height:125px; width:125px" class="ProfileImage">*@
                     <span style="color: #414141;" class="">@Model.FirstName @Model.LastName</span>
                     <button type="button" class="border-0 p-0" style="background-color: white;"
                             data-toggle="modal" data-target="#exampleModal">

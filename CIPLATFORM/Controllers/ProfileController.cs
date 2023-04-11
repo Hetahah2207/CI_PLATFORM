@@ -107,6 +107,14 @@ namespace CIPLATFORM.Controllers
                 {
                     TempData["false"] = "User does not exist";
                 }
+                if (obj.Avatar != null)
+                {
+                    HttpContext.Session.SetString("Avtar", obj.Avatar);
+                }
+                else
+                {
+                    HttpContext.Session.SetString("Avtar", "");
+                }
                 return View(obj);
             }
             if (save == 4)
@@ -128,8 +136,9 @@ namespace CIPLATFORM.Controllers
                         TempData["false"] = "Error occured during the process";
                     }
                 }
-                obj.skills = _ProfileRepository.getUser(@ViewBag.UId).skills;
-                obj.userSkills = _ProfileRepository.getUser(@ViewBag.UId).userSkills;
+                //obj.skills = _ProfileRepository.getUser(@ViewBag.UId).skills;
+                //obj.userSkills = _ProfileRepository.getUser(@ViewBag.UId).userSkills;
+
                 return View(obj);
             }
             return View(obj);
@@ -148,7 +157,25 @@ namespace CIPLATFORM.Controllers
                 ViewBag.UId = UserId;
             }
             ProfileViewModel pm = _ProfileRepository.GetTimsheet(@ViewBag.UId);
+
             return View(pm);
         }
+        [HttpPost]
+        public IActionResult Timesheet(ProfileViewModel obj, int tid)
+        {
+            _ProfileRepository.updatetimesheet(obj, tid);
+            return View();
+        }
+        public IActionResult getActivity(int tid)
+        {
+            int UserId = (int)HttpContext.Session.GetInt32("UId");
+
+            ProfileViewModel tm = _ProfileRepository.UpdateActivity(tid);
+
+            tm.timemissions = _ProfileRepository.TimeMission(UserId);
+            return PartialView("_TimeCard", tm);
+
+        }
+
     }
 }

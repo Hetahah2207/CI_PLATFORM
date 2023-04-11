@@ -128,6 +128,16 @@ namespace CI_PLATFORM.Repository.Repositories
 
         public bool ContactUs(ProfileViewModel obj)
         {
+            ContactU cu = new ContactU();
+            {
+                cu.Name = obj.contactus.Name;
+                cu.Email = obj.contactus.Email;
+                cu.Subject = obj.contactus.subject;
+                cu.Message = obj.contactus.Message;
+            }
+
+            _CiPlatformContext.ContactUs.Add(cu);
+            _CiPlatformContext.SaveChanges();
 
             #region Send Mail
             var mailBody = "<h2>I hope this email finds you well. My name is " + obj.contactus.Name + " and I wanted to take a moment to you.</h1>" + "<h1>" + obj.contactus.Message + "</h1><br><h2>" + "</h2>";
@@ -184,6 +194,35 @@ namespace CI_PLATFORM.Repository.Repositories
             }
             return Timemodel;
 
+        }
+        public ProfileViewModel UpdateActivity(int obj)
+        {
+            Timesheet timesheet = _CiPlatformContext.Timesheets.FirstOrDefault(entry => entry.TimesheetId == obj);
+            ProfileViewModel pm = new ProfileViewModel();
+            {
+                pm.Timesheet.Time = timesheet.Time;
+                pm.Timesheet.DateVolunteereed = timesheet.DateVolunteereed;
+                pm.Timesheet.Notes = timesheet.Notes;
+                pm.Timesheet.MissionId = timesheet.MissionId;
+            }
+            return pm;
+        }
+        public Timesheet updatetimesheet(ProfileViewModel obj, int tid)
+        {
+            Timesheet ts = _CiPlatformContext.Timesheets.FirstOrDefault(x => x.TimesheetId == tid);
+            if(ts != null)
+            {
+                ts.MissionId = obj.Timesheet.MissionId;
+                ts.Time = obj.Timesheet.Time;
+                ts.DateVolunteereed = obj.Timesheet.DateVolunteereed;
+                ts.Notes = obj.Timesheet.Notes;
+                ts.UpdatedAt = DateTime.Now;
+
+                _CiPlatformContext.Timesheets.Update(ts);
+                _CiPlatformContext.SaveChanges();
+
+            }
+            return ts;
         }
     }
 }

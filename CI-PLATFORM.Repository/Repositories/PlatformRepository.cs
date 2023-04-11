@@ -319,9 +319,8 @@ namespace CI_PLATFORM.Repository.Repositories
 
             List<Mission> cards = new List<Mission>();
             var missioncards = GetMissionDetails();
-            //var missionskill = _CiPlatformContext.MissionSkills.FirstOrDefault(u => u.MissionId == missioncards.);
             var Missionskills = GetSkills();
-            List<int> temp = new List<int>();
+            List<Mission> temp = new List<Mission>();
 
             if (search != null)
             {
@@ -340,21 +339,13 @@ namespace CI_PLATFORM.Repository.Repositories
             {
                 missioncards = missioncards.Where(c => themeId.Contains((int)c.ThemeId)).ToList();
             }
-            if (skillId.Count != 0)
+            if (skillId.Count > 0)
             {
-                //missioncards = missioncards.Where(c => skillId.Contains((int)c.MissionSkills.Any(x=>x.SkillId==(long)skillId))).ToList();
                 foreach (var n in skillId)
                 {
-                    foreach (var item in Missionskills)
-                    {
-                        bool skillchek = cards.Any(x => x.MissionId == item.MissionId);
-                        if (item.SkillId == n && skillchek == false)
-                        {
-                            cards.Add(missioncards.FirstOrDefault(x => x.MissionId == item.MissionId));
-                        }
-                    }
+                    temp.AddRange(missioncards.Where(x => x.MissionSkills.Any(x => x.SkillId == n)));
                 }
-                missioncards = cards;
+                missioncards = temp;
             }
             if (sort != null)
             {

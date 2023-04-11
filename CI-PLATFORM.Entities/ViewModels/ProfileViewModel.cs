@@ -47,16 +47,13 @@ namespace CI_PLATFORM.Entities.ViewModels
         public List<MissionApplication> goalmissions { get; set; } = new List<MissionApplication>();
         public List<Timesheet> timesheets { get; set; } = new List<Timesheet>();
         public List<Timesheet> goaltimesheets { get; set; } = new List<Timesheet>();
+        public Timesheet Timesheet { get; set; } = new Timesheet();
     }
     public class ResetPassword
     {
-        //[Required(ErrorMessage = "OldPassword is Required")]
+   
         public string OldPassword { get; set; } = null!;
-        //[Required(ErrorMessage = "Password is Required")]
         public string Password { get; set; } = null!;
-        
-        //[Required(ErrorMessage = "Confirm PassWord is Required")]
-        //[Compare("Password", ErrorMessage = "Password must match")]
         public string ConfirmPassword { get; set; } = null!;
     }
     public class Contactus

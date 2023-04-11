@@ -41,7 +41,14 @@
                     </ul>
                 </div>
                 <form class="d-flex">
-                    <img src="~/images/@ViewBag.Avtar" class="profile-nav" alt="">
+                    @if(ViewBag.Avtar != "")
+                    {
+                        <img src="~/images/@ViewBag.Avtar" class="profile-nav" alt="">
+                    }
+                    else
+                    {
+                        <img src="~/images/user1.png" class="profile-nav" alt="">
+                    }
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
@@ -53,7 +60,7 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" asp-controller="User" asp-action="login">Logout</a></li>
+                            <li><a class="dropdown-item" asp-controller="User" asp-action="Logout">Logout</a></li>
                         </ul>
                     </li>
                 </form>
