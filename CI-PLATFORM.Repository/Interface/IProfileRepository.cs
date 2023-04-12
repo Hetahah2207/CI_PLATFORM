@@ -19,7 +19,7 @@ namespace CI_PLATFORM.Repository.Interface
         public List<Timesheet> timesheet(int UId);
         public List<Timesheet> goaltimesheet(int UId);
         public ProfileViewModel GetTimsheet(int UId);
-        public ProfileViewModel UpdateActivity(int obj);
-        public Timesheet updatetimesheet(ProfileViewModel obj, int tid);
+        public ProfileViewModel GetActivity(int obj, int UserId);
+        public bool updatetimesheet(ProfileViewModel obj, int tid, int UId);
     }
 }

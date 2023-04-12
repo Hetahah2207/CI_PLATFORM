@@ -42,12 +42,14 @@ namespace CI_PLATFORM.Entities.ViewModels
         public List<UserSkill> userSkills { get; set; } = new List<UserSkill>();
         public List<Skill> skills { get; set; } = new List<Skill>();
         public List<int> skillsToAdd { get; set; } = new List<int>();
-        public Contactus contactus { get; set; }
+        public Contactus contactus { get; set; } = new Contactus();
         public List<MissionApplication> timemissions { get; set; } = new List<MissionApplication>();
         public List<MissionApplication> goalmissions { get; set; } = new List<MissionApplication>();
         public List<Timesheet> timesheets { get; set; } = new List<Timesheet>();
         public List<Timesheet> goaltimesheets { get; set; } = new List<Timesheet>();
-        public Timesheet Timesheet { get; set; } = new Timesheet();
+        public sheet Timesheet { get; set; } = new sheet();
+        public int Hours { get; set; } = new int();
+        public int Minutes { get; set; } = new int();
     }
     public class ResetPassword
     {
@@ -62,5 +64,18 @@ namespace CI_PLATFORM.Entities.ViewModels
         public string? Email { get; set; }
         public string? subject { get; set; }
         public string? Message { get; set; }
+    }
+    public class sheet
+    {
+        public long TimesheetId { get; set; }
+        public long UserId { get; set; }
+        public long MissionId { get; set; }
+        public TimeSpan? Time { get; set; }
+        public int? Action { get; set; } 
+        public DateTime DateVolunteereed { get; set; }
+        public string? Notes { get; set; }
+        public string Status { get; set; } = null!;
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

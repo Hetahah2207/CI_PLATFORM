@@ -163,17 +163,42 @@ namespace CIPLATFORM.Controllers
         [HttpPost]
         public IActionResult Timesheet(ProfileViewModel obj, int tid)
         {
-            _ProfileRepository.updatetimesheet(obj, tid);
-            return View();
+            string? name = HttpContext.Session.GetString("Uname");
+            ViewBag.Uname = name;
+
+            string? avtar = HttpContext.Session.GetString("Avtar");
+            ViewBag.Avtar = avtar;
+
+            if (name != null)
+            {
+                int UserId = (int)HttpContext.Session.GetInt32("UId");
+                ViewBag.UId = UserId;
+            }
+            bool b =  _ProfileRepository.updatetimesheet(obj, tid, ViewBag.UId);
+            if (b)
+                TempData["true"] = "Activity added successfully";
+            else
+                TempData["false"] = "Activity updated successfully";
+            
+            ProfileViewModel pm = _ProfileRepository.GetTimsheet(@ViewBag.UId);
+            return View(pm);
         }
         public IActionResult getActivity(int tid)
         {
             int UserId = (int)HttpContext.Session.GetInt32("UId");
 
-            ProfileViewModel tm = _ProfileRepository.UpdateActivity(tid);
-
-            tm.timemissions = _ProfileRepository.TimeMission(UserId);
+            ProfileViewModel tm = _ProfileRepository.GetActivity(tid, UserId);
             return PartialView("_TimeCard", tm);
+        }
+
+        public IActionResult getGoalActivity(int tid)
+        {
+            int UserId = (int)HttpContext.Session.GetInt32("UId");
+
+            ProfileViewModel tm = _ProfileRepository.GetActivity(tid, UserId);
+
+
+            return PartialView("_GoalCard", tm);
 
         }
 
