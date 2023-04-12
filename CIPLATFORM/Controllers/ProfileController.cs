@@ -168,7 +168,6 @@ namespace CIPLATFORM.Controllers
 
             string? avtar = HttpContext.Session.GetString("Avtar");
             ViewBag.Avtar = avtar;
-
             if (name != null)
             {
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
@@ -179,14 +178,12 @@ namespace CIPLATFORM.Controllers
                 TempData["true"] = "Activity added successfully";
             else
                 TempData["false"] = "Activity updated successfully";
-            
             ProfileViewModel pm = _ProfileRepository.GetTimsheet(@ViewBag.UId);
             return View(pm);
         }
         public IActionResult getActivity(int tid)
         {
             int UserId = (int)HttpContext.Session.GetInt32("UId");
-
             ProfileViewModel tm = _ProfileRepository.GetActivity(tid, UserId);
             return PartialView("_TimeCard", tm);
         }
@@ -194,12 +191,25 @@ namespace CIPLATFORM.Controllers
         public IActionResult getGoalActivity(int tid)
         {
             int UserId = (int)HttpContext.Session.GetInt32("UId");
-
             ProfileViewModel tm = _ProfileRepository.GetActivity(tid, UserId);
-
-
             return PartialView("_GoalCard", tm);
-
+        }
+        //public IActionResult DeleteActivity(int tid)
+        //{
+        //    int UserId = (int)HttpContext.Session.GetInt32("UId");
+        //    ProfileViewModel tm = _ProfileRepository.GetActivity(tid, UserId);
+        //    return PartialView("_DeleteCard", tm);
+        //}
+        public IActionResult DeleteActivity(int tid)
+        {
+            int UserId = (int)HttpContext.Session.GetInt32("UId");
+            bool tm = _ProfileRepository.deletetimesheet(tid);
+            if (tm)
+                TempData["delete"] = "Activity deleted successfully";
+            else
+                TempData["delete"] = "Activity cannot deleted";
+            return RedirectToAction("Timesheet");
+            
         }
 
     }

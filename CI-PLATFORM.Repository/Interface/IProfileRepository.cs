@@ -21,5 +21,6 @@ namespace CI_PLATFORM.Repository.Interface
         public ProfileViewModel GetTimsheet(int UId);
         public ProfileViewModel GetActivity(int obj, int UserId);
         public bool updatetimesheet(ProfileViewModel obj, int tid, int UId);
+        public bool deletetimesheet(int tid);
     }
 }

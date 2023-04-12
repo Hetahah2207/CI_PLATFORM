@@ -566,3 +566,69 @@ function getgoalActivity(x) {
         }
     }
 }
+
+//function DeleteActivity(x) {
+//    console.log("TimeSheet!!!!!!!!");
+
+//    {
+//        if (x > 0) {
+//            $.ajax({
+//                url: "/Profile/DeleteActivity",
+//                method: "Post",
+//                data:
+//                {
+//                    "tid": x,
+//                },
+//                success: function (data) {
+//                    console.log(data);
+//                    debugger
+//                    $("#TimesheetDelete").empty();
+//                    $("#TimesheetDelete").html(data);
+//                },
+//                error: function (e) {
+//                    console.log("Bye");
+//                    alert('Error');
+//                },
+//            });
+//        }
+//        else {
+//            const myForm = document.querySelector('#deletesheetform');
+
+//            myForm.querySelectorAll('.form-control').forEach((element, index) => {
+//                element.value = "";
+//            });
+//        }
+//    }
+//}
+
+
+
+function abc(x) {
+    console.log("TimeSheet!!!!!!!!");
+    console.log(x);
+
+   
+    debugger
+
+    
+
+        $.ajax({
+            url: "/Profile/DeleteActivity",
+            method: "Post",
+            data:
+            {
+                "tid": x,
+            },
+            success: function (data) {
+                console.log(data);
+                debugger
+                
+            },
+            error: function (e) {
+                console.log("Bye");
+                alert('Error');
+            },
+        });
+
+    
+}

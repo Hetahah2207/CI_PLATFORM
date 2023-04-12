@@ -1,0 +1,22 @@
+﻿@using CI_PLATFORM.Entities.ViewModels
+@model ProfileViewModel
+
+<form method="post" id="deletesheetform">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    Please input below Volunteering Goal
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3>Are You Sure You Want To Delete This Activity</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close </button>
+                <button type="button" @*name="tid" value="@Model.Timesheet.TimesheetId"*@ class="btn btn-primary" >Submit</button>
+            </div>
+        </div>
+    </div>
+</form>
