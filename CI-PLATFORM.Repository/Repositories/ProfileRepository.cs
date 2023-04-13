@@ -268,7 +268,6 @@ namespace CI_PLATFORM.Repository.Repositories
                 return true;
             }            
         }
-
         public bool deletetimesheet(int tid)
         {
             if (tid != 0)
