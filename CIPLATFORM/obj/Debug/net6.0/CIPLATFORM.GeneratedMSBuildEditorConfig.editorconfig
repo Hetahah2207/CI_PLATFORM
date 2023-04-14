@@ -15,12 +15,20 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\CI-PLATFORm\CI_PLATFORM\CIPLATFORM
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/CI-PLATFORm/CI_PLATFORM/CIPLATFORM/Views/Admin/CMSPages.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ01TUGFnZXMuY3NodG1s
+[D:/CI-PLATFORm/CI_PLATFORM/CIPLATFORM/Views/Admin/Admin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRtaW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/CI-PLATFORm/CI_PLATFORM/CIPLATFORM/Views/Admin/User.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlci5jc2h0bWw=
+[D:/CI-PLATFORm/CI_PLATFORM/CIPLATFORM/Views/Admin/_CMSPages.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX0NNU1BhZ2VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CI-PLATFORm/CI_PLATFORM/CIPLATFORM/Views/Admin/_Mission.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX01pc3Npb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CI-PLATFORm/CI_PLATFORM/CIPLATFORM/Views/Admin/_User.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1VzZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/CI-PLATFORm/CI_PLATFORM/CIPLATFORM/Views/Home/Index.cshtml]

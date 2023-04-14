@@ -12,6 +12,7 @@ builder.Services.AddDbContext<CiPlatformContext>();
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddDbContext<CiPlatformContext>(options => options.UseSqlServer(
 builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
