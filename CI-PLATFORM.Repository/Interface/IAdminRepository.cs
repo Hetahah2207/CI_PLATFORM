@@ -13,5 +13,8 @@ namespace CI_PLATFORM.Repository.Interface
         public AdminViewModel getData();
         public AdminViewModel UserFilter(string search, int pg);
         public bool addcms(AdminViewModel obj,int command);
+        public AdminViewModel EditForm(int id);
+        public bool deleteactivity(int id, int page);
+        public bool Approval(int id, int page, int status);
     }
 }

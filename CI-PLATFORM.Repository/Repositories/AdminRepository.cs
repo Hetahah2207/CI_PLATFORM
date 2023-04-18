@@ -22,21 +22,21 @@ namespace CI_PLATFORM.Repository.Repositories
         {
             AdminViewModel um = new AdminViewModel();
             {
-                um.users = _CiPlatformContext.Users.ToList();
-                um.missions = _CiPlatformContext.Missions.ToList();
-                um.CmsPages = _CiPlatformContext.CmsPages.ToList();
-                um.missionapplications = _CiPlatformContext.MissionApplications.Include(x =>x.Mission).Include(x => x.User).ToList();
-                um.stories = _CiPlatformContext.Stories.Include(x => x.User).ToList();
-                um.missionSkills = _CiPlatformContext.MissionSkills.Include(x => x.Mission).Include(x => x.Skill).ToList();
-                um.missionThemes = _CiPlatformContext.MissionThemes.ToList();
+                um.users = _CiPlatformContext.Users.Where(x => x.DeletedAt == null).ToList();
+                um.missions = _CiPlatformContext.Missions.Where(x => x.DeletedAt == null).ToList();
+                um.CmsPages = _CiPlatformContext.CmsPages.Where(x => x.DeletedAt == null).ToList();
+                um.missionapplications = _CiPlatformContext.MissionApplications.Include(x => x.Mission).Include(x => x.User).Where(x => x.ApprovalStatus == "Pending").ToList();
+                um.stories = _CiPlatformContext.Stories.Include(x => x.User).Where(x => x.Status == "PENDING" || x.Status == "DRAFT").Where(x => x.DeletedAt == null).ToList();
+                um.missionSkills = _CiPlatformContext.MissionSkills.Include(x => x.Mission).Include(x => x.Skill).Where(x => x.DeletedAt == null).ToList();
+                um.missionThemes = _CiPlatformContext.MissionThemes.Where(x => x.DeletedAt == null).ToList();
             }
             return um;
         }
-        public AdminViewModel UserFilter(string search,int pg)
+        public AdminViewModel UserFilter(string search, int pg)
         {
-           
-           
-            
+
+
+
             var pageSize = 5;
             AdminViewModel obj = getData();
             if (search != null)
@@ -62,7 +62,7 @@ namespace CI_PLATFORM.Repository.Repositories
             }
             return obj;
         }
-        public bool addcms(AdminViewModel obj,int command)
+        public bool addcms(AdminViewModel obj, int command)
         {
             CmsPage cms = new CmsPage();
             {
@@ -73,6 +73,119 @@ namespace CI_PLATFORM.Repository.Repositories
             _CiPlatformContext.Add(cms);
             _CiPlatformContext.SaveChanges();
             return true;
+        }
+        public AdminViewModel EditForm(int id)
+        {
+            AdminViewModel am = new AdminViewModel();
+            {
+                am.CmsPage = _CiPlatformContext.CmsPages.FirstOrDefault(x => x.CmsPageId == id);
+            }
+            return am;
+        }
+        public bool deleteactivity(int id, int page)
+        {
+            if (id != 0)
+            {
+                if (page == 1)
+                {
+                    User user = _CiPlatformContext.Users.FirstOrDefault(x => x.UserId == id);
+                    user.DeletedAt = DateTime.Now;
+                    _CiPlatformContext.Users.Update(user);
+                    _CiPlatformContext.SaveChanges();
+                }
+                if (page == 2)
+                {
+                    CmsPage cms = _CiPlatformContext.CmsPages.FirstOrDefault(x => x.CmsPageId == id);
+                    cms.DeletedAt = DateTime.Now;
+                    _CiPlatformContext.CmsPages.Update(cms);
+                    _CiPlatformContext.SaveChanges();
+                }
+                if (page == 3)
+                {
+                    Mission mission = _CiPlatformContext.Missions.FirstOrDefault(x => x.MissionId == id);
+                    mission.DeletedAt = DateTime.Now;
+                    _CiPlatformContext.Missions.Update(mission);
+                    _CiPlatformContext.SaveChanges();
+                }
+                if (page == 4)
+                {
+                    MissionTheme missionTheme = _CiPlatformContext.MissionThemes.FirstOrDefault(x => x.MissionThemeId == id);
+                    missionTheme.DeletedAt = DateTime.Now;
+                    _CiPlatformContext.MissionThemes.Update(missionTheme);
+                    _CiPlatformContext.SaveChanges();
+                }
+                if (page == 5)
+                {
+                    MissionSkill missionSkill = _CiPlatformContext.MissionSkills.FirstOrDefault(x => x.MissionSkillId == id);
+                    missionSkill.DeletedAt = DateTime.Now;
+                    _CiPlatformContext.MissionSkills.Update(missionSkill);
+                    _CiPlatformContext.SaveChanges();
+                }
+                if (page == 7)
+                {
+                    Story story = _CiPlatformContext.Stories.FirstOrDefault(x => x.StoryId == id);
+                    story.DeletedAt = DateTime.Now;
+                    _CiPlatformContext.Stories.Update(story);
+                    _CiPlatformContext.SaveChanges();
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool Approval(int id, int page, int status)
+        {
+            if (id != 0)
+            {
+                if (page == 6)
+                {
+                    if (status == 1)
+                    {
+                        MissionApplication ma = _CiPlatformContext.MissionApplications.FirstOrDefault(x => x.MissionApplicationId == id);
+                        ma.ApprovalStatus = "Approve";
+                        _CiPlatformContext.MissionApplications.Update(ma);
+                        _CiPlatformContext.SaveChanges();
+                        return true;
+                    }
+                    if (status == 0)
+                    {
+                        MissionApplication ma = _CiPlatformContext.MissionApplications.FirstOrDefault(x => x.MissionApplicationId == id);
+                        ma.ApprovalStatus = "Decline";
+                        _CiPlatformContext.MissionApplications.Update(ma);
+                        _CiPlatformContext.SaveChanges();
+                        return false;
+                    }
+                }
+                if (page == 7)
+                {
+                    if (status == 1)
+                    { 
+                        Story story = _CiPlatformContext.Stories.FirstOrDefault(x => x.StoryId == id);
+                        story.Status = "PUBLISHED";
+                        _CiPlatformContext.Stories.Update(story);
+                        _CiPlatformContext.SaveChanges();
+                        return true;
+                    }
+                    if (status == 0)
+                    {
+                        Story story = _CiPlatformContext.Stories.FirstOrDefault(x => x.StoryId == id);
+                        story.Status = "DECLINED";
+                        _CiPlatformContext.Stories.Update(story);
+                        _CiPlatformContext.SaveChanges();
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
     }
 }

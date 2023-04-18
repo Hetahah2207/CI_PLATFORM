@@ -41,8 +41,34 @@ namespace CIPLATFORM.Controllers
         [HttpPost]
         public IActionResult Admin(AdminViewModel obj, int command)
         {
+            if(command == 2) 
+            { 
             bool addcmspage = _AdminRepository.addcms(obj, command);
+            if (addcmspage)
+                TempData["true"] = "cmspage added Successfully";
+            }
             AdminViewModel am = _AdminRepository.getData();
+            ViewBag.Totalpages = Math.Ceiling(am.users.Count() / 5.0);
+            am.users = am.users.Skip((1 - 1) * 5).Take(5).ToList();
+
+            ViewBag.Totalpages2 = Math.Ceiling(am.CmsPages.Count() / 5.0);
+            am.CmsPages = am.CmsPages.Skip((1 - 1) * 5).Take(5).ToList();
+
+            ViewBag.Totalpages3 = Math.Ceiling(am.missions.Count() / 5.0);
+            am.missions = am.missions.Skip((1 - 1) * 5).Take(5).ToList();
+
+            ViewBag.Totalpages4 = Math.Ceiling(am.missionThemes.Count() / 5.0);
+            am.missionThemes = am.missionThemes.Skip((1 - 1) * 5).Take(5).ToList();
+
+            ViewBag.Totalpages5 = Math.Ceiling(am.missionSkills.Count() / 5.0);
+            am.missionSkills = am.missionSkills.Skip((1 - 1) * 5).Take(5).ToList();
+
+            ViewBag.Totalpages6 = Math.Ceiling(am.missionapplications.Count() / 5.0);
+            am.missionapplications = am.missionapplications.Skip((1 - 1) * 5).Take(5).ToList();
+
+            ViewBag.Totalpages7 = Math.Ceiling(am.stories.Count() / 5.0);
+            am.stories = am.stories.Skip((1 - 1) * 5).Take(5).ToList();
+            ViewBag.pg_no = 1;
             return View(am);  
         }
         public IActionResult UserFilter(string? search,int pg, string key)
@@ -93,8 +119,56 @@ namespace CIPLATFORM.Controllers
                 return PartialView("_Story", fusers);
             }
             return View(fusers);
+        }
+        //public IActionResult EditForm(int id)
+        public IActionResult EditForm(int id)
+        {
+            AdminViewModel am = _AdminRepository.getData();
+           
+            ViewBag.Totalpages = Math.Ceiling(am.users.Count() / 5.0);
+            am.users = am.users.Skip((1 - 1) * 5).Take(5).ToList();
 
+            ViewBag.Totalpages2 = Math.Ceiling(am.CmsPages.Count() / 5.0);
+            am.CmsPages = am.CmsPages.Skip((1 - 1) * 5).Take(5).ToList();
+
+            ViewBag.Totalpages3 = Math.Ceiling(am.missions.Count() / 5.0);
+            am.missions = am.missions.Skip((1 - 1) * 5).Take(5).ToList();
+
+            ViewBag.Totalpages4 = Math.Ceiling(am.missionThemes.Count() / 5.0);
+            am.missionThemes = am.missionThemes.Skip((1 - 1) * 5).Take(5).ToList();
+
+            ViewBag.Totalpages5 = Math.Ceiling(am.missionSkills.Count() / 5.0);
+            am.missionSkills = am.missionSkills.Skip((1 - 1) * 5).Take(5).ToList();
+
+            ViewBag.Totalpages6 = Math.Ceiling(am.missionapplications.Count() / 5.0);
+            am.missionapplications = am.missionapplications.Skip((1 - 1) * 5).Take(5).ToList();
+
+            ViewBag.Totalpages7 = Math.Ceiling(am.stories.Count() / 5.0);
+            am.stories = am.stories.Skip((1 - 1) * 5).Take(5).ToList();
+            ViewBag.pg_no = 1;
             
+            am.CmsPage= _AdminRepository.EditForm(id).CmsPage;
+            //return PartialView("_CMSPages", am.CmsPage);
+
+            return PartialView("_CMSPages", am);
+        }
+        public IActionResult DeleteActivity(int id, int page)
+        {
+            bool tm = _AdminRepository.deleteactivity(id,page);
+            if (tm)
+                TempData["delete"] = "Deleted successfully";
+            else
+                TempData["delete"] = "Activity cannot deleted";
+            return RedirectToAction("Admin");
+        }
+        public IActionResult Approval(int id,int page,int status)
+        {
+            bool tm = _AdminRepository.Approval(id, page, status);
+            if (tm)
+                TempData["accept"] = "Request Accepted";
+            else
+                TempData["decline"] = "Request declined";
+            return RedirectToAction("Admin");
         }
     }
 }
