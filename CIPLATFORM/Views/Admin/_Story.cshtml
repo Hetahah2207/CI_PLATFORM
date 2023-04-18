@@ -1,0 +1,63 @@
+﻿@using CI_PLATFORM.Entities.ViewModels
+@model AdminViewModel
+
+<div id="cmspage">
+    <table class="table mt-3">
+        <tbody>
+            <tr style="background-color: #F8F9FC;">
+                <th scope="col">Story title</th>
+                <th scope="col">Full name</th>
+                <th scope="col">Mission title</th>
+                <th scope="col">Actions</th>
+            </tr>
+            @foreach (var obj in Model.stories)
+            {
+            <tr>
+                <td> @obj.Title </td>
+                <td>@obj.User.FirstName @obj.User.FirstName</td>
+                <td>@obj.Mission.Title</td>
+
+
+                <td>
+                    <button type="button" class="btn btn-outline-warning rounded-pill me-3">
+                        View
+                    </button>
+                    <button type="button" class="btn p-0 me-3">
+                        <i class="bi bi-check-circle" style="color: green;"></i>
+
+                    </button>
+                    <button type="button" class="btn p-0 me-3">
+                        <i class="bi bi-x-circle" style="color: red;"></i>
+                    </button>
+
+                    <button type="button" class="btn p-0">
+                        <i class=" bi bi-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example mt-5">
+        <ul class="pagination justify-content-end me-5" onchange="searchuser(1,'story')">
+            @{
+                double totalpages = ViewBag.Totalpages7;
+                for (int i = 1; i <= totalpages; i++)
+                {
+                    @if (i == ViewBag.pg_no)
+                    {
+                        <li class="page-item ">
+                            <a class="page-link " onclick="searchuser(@i,'story')">@i </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a class="page-link" onclick="searchuser(@i,'story')">@i</a>
+                        </li>
+                    }
+                }
+            }
+        </ul>
+    </nav>
+</div>

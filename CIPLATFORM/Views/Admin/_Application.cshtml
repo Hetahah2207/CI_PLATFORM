@@ -1,0 +1,59 @@
+﻿@using CI_PLATFORM.Entities.ViewModels
+@model AdminViewModel
+
+
+<div id="cmspage">
+    <table class="table mt-3">
+        <tbody>
+            <tr style="background-color: #F8F9FC;">
+                <th scope="col">Mission title</th>
+                <th scope="col">MissionId</th>
+                <th scope="col">User Id</th>
+                <th scope="col">User Name</th>
+                <th scope="col">Applied Date</th>
+                <th scope="col">Actions</th>
+            </tr>
+            @foreach (var obj in Model.missionapplications)
+            {
+                <tr>
+                    <td>@obj.Mission.Title</td>
+                    <td>@obj.MissionId</td>
+                    <td>@obj.UserId</td>
+                    <td>@obj.User.FirstName @obj.User.LastName </td>
+                    <td>@obj.AppliedAt</td>
+                    <td>
+                        <button type="button" class="btn p-0 me-3">
+                            <i class="bi bi-check-circle" style="color: green;"></i>
+
+                        </button>
+                        <button type="button" class="btn p-0 me-3">
+                            <i class="bi bi-x-circle" style="color: red;"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example mt-5">
+        <ul class="pagination justify-content-end me-5" onchange="searchuser(1,'application')">
+            @{
+                double totalpages = ViewBag.Totalpages6;
+                for (int i = 1; i <= totalpages; i++)
+                {
+                    @if (i == ViewBag.pg_no)
+                    {
+                        <li class="page-item ">
+                            <a class="page-link " onclick="searchuser(@i,'application')">@i </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a class="page-link" onclick="searchuser(@i,'application')">@i</a>
+                        </li>
+                    }
+                }
+            }
+        </ul>
+    </nav>
+</div>

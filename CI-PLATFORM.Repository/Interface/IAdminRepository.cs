@@ -11,6 +11,7 @@ namespace CI_PLATFORM.Repository.Interface
     public interface IAdminRepository 
     {
         public AdminViewModel getData();
-        public List<User> UserFilter(string search);
+        public AdminViewModel UserFilter(string search, int pg);
+        public bool addcms(AdminViewModel obj,int command);
     }
 }

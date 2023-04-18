@@ -1,34 +1,48 @@
 ﻿@using CI_PLATFORM.Entities.ViewModels
 @model AdminViewModel
+<style>
 
+
+    .pagination > li > a {
+        background-color: white;
+        color: #5A4181;
+    }
+
+        .pagination > li > a:focus,
+        .pagination > li > a:hover,
+        .pagination > li > span:focus,
+        .pagination > li > span:hover {
+            color: #FFFFFF;
+            background-color: #F88634;
+            border-color: #ddd;
+        }
+
+    .pagination > .active > a {
+        color: white;
+        background-color: #5A4181 !Important;
+        border: solid 1px #5A4181 !Important;
+    }
+
+        .pagination > .active > a:hover {
+            background-color: #5A4181 !Important;
+            border: solid 1px #5A4181;
+        }
+
+</style>
 <div id="cmspage">
-    <h4>User</h4>
-    <hr class="m-0">
-    <div class="row mt-3 g-0">
-        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-            <div class="form-group has-search">
-                <span class="form-control-feedback"><i class="bi bi-search"></i></span>
-                <input class="form-control mx-1" type="search" placeholder="Search Users..."
-                               aria-label="Search" id="searchuser" onkeyup="searchuser()">
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-lg-8 col-xl-9 text-sm-end mt-3 mt-sm-0">
-            <button type="button" class="btn btn-outline-warning rounded-pill" onclick="addform('nav-user');">
-                <i class="bi bi-plus"></i>
-                Add
-            </button>
-        </div>
-    </div>
-    <table class="table mt-3" id="table">
+    <table class="table mt-3">
         <tbody>
+
+
+
             <tr style="background-color: #F8F9FC;">
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
+                <th scope="col">FirstName </th>
+                <th scope="col">LastName</th>
                 <th scope="col">Email</th>
-                <th scope="col">Employee Id</th>
+                <th scope="col">EmployeeId</th>
                 <th scope="col">Department</th>
                 <th scope="col">Status</th>
-                <th scope="col" style="text-align: center;">Actions</th>
+                <th scope="col" style="text-align: center;">Action</th>
             </tr>
             @foreach (var obj in Model.users)
             {
@@ -38,39 +52,70 @@
                     <td>@obj.Email</td>
                     <td>@obj.EmployeeId</td>
                     <td>@obj.Department</td>
-                    @if(obj.Status == 1){
-                    <td style="background-color: #EBFFEF; width: 33px; color: #3CDD5F; ">
-                        Active
-                    </td>
+                    @if (obj.Status == 1)
+                    {
+                        <td style="background-color: #EBFFEF;  width: 33px; color: #3CDD5F; ">
+                            Active
+                        </td>
                     }
-                    else{
-                    <td style="background-color: #FFF5F5; width: 33px; color: #FF4545; ">
-                        Inactive
-                    </td>
+                    else
+                    {
+                        <td style="background-color: #FFF5F5; width: 33px; color: #FF4545; ">
+                            Inactive
+                        </td>
                     }
+
+
                     <td style=" text-align:center;">
-                        <button type="button" class="btn p-0" onclick="editform('nav-user');">
+                        <button type="button" class="btn p-0"
+                            onclick="editform('nav-user');">
                             <i class="bi bi-pencil-square" style="color: coral;"></i>
                         </button>
 
                         <button type="button" class="btn p-0">
-                            <i class=" bi bi-trash ms-3"></i>
+                            <i class="bi bi-trash ms-3"></i>
                         </button>
                     </td>
                 </tr>
             }
+
         </tbody>
     </table>
+    <nav aria-label="Page navigation example mt-5">
+        <ul class="pagination justify-content-end me-5" onchange="searchuser(1,'user')">
+
+            @{
+                double totalpages = ViewBag.Totalpages;
+                for (int i = 1; i <= totalpages; i++)
+                {
+                    @if (i == ViewBag.pg_no)
+                    {
+                        <li class="page-item ">
+                            <a class="page-link " onclick="searchuser(@i,'user')">@i </a>
+
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a class="page-link" onclick="searchuser(@i,'user')">@i</a>
+                        </li>
+                    }
+                }
+            }
+        </ul>
+    </nav>
 </div>
-<div class="border" id="add" style="display: none;">
+
+
+<div class="border mt-3" id="add" style="display: none;">
     <h3 class="p-3 m-0" style="background-color: #F8F9FC;"> Add User</h3>
     <hr class="m-0">
     <form action="" class="px-3">
         <label for="select mission" class="mt-3"> Title </label>
         <input type="text" class="form-control" id="formGroupExampleInput">
         <label for="user1" class="mt-3"> Description</label>
-        <textarea id="user1" cols="172" rows="10"
-                  maxlength="40000"></textarea>
+        <textarea id="user1" cols="172" rows="10" maxlength="40000"></textarea>
         <script>
             var abc = document.getElementById("user1");
             CKEDITOR.replace(abc);
@@ -100,15 +145,14 @@
         </div>
     </form>
 </div>
-<div class="border" id="edit" style="display: none;">
+<div class="border mt-3" id="edit" style="display: none;">
     <h3 class="p-3 m-0" style="background-color: #F8F9FC;"> Edit User </h3>
     <hr class="m-0">
     <form action="" class="px-3">
         <label for="select mission" class="mt-3"> Title </label>
         <input type="text" class="form-control" id="formGroupExampleInput">
         <label for="user2" class="mt-3"> Description</label>
-        <textarea id="user2" cols="172" rows="10"
-                  maxlength="40000"></textarea>
+        <textarea id="user2" cols="172" rows="10" maxlength="40000"></textarea>
         <script>
             var abc = document.getElementById("user2");
             CKEDITOR.replace(abc);
@@ -126,13 +170,18 @@
         <div class="row my-3">
             <div class="col-10"></div>
             <div class="col-2">
-                <button type="button" class="cancell rounded-pill btn btn-outline-dark" onclick="editpage('nav-user');">
+                <button type="button" class="cancell rounded-pill btn btn-outline-dark"
+                        onclick="editpage('nav-user');">
                     Cancel
                 </button>
-                <button type="submit" class="threebt rounded-pill btn btn-outline-warning" value="2" name="command">
+                <button type="submit" class="threebt rounded-pill btn btn-outline-warning"
+                        value="2" name="command">
                     Save
                 </button>
             </div>
         </div>
     </form>
 </div>
+
+
+

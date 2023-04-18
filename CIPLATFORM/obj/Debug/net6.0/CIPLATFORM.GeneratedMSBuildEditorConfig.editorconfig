@@ -19,12 +19,28 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRtaW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/CI-PLATFORm/CI_PLATFORM/CIPLATFORM/Views/Admin/_Application.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX0FwcGxpY2F0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/CI-PLATFORm/CI_PLATFORM/CIPLATFORM/Views/Admin/_CMSPages.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX0NNU1BhZ2VzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/CI-PLATFORm/CI_PLATFORM/CIPLATFORM/Views/Admin/_Mission.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX01pc3Npb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CI-PLATFORm/CI_PLATFORM/CIPLATFORM/Views/Admin/_MissionSkill.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX01pc3Npb25Ta2lsbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CI-PLATFORm/CI_PLATFORM/CIPLATFORM/Views/Admin/_MissionTheme.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX01pc3Npb25UaGVtZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CI-PLATFORm/CI_PLATFORM/CIPLATFORM/Views/Admin/_Story.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1N0b3J5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/CI-PLATFORm/CI_PLATFORM/CIPLATFORM/Views/Admin/_User.cshtml]

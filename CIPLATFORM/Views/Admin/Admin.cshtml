@@ -20,9 +20,9 @@
     <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
 
     <title>Document</title>
-     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-   <script src="~/js/Admin.js"></script>
+    <script src="~/js/Admin.js"></script>
 
 </head>
 
@@ -112,8 +112,7 @@
             <div class="col-10 col-sm-8 col-lg-9 col-xl-10">
 
 
-                <nav class="navbar navbar-expand-lg navbar-light "
-                     style=" background: #FFFFFF 0% 0% no-repeat padding-box; box-shadow: 3px 5px 10px #00000014; opacity: 1;">
+                <nav class="navbar navbar-expand-lg navbar-light " style=" background: #FFFFFF 0% 0% no-repeat padding-box; box-shadow: 3px 5px 10px #00000014; opacity: 1;">
                     <div class="container-fluid">
 
                         <span>
@@ -146,31 +145,128 @@
                 </nav>
                 <div class="p-4">
                     <div class="tab-content" id="nav-tabContent">
-
                         <div class="tab-pane fade show active" id="nav-user" role="tabpanel" aria-labelledby="nav-user-tab">
-                            @{
-                                Html.RenderPartial("_User");
-                            }
+                            <h4 class="pb-2">User</h4>
+                            <div class="row mt-3 g-0">
+                                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                                    <div class="form-group has-search">
+                                        <span class="form-control-feedback"> <i class="bi bi-search"></i> </span>
+                                        <input class="form-control mx-1" type="text" placeholder="Search Users..."
+                                               aria-label="Search" id="searchuser" onkeyup="searchuser(1,'user')">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-8 col-xl-9 text-sm-end mt-3 mt-sm-0">
+                                    <button type="button" onclick="addform('nav-user');"
+                                            class="btn btn-outline-warning rounded-pill">
+                                        <i class="bi bi-plus"></i>
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="hi">
+
+                                @{
+                                    Html.RenderPartial("_User");
+
+                                }
+                            </div>
                         </div>
 
                         <div class="tab-pane fade" id="nav-cms" role="tabpanel" aria-labelledby="nav-cms-tab">
-                            @{
-                                Html.RenderPartial("_CMSPages");
-                            }
+                            <h4>CMS Page</h4>
+                            <hr class="m-0">
+                            <div class="row mt-3 g-0">
+                                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                                    <div class="form-group has-search">
+                                        <span class="form-control-feedback"><i class="bi bi-search"></i></span>
+                                        <input type="text" class="form-control " placeholder="Search" id="searchcms" onkeyup="searchuser(1,'cms')">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-8 col-xl-9 text-sm-end mt-3 mt-sm-0">
+                                    <button type="button" class="btn btn-outline-warning rounded-pill"
+                                            onclick="addform('nav-cms');">
+                                        <i class="bi bi-plus"></i>
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="hi2">
+                                @{
+                                    Html.RenderPartial("_CMSPages");
+                                }
+                            </div>
                         </div>
 
                         <div class="tab-pane fade" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-                            @{
-                                Html.RenderPartial("_Mission");
-                            }
+                            <h4>Mission</h4>
+                            <hr class="m-0">
+                            <div class="row mt-3 g-0">
+                                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                                    <div class="form-group has-search">
+                                        <span class="form-control-feedback"><i class="bi bi-search"></i></span>
+                                        <input type="text" class="form-control " id="searchmission" onkeyup="searchuser(1,'mission')" placeholder="Search">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-8 col-xl-9 text-sm-end mt-3 mt-sm-0">
+                                    <button type="button" class="btn btn-outline-warning rounded-pill" onclick="addform('nav-mission');">
+                                        <i class="bi bi-plus"></i>
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="hi3">
+                                @{
+                                    Html.RenderPartial("_Mission");
+                                }
+                            </div>
                         </div>
 
                         <div class="tab-pane fade" id="nav-theme" role="tabpanel" aria-labelledby="nav-theme-tab">
-                            <h4>Theme</h4>
+                            <h4>Mission Themes</h4>
+                            <hr class="m-0">
+                            <div class="row mt-3 g-0">
+                                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                                    <div class="form-group has-search">
+                                        <span class="form-control-feedback"><i class="bi bi-search"></i></span>
+                                        <input type="text" class="form-control " id="searchtheme" onkeyup="searchuser(1,'theme')" placeholder="Search">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-8 col-xl-9 text-sm-end mt-3 mt-sm-0">
+                                    <button type="button" class="btn btn-outline-warning rounded-pill" onclick="addform('nav-theme');">
+                                        <i class="bi bi-plus"></i>
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                             <div id="hi4">
+                                @{
+                                    Html.RenderPartial("_MissionTheme");
+                                }
+                            </div>
                         </div>
 
                         <div class="tab-pane fade" id="nav-skill" role="tabpanel" aria-labelledby="nav-skill-tab">
-                            <h4 class="pt-3 pb-2">Skills</h4>
+                            <h4>Mission Skills</h4>
+                            <hr class="m-0">
+                            <div class="row mt-3 g-0">
+                                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                                    <div class="form-group has-search">
+                                        <span class="form-control-feedback"><i class="bi bi-search"></i></span>
+                                        <input type="text" class="form-control " id="searchskill" onkeyup="searchuser(1,'skill')" placeholder="Search">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-8 col-xl-9 text-sm-end mt-3 mt-sm-0">
+                                    <button type="button" class="btn btn-outline-warning rounded-pill" onclick="addform('nav-skill');">
+                                        <i class="bi bi-plus"></i>
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                             <div id="hi5">
+                                @{
+                                    Html.RenderPartial("_MissionSkill");
+                                }
+                            </div>
                         </div>
 
                         <div class="tab-pane fade" id="nav-application" role="tabpanel" aria-labelledby="nav-application-tab">
@@ -180,40 +276,18 @@
                                 <div class="col-12 col-xl-3 col-lg-6 col-sm-8">
                                     <div class="form-group has-search">
                                         <span class="form-control-feedback"><i class="bi bi-search"></i></span>
-                                        <input type="text" class="form-control " placeholder="Search">
+                                        <input type="text" class="form-control " placeholder="Search" id="searchapplication" onkeyup="searchuser(1,'application')">
                                     </div>
                                 </div>
-                                <div class="col-12 col-xl-9 col-lg-6 col-sm-4">
+                                <div class="col-12 col-sm-6 col-lg-8 col-xl-9 text-sm-end mt-3 mt-sm-0">
                                 </div>
                             </div>
-                            <table class="table mt-3">
-                                <tbody>
-                                    <tr style="background-color: #F8F9FC;">
-                                        <th scope="col">Mission title</th>
-                                        <th scope="col">MissionId</th>
-                                        <th scope="col">User Id</th>
-                                        <th scope="col">User Name</th>
-                                        <th scope="col">Applied Date</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Various versions have evolved over</td>
-                                        <td>5164975623</td>
-                                        <td>1364975623</td>
-                                        <td>Het Shah </td>
-                                        <td>20/02/2023</td>
-                                        <td>
-                                            <button type="button" class="btn p-0 me-3">
-                                                <i class="bi bi-check-circle" style="color: green;"></i>
 
-                                            </button>
-                                            <button type="button" class="btn p-0 me-3">
-                                                <i class="bi bi-x-circle" style="color: red;"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div id="hi6">
+                                @{
+                                    Html.RenderPartial("_Application");
+                                }
+                            </div>
                         </div>
 
                         <div class="tab-pane fade" id="nav-story" role="tabpanel" aria-labelledby="nav-story-tab">
@@ -223,45 +297,18 @@
                                 <div class="col-12 col-xl-3 col-lg-6 col-sm-8">
                                     <div class="form-group has-search">
                                         <span class="form-control-feedback"><i class="bi bi-search"></i></span>
-                                        <input type="text" class="form-control " placeholder="Search">
+                                        <input type="text" class="form-control " placeholder="Search" id="searchstory" onkeyup="searchuser(1,'story')">
                                     </div>
                                 </div>
                                 <div class="col-12 col-xl-9 col-lg-6 col-sm-4">
                                 </div>
                             </div>
-                            <table class="table mt-3">
-                                <tbody>
-                                    <tr style="background-color: #F8F9FC;">
-                                        <th scope="col">Story title</th>
-                                        <th scope="col">Full name</th>
-                                        <th scope="col">Mission title</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Desktop publishing software also the leap into</td>
-                                        <td>Het</td>
-                                        <td>Desktop publishing software</td>
+                            <div id="hi7">
+                                @{
+                                    Html.RenderPartial("_Story");
+                                }
+                            </div>
 
-
-                                        <td>
-                                            <button type="button" class="btn btn-outline-warning rounded-pill me-3">
-                                                View
-                                            </button>
-                                            <button type="button" class="btn p-0 me-3">
-                                                <i class="bi bi-check-circle" style="color: green;"></i>
-
-                                            </button>
-                                            <button type="button" class="btn p-0 me-3">
-                                                <i class="bi bi-x-circle" style="color: red;"></i>
-                                            </button>
-
-                                            <button type="button" class="btn p-0">
-                                                <i class=" bi bi-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
 
                         <div class="tab-pane fade" id="nav-banner" role="tabpanel" aria-labelledby="nav-banner-tab">
