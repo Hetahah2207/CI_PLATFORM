@@ -27,8 +27,8 @@ namespace CIPLATFORM.Controllers
             ViewBag.Totalpages4 = Math.Ceiling(am.missionThemes.Count() / 5.0);
             am.missionThemes = am.missionThemes.Skip((1 - 1) * 5).Take(5).ToList();
 
-            ViewBag.Totalpages5 = Math.Ceiling(am.missionSkills.Count() / 5.0);
-            am.missionSkills = am.missionSkills.Skip((1 - 1) * 5).Take(5).ToList();
+            ViewBag.Totalpages5 = Math.Ceiling(am.skills.Count() / 5.0);
+            am.skills = am.skills.Skip((1 - 1) * 5).Take(5).ToList();
 
             ViewBag.Totalpages6 = Math.Ceiling(am.missionapplications.Count() / 5.0);
             am.missionapplications = am.missionapplications.Skip((1 - 1) * 5).Take(5).ToList();
@@ -57,6 +57,15 @@ namespace CIPLATFORM.Controllers
                 else
                     TempData["false"] = "Theme updated Successfully";
             }
+            if (command == 5)
+            {
+                bool addcmspage = _AdminRepository.addcms(obj, command);
+                if (addcmspage)
+                    TempData["true"] = "Skill added Successfully";
+                else
+                    TempData["false"] = "Skill updated Successfully";
+            }
+
 
             AdminViewModel am = _AdminRepository.getData();
             ViewBag.Totalpages = Math.Ceiling(am.users.Count() / 5.0);
@@ -71,8 +80,8 @@ namespace CIPLATFORM.Controllers
             ViewBag.Totalpages4 = Math.Ceiling(am.missionThemes.Count() / 5.0);
             am.missionThemes = am.missionThemes.Skip((1 - 1) * 5).Take(5).ToList();
 
-            ViewBag.Totalpages5 = Math.Ceiling(am.missionSkills.Count() / 5.0);
-            am.missionSkills = am.missionSkills.Skip((1 - 1) * 5).Take(5).ToList();
+            ViewBag.Totalpages5 = Math.Ceiling(am.skills.Count() / 5.0);
+            am.skills = am.skills.Skip((1 - 1) * 5).Take(5).ToList();
 
             ViewBag.Totalpages6 = Math.Ceiling(am.missionapplications.Count() / 5.0);
             am.missionapplications = am.missionapplications.Skip((1 - 1) * 5).Take(5).ToList();
@@ -95,7 +104,7 @@ namespace CIPLATFORM.Controllers
             ViewBag.Totalpages2 = Math.Ceiling(x.CmsPages.Count() / 5.0);
             ViewBag.Totalpages3 = Math.Ceiling(x.missions.Count() / 5.0);
             ViewBag.Totalpages4 = Math.Ceiling(x.missionThemes.Count() / 5.0);
-            ViewBag.Totalpages5 = Math.Ceiling(x.missionSkills.Count() / 5.0);
+            ViewBag.Totalpages5 = Math.Ceiling(x.skills.Count() / 5.0);
             ViewBag.Totalpages6 = Math.Ceiling(x.missionapplications.Count() / 5.0);
             ViewBag.Totalpages7 = Math.Ceiling(x.stories.Count() / 5.0);
 
@@ -148,8 +157,8 @@ namespace CIPLATFORM.Controllers
             ViewBag.Totalpages4 = Math.Ceiling(am.missionThemes.Count() / 5.0);
             am.missionThemes = am.missionThemes.Skip((1 - 1) * 5).Take(5).ToList();
 
-            ViewBag.Totalpages5 = Math.Ceiling(am.missionSkills.Count() / 5.0);
-            am.missionSkills = am.missionSkills.Skip((1 - 1) * 5).Take(5).ToList();
+            ViewBag.Totalpages5 = Math.Ceiling(am.skills.Count() / 5.0);
+            am.skills = am.skills.Skip((1 - 1) * 5).Take(5).ToList();
 
             ViewBag.Totalpages6 = Math.Ceiling(am.missionapplications.Count() / 5.0);
             am.missionapplications = am.missionapplications.Skip((1 - 1) * 5).Take(5).ToList();
@@ -163,11 +172,17 @@ namespace CIPLATFORM.Controllers
                 am.CmsPage = _AdminRepository.EditForm(id, page).CmsPage;
                 return PartialView("_CMSPages", am);
             }
-            else if(page == "nav-theme")
+            else if (page == "nav-theme")
             {
                 am.missionTheme = _AdminRepository.EditForm(id, page).missionTheme;
                 return PartialView("_MissionTheme", am);
             }
+            else if (page == "nav-skill")
+            {
+                am.Skill = _AdminRepository.EditForm(id, page).Skill;
+                return PartialView("_MissionSkill", am);
+            }
+
             return PartialView("_CMSPages", am);
         }
         public IActionResult DeleteActivity(int id, int page)

@@ -8,7 +8,7 @@
 <hr class="d-none d-md-block">
 
 <div class="container">
-    
+
     <div class="card mb-3 p-0">
         <div class="row g-0">
             <div class="col-lg-6">
@@ -102,18 +102,50 @@
                         </div>
                         <div class="col-12 col-md-6 mt-2" id="recommand" onclick="recommandToCoWorker(@Model.missions.MissionId)">
 
-                            <button type="button" class="btn btn-outline-dark rounded-pill w-100" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button type="button" class="btn btn-outline w-100  rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background: #F8863400 0% 0% no-repeat padding-box; border: 2px solid #020201; border-radius: 24px; opacity: 1; color:#020202">
+                                <i class="bi bi-square-fill"><span> Recommend to a Co-Worker</span></i>
+                            </button>
+
+                          
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+
+
+                                            @foreach (var item in Model.coworkers)
+                                            {
+
+                                                <div class="d-flex justify-content-start">
+                                                    <input type="checkbox" value="@item.UserId" class="d-flex justify-content-center ms-3" />
+                                                    <span class="ms-3" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif"> @item.FirstName @item.LastName</span>
+                                                </div>
+                                            }
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @* <button type="button" class="btn btn-outline-dark rounded-pill w-100" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-square-fill"></i>
                                 Recommend to a Co-Worker
-                            </button>
-                            <ul class="dropdown-menu">
+                                </button>
+                                <ul class="dropdown-menu">
 
                                 @foreach (var item in Model.coworkers)
                                 {
 
-                                    <li><input type="checkbox" value="@item.UserId" /> @item.FirstName @item.LastName </li>
+                                <li><input type="checkbox" value="@item.UserId" /> @item.FirstName @item.LastName </li>
                                 }
-                            </ul>
+                                </ul>*@
                         </div>
                     </div>
                     <div class="row">
@@ -251,7 +283,7 @@
                     @Model.missions.OrganizationDetail
                 </div>
                 <div class="tab-pane fade" id="tab-3" role="tabpanel">
-                  
+
                     <div class="form-group" id="comment">
                         @ViewBag.ComntAdded
                         <input type="hidden" value="mission.MissionId" id="mid" />
@@ -337,7 +369,7 @@
                     </div>
                 </div>
             </div>
-          
+
             <div class="container pt-5">
                 <div class="border">
                     <div class="container">
@@ -542,45 +574,45 @@
     }
 </script>
 <script>
-    
-$('#mission-rating .fa-star').click
-    (function () {
-    var rating = $(this).attr('value');
 
-    console.log(rating);
-    var id = parseInt($('#getMissionId').text());
-    console.log(id);
-    debugger
-    $.ajax({
-        url: "/Platform/MissionRating",
-        method: "Post",
-        data: {
-            "mid": id,
-            "rating": rating
-        },
-        success: function (data) {
+    $('#mission-rating .fa-star').click
+        (function () {
+        var rating = $(this).attr('value');
+
+        console.log(rating);
+        var id = parseInt($('#getMissionId').text());
+        console.log(id);
+        debugger
+        $.ajax({
+            url: "/Platform/MissionRating",
+            method: "Post",
+            data: {
+                "mid": id,
+                "rating": rating
+            },
+            success: function (data) {
 
 
-            toastr.options = {
-                "closeButton": true,
-                "progressBar": true
-            };
-            if (data == true) {
-                toastr.success('Applied Rating successfully');
-            }
-            else {
-                toastr.error('Your Rating Updated successfully');
-            }
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true
+                };
+                if (data == true) {
+                    toastr.success('Applied Rating successfully');
+                }
+                else {
+                    toastr.error('Your Rating Updated successfully');
+                }
 
-        },
-        error: function (e) {
-            console.log("Bye");
-            alert('Error');
-        },
+            },
+            error: function (e) {
+                console.log("Bye");
+                alert('Error');
+            },
 
-    });
+        });
 
-})
+    })
 
 
 

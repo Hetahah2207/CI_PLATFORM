@@ -24,12 +24,12 @@ namespace CI_PLATFORM.Repository.Repositories
             {
                 um.users = _CiPlatformContext.Users.Where(x => x.DeletedAt == null).ToList();
                 um.missions = _CiPlatformContext.Missions.Where(x => x.DeletedAt == null).ToList();
-                um.allmissions = _CiPlatformContext.Missions.ToList();
+
                 um.CmsPages = _CiPlatformContext.CmsPages.Where(x => x.DeletedAt == null).ToList();
                 um.missionapplications = _CiPlatformContext.MissionApplications.Include(x => x.Mission).Include(x => x.User).Where(x => x.ApprovalStatus == "Pending").ToList();
                 um.stories = _CiPlatformContext.Stories.Include(x => x.User).Where(x => x.Status == "PENDING" || x.Status == "DRAFT").Where(x => x.DeletedAt == null).ToList();
-                um.allmissionSkills = _CiPlatformContext.MissionSkills.Include(x => x.Mission).Include(x => x.Skill).ToList();
-                um.missionSkills = _CiPlatformContext.MissionSkills.Include(x => x.Mission).Include(x => x.Skill).Where(x => x.DeletedAt == null).ToList();
+
+                um.skills = _CiPlatformContext.Skills.Where(x => x.DeletedAt == null).ToList();
                 um.missionThemes = _CiPlatformContext.MissionThemes.Where(x => x.DeletedAt == null).ToList();
             }
             return um;
@@ -50,7 +50,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 obj.stories = obj.stories.Where(x => x.Title.ToLower().Contains(search) || x.User.FirstName.ToLower().Contains(search) || x.User.LastName.ToLower().Contains(search)).ToList();
                 obj.CmsPages = obj.CmsPages.Where(x => x.Title.ToLower().Contains(search)).ToList();
                 obj.missionThemes = obj.missionThemes.Where(x => x.Title.ToLower().Contains(search)).ToList();
-                obj.missionSkills = obj.missionSkills.Where(x => x.Skill.SkillName.ToLower().Contains(search)).ToList();
+                obj.skills = obj.skills.Where(x => x.SkillName.ToLower().Contains(search)).ToList();
             }
             if (pg != 0)
             {
@@ -60,7 +60,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 obj.stories = obj.stories.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
                 obj.CmsPages = obj.CmsPages.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
                 obj.missionThemes = obj.missionThemes.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-                obj.missionSkills = obj.missionSkills.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+                obj.skills = obj.skills.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
             }
             return obj;
         }
@@ -113,8 +113,36 @@ namespace CI_PLATFORM.Repository.Repositories
                     {
                         missionTheme.Title = obj.missionTheme.Title;
                         missionTheme.Status = obj.missionTheme.Status;
+                        missionTheme.UpdatedAt = DateTime.Now;
                     }
                     _CiPlatformContext.Update(missionTheme);
+                    _CiPlatformContext.SaveChanges();
+                    return false;
+                }
+            }
+            if (command == 5)
+            {
+                if (obj.Skill.SkillId == 0)
+                {
+                    Skill skill = new Skill();
+                    {
+                        skill.SkillName = obj.Skill.SkillName;
+                        skill.Status = obj.Skill.Status;
+
+                    }
+                    _CiPlatformContext.Add(skill);
+                    _CiPlatformContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    Skill skill = _CiPlatformContext.Skills.FirstOrDefault(x => x.SkillId == obj.Skill.SkillId);
+                    {
+                        skill.SkillName = obj.Skill.SkillName;
+                        skill.Status = obj.Skill.Status;
+                        skill.UpdatedAt = DateTime.Now;
+                    }
+                    _CiPlatformContext.Update(skill);
                     _CiPlatformContext.SaveChanges();
                     return false;
                 }
@@ -134,7 +162,10 @@ namespace CI_PLATFORM.Repository.Repositories
                 {
                     am.missionTheme = _CiPlatformContext.MissionThemes.FirstOrDefault(x => x.MissionThemeId == id);
                 }
-
+                if (page == "nav-skill")
+                {
+                    am.Skill = _CiPlatformContext.Skills.FirstOrDefault(x => x.SkillId == id);
+                }
             }
             return am;
         }
@@ -172,9 +203,9 @@ namespace CI_PLATFORM.Repository.Repositories
                 }
                 if (page == 5)
                 {
-                    MissionSkill missionSkill = _CiPlatformContext.MissionSkills.FirstOrDefault(x => x.MissionSkillId == id);
-                    missionSkill.DeletedAt = DateTime.Now;
-                    _CiPlatformContext.MissionSkills.Update(missionSkill);
+                    Skill Skill = _CiPlatformContext.Skills.FirstOrDefault(x => x.SkillId == id);
+                    Skill.DeletedAt = DateTime.Now;
+                    _CiPlatformContext.Skills.Update(Skill);
                     _CiPlatformContext.SaveChanges();
                 }
                 if (page == 7)

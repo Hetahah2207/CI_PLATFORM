@@ -11,14 +11,14 @@ namespace CI_PLATFORM.Entities.ViewModels
     {
         public List<User> users { get; set; } = new List<User>();
         public List<Mission> missions { get; set; } = new List<Mission>();
-        public List<Mission> allmissions { get; set; } = new List<Mission>();
+        
         public List<CmsPage> CmsPages { get; set; } = new List<CmsPage>();
         public CmsPage CmsPage { get; set; } = new CmsPage();
         public List<MissionApplication>? missionapplications { get; set; } = new List<MissionApplication>();
         public List<Story> stories { get; set; } = new List<Story>();
-        public List<MissionSkill> missionSkills { get; set; } = new List<MissionSkill>();
-        public List<MissionSkill> allmissionSkills { get; set; } = new List<MissionSkill>();
-        public MissionSkill missionSkill { get; set; }  = new MissionSkill();
+        public List<Skill> skills { get; set; } = new List<Skill>();
+        
+        public Skill Skill { get; set; }  = new Skill();
 
         public List<MissionTheme> missionThemes { get; set; } = new List<MissionTheme>();
         public MissionTheme missionTheme { get; set; } = new MissionTheme();
