@@ -20,7 +20,7 @@
                     <td>@obj.EndDate.Value.ToShortDateString()</td>
 
                     <td style="text-align: center;">
-                        <button type="button" class="btn p-0" onclick="editform('nav-mission');">
+                        <button type="button" class="btn p-0" onclick="editform('nav-mission'); getdata('nav-mission',@obj.MissionId);">
                             <i class="bi bi-pencil-square" style="color: coral;"></i>
                         </button>
                         <button type="button" class="btn p-0" onclick=" if (confirm('Are you sure you want to delete?')) { return location.href=' @Url.Action("DeleteActivity", "Admin" ,new {id = @obj.MissionId,page = 3})' } ">

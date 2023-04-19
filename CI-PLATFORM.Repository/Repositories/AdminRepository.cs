@@ -24,9 +24,11 @@ namespace CI_PLATFORM.Repository.Repositories
             {
                 um.users = _CiPlatformContext.Users.Where(x => x.DeletedAt == null).ToList();
                 um.missions = _CiPlatformContext.Missions.Where(x => x.DeletedAt == null).ToList();
+                um.allmissions = _CiPlatformContext.Missions.ToList();
                 um.CmsPages = _CiPlatformContext.CmsPages.Where(x => x.DeletedAt == null).ToList();
                 um.missionapplications = _CiPlatformContext.MissionApplications.Include(x => x.Mission).Include(x => x.User).Where(x => x.ApprovalStatus == "Pending").ToList();
                 um.stories = _CiPlatformContext.Stories.Include(x => x.User).Where(x => x.Status == "PENDING" || x.Status == "DRAFT").Where(x => x.DeletedAt == null).ToList();
+                um.allmissionSkills = _CiPlatformContext.MissionSkills.Include(x => x.Mission).Include(x => x.Skill).ToList();
                 um.missionSkills = _CiPlatformContext.MissionSkills.Include(x => x.Mission).Include(x => x.Skill).Where(x => x.DeletedAt == null).ToList();
                 um.missionThemes = _CiPlatformContext.MissionThemes.Where(x => x.DeletedAt == null).ToList();
             }
@@ -64,21 +66,75 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public bool addcms(AdminViewModel obj, int command)
         {
-            CmsPage cms = new CmsPage();
+            if (command == 2)
             {
-                cms.Title = obj.CmsPage.Title;
-                cms.Description = obj.CmsPage.Description;
-                cms.Slug = obj.CmsPage.Slug;
+                if (obj.CmsPage.CmsPageId == 0)
+                {
+                    CmsPage cms = new CmsPage();
+                    {
+                        cms.Title = obj.CmsPage.Title;
+                        cms.Description = obj.CmsPage.Description;
+                        cms.Slug = obj.CmsPage.Slug;
+                    }
+                    _CiPlatformContext.Add(cms);
+                    _CiPlatformContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    CmsPage cms = _CiPlatformContext.CmsPages.FirstOrDefault(x => x.CmsPageId == obj.CmsPage.CmsPageId);
+                    {
+                        cms.Title = obj.CmsPage.Title;
+                        cms.Description = obj.CmsPage.Description;
+                        cms.Slug = obj.CmsPage.Slug;
+                        cms.UpdatedAt = DateTime.Now;
+                    }
+                    _CiPlatformContext.Update(cms);
+                    _CiPlatformContext.SaveChanges();
+                    return false;
+                }
             }
-            _CiPlatformContext.Add(cms);
-            _CiPlatformContext.SaveChanges();
-            return true;
+            if (command == 4)
+            {
+                if (obj.missionTheme.MissionThemeId == 0)
+                {
+                    MissionTheme missionTheme = new MissionTheme();
+                    {
+                        missionTheme.Title = obj.missionTheme.Title;
+                        missionTheme.Status = obj.missionTheme.Status;
+                    }
+                    _CiPlatformContext.Add(missionTheme);
+                    _CiPlatformContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    MissionTheme missionTheme = _CiPlatformContext.MissionThemes.FirstOrDefault(x => x.MissionThemeId == obj.missionTheme.MissionThemeId);
+                    {
+                        missionTheme.Title = obj.missionTheme.Title;
+                        missionTheme.Status = obj.missionTheme.Status;
+                    }
+                    _CiPlatformContext.Update(missionTheme);
+                    _CiPlatformContext.SaveChanges();
+                    return false;
+                }
+            }
+            return false;
+
         }
-        public AdminViewModel EditForm(int id)
+        public AdminViewModel EditForm(int id, string page)
         {
             AdminViewModel am = new AdminViewModel();
             {
-                am.CmsPage = _CiPlatformContext.CmsPages.FirstOrDefault(x => x.CmsPageId == id);
+                if (page == "nav-cms")
+                {
+                    am.CmsPage = _CiPlatformContext.CmsPages.FirstOrDefault(x => x.CmsPageId == id);
+                }
+                if (page == "nav-theme")
+                {
+                    am.missionTheme = _CiPlatformContext.MissionThemes.FirstOrDefault(x => x.MissionThemeId == id);
+                }
+
             }
             return am;
         }
@@ -162,7 +218,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 if (page == 7)
                 {
                     if (status == 1)
-                    { 
+                    {
                         Story story = _CiPlatformContext.Stories.FirstOrDefault(x => x.StoryId == id);
                         story.Status = "PUBLISHED";
                         _CiPlatformContext.Stories.Update(story);

@@ -1,6 +1,13 @@
 ﻿@using CI_PLATFORM.Entities.ViewModels
 @model AdminViewModel
 
+<style>
+    .view:hover {
+    color: black;
+}
+</style>
+
+
 <div id="cmspage">
     <table class="table mt-3">
         <tbody>
@@ -20,7 +27,9 @@
 
                 <td>
                     <button type="button" class="btn btn-outline-warning rounded-pill me-3">
-                        View
+                       <a asp-controller="Platform" asp-action="StoryDetail" asp-route-sid="@obj.StoryId" style="text-decoration:none;color:#ffc107">
+                           <span class="view">View</span>
+                       </a>
                     </button>
                     <button type="button" class="btn p-0 me-3" onclick=" if (confirm('Are you sure you want to Accept?')) { return location.href=' @Url.Action("Approval", "Admin" ,new {id = @obj.StoryId,page = 7,status = 1})' } ">
                         <i class="bi bi-check-circle" style="color: green;"></i>

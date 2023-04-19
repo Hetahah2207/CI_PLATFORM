@@ -41,12 +41,23 @@ namespace CIPLATFORM.Controllers
         [HttpPost]
         public IActionResult Admin(AdminViewModel obj, int command)
         {
-            if(command == 2) 
-            { 
-            bool addcmspage = _AdminRepository.addcms(obj, command);
-            if (addcmspage)
-                TempData["true"] = "cmspage added Successfully";
+            if (command == 2)
+            {
+                bool addcmspage = _AdminRepository.addcms(obj, command);
+                if (addcmspage)
+                    TempData["true"] = "cmspage added Successfully";
+                else
+                    TempData["false"] = "cmspage updated Successfully";
             }
+            if (command == 4)
+            {
+                bool addcmspage = _AdminRepository.addcms(obj, command);
+                if (addcmspage)
+                    TempData["true"] = "Theme added Successfully";
+                else
+                    TempData["false"] = "Theme updated Successfully";
+            }
+
             AdminViewModel am = _AdminRepository.getData();
             ViewBag.Totalpages = Math.Ceiling(am.users.Count() / 5.0);
             am.users = am.users.Skip((1 - 1) * 5).Take(5).ToList();
@@ -69,9 +80,9 @@ namespace CIPLATFORM.Controllers
             ViewBag.Totalpages7 = Math.Ceiling(am.stories.Count() / 5.0);
             am.stories = am.stories.Skip((1 - 1) * 5).Take(5).ToList();
             ViewBag.pg_no = 1;
-            return View(am);  
+            return View(am);
         }
-        public IActionResult UserFilter(string? search,int pg, string key)
+        public IActionResult UserFilter(string? search, int pg, string key)
         {
             AdminViewModel x = _AdminRepository.UserFilter(search, 0);
             AdminViewModel fusers = _AdminRepository.UserFilter(search, pg);
@@ -120,11 +131,11 @@ namespace CIPLATFORM.Controllers
             }
             return View(fusers);
         }
-        //public IActionResult EditForm(int id)
-        public IActionResult EditForm(int id)
+
+        public IActionResult EditForm(int id, string page)
         {
             AdminViewModel am = _AdminRepository.getData();
-           
+
             ViewBag.Totalpages = Math.Ceiling(am.users.Count() / 5.0);
             am.users = am.users.Skip((1 - 1) * 5).Take(5).ToList();
 
@@ -146,22 +157,29 @@ namespace CIPLATFORM.Controllers
             ViewBag.Totalpages7 = Math.Ceiling(am.stories.Count() / 5.0);
             am.stories = am.stories.Skip((1 - 1) * 5).Take(5).ToList();
             ViewBag.pg_no = 1;
-            
-            am.CmsPage= _AdminRepository.EditForm(id).CmsPage;
-            //return PartialView("_CMSPages", am.CmsPage);
 
+            if (page == "nav-cms")
+            {
+                am.CmsPage = _AdminRepository.EditForm(id, page).CmsPage;
+                return PartialView("_CMSPages", am);
+            }
+            else if(page == "nav-theme")
+            {
+                am.missionTheme = _AdminRepository.EditForm(id, page).missionTheme;
+                return PartialView("_MissionTheme", am);
+            }
             return PartialView("_CMSPages", am);
         }
         public IActionResult DeleteActivity(int id, int page)
         {
-            bool tm = _AdminRepository.deleteactivity(id,page);
+            bool tm = _AdminRepository.deleteactivity(id, page);
             if (tm)
                 TempData["delete"] = "Deleted successfully";
             else
                 TempData["delete"] = "Activity cannot deleted";
             return RedirectToAction("Admin");
         }
-        public IActionResult Approval(int id,int page,int status)
+        public IActionResult Approval(int id, int page, int status)
         {
             bool tm = _AdminRepository.Approval(id, page, status);
             if (tm)
