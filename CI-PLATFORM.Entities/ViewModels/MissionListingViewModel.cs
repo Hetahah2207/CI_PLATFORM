@@ -25,5 +25,7 @@ namespace CI_PLATFORM.Entities.ViewModels
         public List<FavoriteMission>? favoriteMissions { get; set; }
         public string? commentDescription { get; set; }
         public List<User>? coworkers { get; set; }
+        public int UserRating { get; set; }
+
     }
 }

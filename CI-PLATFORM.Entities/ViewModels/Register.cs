@@ -1,9 +1,19 @@
-﻿using System;
+﻿using CI_PLATFORM.Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CI_PLATFORM.Entities.ViewModels;
 
+public class Login
+{
+    [Required(ErrorMessage = "Please enter Email.")]
+    public string Email { get; set; } = null!;
+    [Required(ErrorMessage = "Please enter Password.")]
+    public string Password { get; set; } = null!;
+    public User user { get; set; } 
+    public Admin admin { get; set; }
+}
 public class Register
 {
     [Required(ErrorMessage = "Please enter First name.")]

@@ -70,7 +70,7 @@
     <h3 class="p-3 m-0" style="background-color: #F8F9FC;"> Add theme</h3>
     <hr class="m-0">
     <form method="post" class="px-3">
-       
+
         <label for="select mission" class="mt-3"> Theme Name </label>
         <input asp-for="missionTheme.Title" type="text" class="form-control" id="formGroupExampleInput">
 
@@ -78,8 +78,9 @@
 
         <label class="mb-1 mt-3">Status</label>
         <select type="text" asp-for="missionTheme.Status" class="form-select form-control">
+            <option value="0" selected>In-Active</option>
             <option value="1">Active</option>
-            <option value="0">In-Active</option>
+
         </select>
         <div class="row my-3">
             <div class="col-10"></div>
@@ -101,7 +102,7 @@
     <hr class="m-0">
     <form method="post" class="px-3">
         <label for="select mission" class="mt-3"> Theme Name </label>
-        <input  asp-for="missionTheme.Title" type="text" class="form-control" id="formGroupExampleInput">
+        <input asp-for="missionTheme.Title" type="text" class="form-control" id="formGroupExampleInput">
         <input asp-for="missionTheme.MissionThemeId" type="hidden" class="form-control" id="formGroupExampleInput">
 
 

@@ -12,6 +12,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
+using CI_PLATFORM.Entities.ViewModels;
 
 namespace CI_PLATFORM.Repository.Repositories
 {
@@ -19,23 +20,33 @@ namespace CI_PLATFORM.Repository.Repositories
     {
         public readonly CiPlatformContext _CiPlatformContext;
 
-        public UserRepository (CiPlatformContext CiPlatformContext)
+        public UserRepository(CiPlatformContext CiPlatformContext)
         {
             _CiPlatformContext = CiPlatformContext;
         }
 
-        public User Login(User obj)
+        //public User Login(User obj)
+        //{
+        //    var user = _CiPlatformContext.Users.FirstOrDefault(U => U.Email == obj.Email && U.Password == obj.Password);
+        //    return user;
+        //}
+
+        public Login login(Login obj)
         {
-            var user = _CiPlatformContext.Users.FirstOrDefault(U => U.Email == obj.Email && U.Password == obj.Password);
-            return user; 
+            Login lgn = new Login();
+            {
+                lgn.user = _CiPlatformContext.Users.FirstOrDefault(u => u.Email == obj.Email && u.Password == obj.Password);
+                lgn.admin = _CiPlatformContext.Admins.FirstOrDefault(a => a.Email == obj.Email && a.Password == a.Password);
+            }
+            return lgn;
         }
 
         public User Register(User obj)
         {
             var user = _CiPlatformContext.Users.FirstOrDefault(x => x.Email == obj.Email);
-            if(user == null)
+            if (user == null)
             {
-                _CiPlatformContext.Users.Add(obj);  
+                _CiPlatformContext.Users.Add(obj);
                 _CiPlatformContext.SaveChanges();
             }
             return user;
@@ -45,7 +56,7 @@ namespace CI_PLATFORM.Repository.Repositories
 
             var user = _CiPlatformContext.Users.FirstOrDefault(u => u.Email == (obj.Email.ToLower()));
 
-            if(user == null)
+            if (user == null)
             {
                 return null;
             }

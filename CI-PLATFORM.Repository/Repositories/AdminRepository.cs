@@ -102,6 +102,7 @@ namespace CI_PLATFORM.Repository.Repositories
                     {
                         missionTheme.Title = obj.missionTheme.Title;
                         missionTheme.Status = obj.missionTheme.Status;
+                        missionTheme.CreatedAt = new DateTime(2022,4,20,10,30,0);
                     }
                     _CiPlatformContext.Add(missionTheme);
                     _CiPlatformContext.SaveChanges();

@@ -53,12 +53,14 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public List<Mission> GetMissionDetails()
         {
-            List<Mission> missionDetails = _CiPlatformContext.Missions.Include(m => m.City).Include(m => m.Theme).Include(m => m.MissionMedia).Include(m => m.MissionRatings).Include(m => m.GoalMissions).Include(m => m.MissionSkills).Include(m => m.FavoriteMissions).ToList();
+            List<Mission> missionDetails = _CiPlatformContext.Missions.Include(m => m.City).Include(m => m.Theme).Include(m => m.MissionMedia).Include(m => m.MissionRatings).Include(m => m.GoalMissions).Include(m => m.MissionSkills).Include(m => m.FavoriteMissions).Include(x => x.MissionApplications).ToList();
             return missionDetails;
         }
         public CardsViewModel getCards()
         {
-            List<Mission> missions = _CiPlatformContext.Missions.ToList();
+            List<Mission> missions = _CiPlatformContext.Missions.Include(x =>x.MissionApplications).ToList();
+            List<User> users = _CiPlatformContext.Users.ToList();
+            //List<MissionApplication> missionApplications = _CiPlatformContext.MissionApplications.ToList();
             List<MissionMedium> media = _CiPlatformContext.MissionMedia.Where(x => x.Default == 1).ToList();
             List<MissionSkill> missionSkills = _CiPlatformContext.MissionSkills.ToList();
             List<MissionTheme> missionThemes = _CiPlatformContext.MissionThemes.ToList();
@@ -73,6 +75,8 @@ namespace CI_PLATFORM.Repository.Repositories
             {
 
                 missionCards.missions = missions;
+                missionCards.coworkers = users;
+                //missionCards.missionApplications = missionApplications;
                 missionCards.missionthemes = missionThemes;
                 missionCards.missionskill = missionSkills;
                 missionCards.media = media;
@@ -351,9 +355,7 @@ namespace CI_PLATFORM.Repository.Repositories
             {
                 if (sort == 1)
                 {
-
                     missioncards = missioncards.OrderByDescending(x => x.CreatedAt).ToList();
-
                 }
                 if (sort == 2)
                 {
@@ -472,32 +474,40 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public bool MissionRating(int userId, int mid, int rating)
         {
-            MissionRating CheckRating = _CiPlatformContext.MissionRatings.FirstOrDefault(a => a.UserId == userId && a.MissionId == mid);
-            if (CheckRating != null)
+            MissionApplication ma = _CiPlatformContext.MissionApplications.FirstOrDefault(a => a.UserId == userId && a.MissionId == mid && a.ApprovalStatus == "Approve");
+            if (ma != null)
             {
+                MissionRating CheckRating = _CiPlatformContext.MissionRatings.FirstOrDefault(a => a.UserId == userId && a.MissionId == mid);
+                if (CheckRating != null)
+                {
 
-                //CheckRating.UserId = userId;
-                //CheckRating.MissionId = mid;
-                CheckRating.Rating = rating;
-                CheckRating.UpdatedAt = DateTime.Now;
+                    //CheckRating.UserId = userId;
+                    //CheckRating.MissionId = mid;
+                    CheckRating.Rating = rating;
+                    CheckRating.UpdatedAt = DateTime.Now;
 
-                _CiPlatformContext.Update(CheckRating);
-                _CiPlatformContext.SaveChanges();
+                    _CiPlatformContext.Update(CheckRating);
+                    _CiPlatformContext.SaveChanges();
 
-                return false;
+                    return false;
+                }
+                else
+                {
+                    MissionRating missionRating = new MissionRating();
+                    missionRating.UserId = userId;
+                    missionRating.MissionId = mid;
+                    missionRating.Rating = rating;
+
+
+
+                    _CiPlatformContext.Add(missionRating);
+                    _CiPlatformContext.SaveChanges();
+                    return true;
+                }
             }
             else
             {
-                MissionRating missionRating = new MissionRating();
-                missionRating.UserId = userId;
-                missionRating.MissionId = mid;
-                missionRating.Rating = rating;
-
-
-
-                _CiPlatformContext.Add(missionRating);
-                _CiPlatformContext.SaveChanges();
-                return true;
+                return false;
             }
         }
         public bool addToFav(int missionId, int userId)
@@ -531,7 +541,7 @@ namespace CI_PLATFORM.Repository.Repositories
         {
             var fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId && u.DeletedAt == null);
             var fromEmailId = fromUser.Email;
-           
+
             foreach (var user in ToUserId)
             {
                 var toUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == user && u.DeletedAt == null);

@@ -10,6 +10,7 @@ namespace CI_PLATFORM.Entities.ViewModels
     public class CardsViewModel
     {
         public List<Mission> missions { get; set; }
+        //public List<MissionApplication> missionApplications { get; set; }
         public List<City> cities { get; set; }
         public List<Country> countries { get; set; }
         public List<MissionMedium> media { get; set; }
@@ -17,5 +18,6 @@ namespace CI_PLATFORM.Entities.ViewModels
         public List<MissionTheme> missionthemes { get; set; }
         public List<MissionSkill> missionskill { get; set; }
         public List<FavoriteMission> favoriteMissions { get; set; }
+        public List<User>? coworkers { get; set; }
     }
 }

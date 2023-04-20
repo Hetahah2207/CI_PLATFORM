@@ -106,7 +106,7 @@
                                 <i class="bi bi-square-fill"><span> Recommend to a Co-Worker</span></i>
                             </button>
 
-                          
+
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -154,11 +154,31 @@
                             <p class="d-none" id="getMissionId">@Model.missions.MissionId</p>
 
                             <div class='rating' id="mission-rating">
-                                <span class="fa fa-star star1" value="5"></span>
-                                <span class="fa fa-star star1" value="4"></span>
-                                <span class="fa fa-star star1" value="3"></span>
-                                <span class="fa fa-star star1" value="2"></span>
-                                <span class="fa fa-star star1" value="1"></span>
+
+                                @if (ViewBag.rating != null)
+                                {
+                                    for (int j = 5; j > (@ViewBag.rating); j--)
+                                    {
+                                        <span class="bi bi-star star1" value="@j"></span>
+                                    }
+                                    for (var j = (@ViewBag.rating); j >= 1; j--)
+                                    {
+                                        <span class="bi bi-star-fill star1 text-warning" value="@j"></span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="bi bi-star star1" value="5"></span>
+                                    <span class="bi bi-star star1" value="4"></span>
+                                    <span class="bi bi-star star1" value="3"></span>
+                                    <span class="bi bi-star star1" value="2"></span>
+                                    <span class="bi bi-star star1" value="1"></span>
+                                }
+                                @*<span class="fa fa-star star1" value="5"></span>
+                                    <span class="fa fa-star star1" value="4"></span>
+                                    <span class="fa fa-star star1" value="3"></span>
+                                    <span class="fa fa-star star1" value="2"></span>
+                                    <span class="fa fa-star star1" value="1"></span>*@
                             </div>
 
 
@@ -575,45 +595,80 @@
 </script>
 <script>
 
-    $('#mission-rating .fa-star').click
-        (function () {
-        var rating = $(this).attr('value');
+    //$('#mission-rating .fa-star').click
+    //    (function () {
+    //    var rating = $(this).attr('value');
+    //    console.log(rating);
+    //    var id = parseInt($('#getMissionId').text());
+    //    console.log(id);
+    //    debugger
+    //    $.ajax({
+    //        url: "/Platform/MissionRating",
+    //        method: "Post",
+    //        data: {
+    //            "mid": id,
+    //            "rating": rating
+    //        },
+    //        success: function (data) {
+    //            toastr.options = {
+    //                "closeButton": true,
+    //                "progressBar": true
+    //            };
+    //            if (data == true) {
+    //                toastr.success('Applied Rating successfully');
+    //            }
+    //            else {
+    //                toastr.error('Your Rating Updated successfully');
+    //            }
+    //        },
+    //        error: function (e) {
+    //            console.log("Bye");
+    //            alert('Error');
+    //        },
+    //    });
+    //})
 
-        console.log(rating);
-        var id = parseInt($('#getMissionId').text());
-        console.log(id);
-        debugger
-        $.ajax({
-            url: "/Platform/MissionRating",
-            method: "Post",
-            data: {
-                "mid": id,
-                "rating": rating
-            },
-            success: function (data) {
+        $('#mission-rating .bi').click(function() {
+        debugger;
+           var rating = $(this).attr('value');
+
+    console.log(rating);
+    var id = parseInt($('#getMissionId').text());
+    console.log(id);
+    $.ajax({
+        url:"/Platform/MissionRating",
+    method:"Post",
+    data:{
+        "mid":id,
+    "rating":rating
+                 },
+    success:function(data){
 
 
-                toastr.options = {
-                    "closeButton": true,
-                    "progressBar": true
-                };
-                if (data == true) {
-                    toastr.success('Applied Rating successfully');
-                }
-                else {
-                    toastr.error('Your Rating Updated successfully');
-                }
+        //toastr.options = {
+        //    "closeButton": true,
+        //    "progressBar": true
+        //};
+    if(data == true)
+    {
+        //toastr.success('Applied Rating successfully');
+                 location.reload();
+                 }
+    else
+    {
+        //toastr.error('Your Rating Updated successfully');
+                 location.reload();
+                 }
 
-            },
-            error: function (e) {
-                console.log("Bye");
-                alert('Error');
-            },
+             },
+    error: function (e) {
+        console.log("Bye");
+    alert('Error');
+                 },
 
-        });
+             });
 
-    })
-
+             })
 
 
 </script>

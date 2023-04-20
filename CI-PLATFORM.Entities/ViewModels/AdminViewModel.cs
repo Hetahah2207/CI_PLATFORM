@@ -17,9 +17,7 @@ namespace CI_PLATFORM.Entities.ViewModels
         public List<MissionApplication>? missionapplications { get; set; } = new List<MissionApplication>();
         public List<Story> stories { get; set; } = new List<Story>();
         public List<Skill> skills { get; set; } = new List<Skill>();
-        
         public Skill Skill { get; set; }  = new Skill();
-
         public List<MissionTheme> missionThemes { get; set; } = new List<MissionTheme>();
         public MissionTheme missionTheme { get; set; } = new MissionTheme();
     }

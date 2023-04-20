@@ -76,7 +76,7 @@ namespace CIPLATFORM.Controllers
 
             List<Mission> cards = _PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort, pg, @ViewBag.UId);
             CardsViewModel platformModel = new CardsViewModel();
-
+            platformModel = _PlatformRepository.getCards();
             platformModel.missions = cards;
 
             if (cards.Count == 0)
@@ -90,6 +90,7 @@ namespace CIPLATFORM.Controllers
 
             ViewBag.pg_no = pg;
             ViewBag.Totalpages = Math.Ceiling(_PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort, 0, @ViewBag.UId).Count / 6.0);
+           
             platformModel.missions = cards.Skip((1 - 1) * 6).Take(6).ToList();
             return PartialView("_FilterMission", platformModel);
         }
@@ -120,6 +121,12 @@ namespace CIPLATFORM.Controllers
             {
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
+                var rating = _CiPlatformContext.MissionRatings.FirstOrDefault(x => x.UserId == UserId && x.MissionId == mid);
+                if(rating != null)
+                {
+                    ViewBag.rating = rating.Rating;
+                }
+               
             }
 
             ViewBag.MId = mid;
