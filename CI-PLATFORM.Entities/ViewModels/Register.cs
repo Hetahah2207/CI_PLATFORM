@@ -13,6 +13,7 @@ public class Login
     public string Password { get; set; } = null!;
     public User user { get; set; } 
     public Admin admin { get; set; }
+    public string? returnUrl { get; set; }
 }
 public class Register
 {

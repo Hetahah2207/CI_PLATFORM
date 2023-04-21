@@ -158,7 +158,7 @@ function story(pg) {
         },
     });
 }
-window.onload = opengrid();
+//window.onload = opengrid();
 function opengrid() {
     console.log("Grid");
     var div1 = document.getElementById("list-view");
@@ -191,6 +191,7 @@ function AddMissionToFavourite(missionId) {
                 $('#addToFav').css("color", "red");
 
                 document.getElementById(missionId).className = "bi bi-heart-fill text-danger";
+                document.getElementById("x(" +missionId).className = "bi bi-heart-fill text-danger";
             }
             else {
                 $('#addToFav').css("color", "black");
@@ -198,6 +199,7 @@ function AddMissionToFavourite(missionId) {
                 $('#addToFav').addClass("bi bi-heart");
 
                 document.getElementById(missionId).className = "bi bi-heart";
+                document.getElementById("x(" + missionId).className = "bi bi-heart";
             }
 
         },

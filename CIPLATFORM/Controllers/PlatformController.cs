@@ -2,6 +2,7 @@
 using CI_PLATFORM.Entities.Models;
 using CI_PLATFORM.Entities.ViewModels;
 using CI_PLATFORM.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -17,6 +18,7 @@ namespace CIPLATFORM.Controllers
             _PlatformRepository = PlatformRepository;
             _CiPlatformContext = CiPlatformContext;
         }
+        [Authorize]
         public IActionResult HomeGrid()
         {
             string name = HttpContext.Session.GetString("Uname");
@@ -202,6 +204,7 @@ namespace CIPLATFORM.Controllers
 
             return Json(json);
         }
+        [Authorize]
         public IActionResult StoryListing ()
         {
             string? name = HttpContext.Session.GetString("Uname");
