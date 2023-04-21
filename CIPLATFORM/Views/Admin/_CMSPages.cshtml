@@ -66,19 +66,22 @@
     <h3 class="p-3 m-0" style="background-color: #F8F9FC;"> Add </h3>
     <hr class="m-0">
     <form method="post" class="px-3">
+        <div>
         <label for="select mission" class="mt-3"> Title </label>
-        <input asp-for="CmsPage.Title" type="text" class="form-control" id="formGroupExampleInput">
+        <input asp-for="CmsPage.Title" id="CMSTitle" type="text" class="form-control" id="formGroupExampleInput" onkeyup="CMSvalidation();">
+        <span class="mb-5" id="CMSTitleError" style="color:red;"></span>
+        </div>
         <label for="cms1" class="mt-3"> Description</label>
-        <textarea asp-for="CmsPage.Description" id="cms1" cols="172" rows="10"
-                  maxlength="40000"></textarea>
+        <textarea asp-for="CmsPage.Description" id="cms1" cols="172" rows="10" maxlength="40000"></textarea>
         <script>
             var abc = document.getElementById("cms1");
             CKEDITOR.replace(abc);
         </script>
+        <div>
         <label for="select mission" class="mt-3"> Slug </label>
-        <input asp-for="CmsPage.Slug" type="text" class="form-control" id="formGroupExampleInput">
-
-
+        <input asp-for="CmsPage.Slug" id="CMSSlug" type="text" class="form-control" id="formGroupExampleInput" onkeyup="CMSvalidation();">
+        <span id="CMSSlugError" style="color:red;"></span>
+        </div>
         <div class="row my-3">
             <div class="col-10"></div>
             <div class="col-2">
@@ -86,8 +89,8 @@
                         onclick="addpage('nav-cms');">
                     Cancel
                 </button>
-                <button type="submit" class="threebt rounded-pill btn btn-outline-warning"
-                        value="2" name="command">
+                <button type="submit" id="CMSubmitbtn" class="threebt rounded-pill btn btn-outline-warning"
+                        value="2" name="command" disabled>
                     Save
                 </button>
             </div>
@@ -100,6 +103,7 @@
     <form method="post" class="px-3">
         <label for="select mission" class="mt-3"> Title </label>
         <input asp-for="CmsPage.Title" type="text" class="form-control" id="formGroupExampleInput">
+        <span id="CMSTitleError" style="color:red;"></span>
         <input asp-for="CmsPage.CmsPageId" type="hidden" class="form-control" id="formGroupExampleInput">
         <label for="cms2" class="mt-3"> Description</label>
         <textarea asp-for="CmsPage.Description" id="cms2" cols="172" rows="10"
@@ -110,7 +114,7 @@
         </script>
         <label for="select mission" class="mt-3"> Slug </label>
         <input asp-for="CmsPage.Slug" type="text" class="form-control" id="formGroupExampleInput">
-
+        <span id="CMSSlugError" style="color:red;"></span>
         <div class="row my-3">
             <div class="col-10"></div>
             <div class="col-2">
@@ -126,3 +130,37 @@
         </div>
     </form>
 </div>
+
+
+
+<script>
+
+    function CMSvalidation()
+    {
+        var Title = $("#CMSTitle").val();
+        //var Description = $("#cms1").val();
+        var Slug = $("#CMSSlug").val();
+   
+        console.log(Title);
+        //console.log(Description);
+        console.log(Slug);
+        document.getElementById('CMSubmitbtn').disabled = true;
+
+        if(Title.length == 0){
+            $("#CMSTitleError").text("Plaease select the Mission First");
+
+         }
+        //else if(cms1.length == 0){
+        //    $("#CMSDescriptionError").text("Plaease enter the Valid Goal value");
+        //}
+        else if(Slug.length == 0){
+            $("#CMSSlugError").text("Plaease enter the Valid Date");
+        }
+        else{
+            $("#CMSTitleError").text("");
+            //$("#CMSDescriptionError").text("");
+            $("#CMSSlugError").text("");
+            document.getElementById('CMSubmitbtn').disabled = false;
+         }
+    }
+</script>

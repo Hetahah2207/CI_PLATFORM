@@ -220,6 +220,15 @@
                                         </a>
                                     </button>
                                 }
+                                else if (item.EndDate < DateTime.Now)
+                                {
+                                     <button type="button" class="btn btn-outline apply">
+                                        <a asp-controller="Platform" asp-action="MissionListing" asp-route-mid="@item.MissionId" style="text-decoration:none;color:black">
+                                            View Deatail
+                                            <i class=" ms-2 bi bi-arrow-right-short"></i>
+                                        </a>
+                                    </button>
+                                }
                                 else
                                 {
                                     <button type="button" class="btn btn-outline apply">

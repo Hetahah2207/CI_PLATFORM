@@ -24,6 +24,7 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public void addComment(int mid, int uid, string comnt);
         public bool applyMission(int mid, int uid);
         public void RecommandToCoWorker(int FromUserId, List<int> ToUserId, int mid);
+        public bool MICheck(int mid, int userId, List<int> toUserId);
         public StoryListingViewModel GetStoryDetail();
         public List<StoryMedium> smedia(int sid);
         public StoryListingViewModel GetStory(int sid);

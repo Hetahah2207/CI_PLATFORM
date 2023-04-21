@@ -1,10 +1,12 @@
 ﻿using CI_PLATFORM.Entities.Models;
 using CI_PLATFORM.Entities.ViewModels;
 using CI_PLATFORM.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CIPLATFORM.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         public readonly IAdminRepository _AdminRepository;

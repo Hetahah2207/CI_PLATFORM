@@ -1,12 +1,14 @@
 ﻿using CI_PLATFORM.Entities.Models;
 using CI_PLATFORM.Entities.ViewModels;
 using CI_PLATFORM.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 
 namespace CIPLATFORM.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
         public readonly IProfileRepository _ProfileRepository;

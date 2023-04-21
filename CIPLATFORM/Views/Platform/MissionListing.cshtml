@@ -219,26 +219,32 @@
                     <div class="d-flex justify-content-center" id="nok" style="font-size:25px;color:red;"></div>
                     <div class="row mt-2">
                         <div class="apply2 d-flex justify-content-center">
-                            @if (Model.missionapplications.Any(x => x.MissionId == Model.missions.MissionId && x.UserId == @ViewBag.UId && x.ApprovalStatus == "Approve"))
-                            {
-                                <button type="button" class="btn btn-outline apply" id="applyMission" onclick="applyMission(@Model.missions.MissionId)" disabled>
-                                    Applied
-
-                                </button>
-                            }
-                            else if (Model.missionapplications.Any(x => x.MissionId == Model.missions.MissionId && x.UserId == @ViewBag.UId && x.ApprovalStatus == "Pending"))
-                            {
-                                <button type="button" class="btn btn-outline apply" id="applyMission" onclick="applyMission(@Model.missions.MissionId)" disabled>
-                                    Your Request has been sent for Approve
-
-                                </button>
-                            }
-                            else
-                            {
-                                <button type="button" class="btn btn-outline apply" id="applyMission" onclick="applyMission(@Model.missions.MissionId)">
-                                    Apply now
-                                    <i class=" ms-2 bi bi-arrow-right-short"></i>
-                                </button>
+                            @{
+                                @if (Model.missionapplications.Any(x => x.MissionId == Model.missions.MissionId && x.UserId == @ViewBag.UId && x.ApprovalStatus == "Approve"))
+                                {
+                                    <button type="button" class="btn btn-outline apply" id="applyMission" onclick="applyMission(@Model.missions.MissionId)" disabled>
+                                        Applied
+                                    </button>
+                                }
+                                else if (Model.missionapplications.Any(x => x.MissionId == Model.missions.MissionId && x.UserId == @ViewBag.UId && x.ApprovalStatus == "Pending"))
+                                {
+                                    <button type="button" class="btn btn-outline apply" id="applyMission" onclick="applyMission(@Model.missions.MissionId)" disabled>
+                                        Your Request has been sent for Approve
+                                    </button>
+                                }
+                                else if (Model.missions.EndDate < DateTime.Now)
+                                {
+                                    <button type="button" class="btn btn-outline apply" id="applyMission" onclick="applyMission(@Model.missions.MissionId)" disabled>
+                                        Enddate has been passed
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-outline apply" id="applyMission" onclick="applyMission(@Model.missions.MissionId)">
+                                        Apply now
+                                        <i class=" ms-2 bi bi-arrow-right-short"></i>
+                                    </button>
+                                }
                             }
                         </div>
                     </div>
@@ -392,28 +398,9 @@
 
             <div class="container pt-5">
                 <div class="border">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12 pt-3">
-                                Recent Volunteers
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            @foreach (var data in Model.missionapplications)
-                            {
-
-                                <div class="col-4">
-                                    <div class="row">
-                                        <img src=~/images/@data.User.Avatar class="Volunteers" alt="">
-                                    </div>
-                                    <div class="row d-flex justify-content-center">
-                                        @data.User.FirstName @data.User.LastName
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
+                    @{
+                        Html.RenderPartial("_Recent");
+                    }
                 </div>
             </div>
         </div>

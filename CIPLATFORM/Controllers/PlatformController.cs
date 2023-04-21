@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace CIPLATFORM.Controllers
 {
+    [Authorize]
     public class PlatformController : Controller
     {
         public readonly IPlatformRepository _PlatformRepository;
@@ -18,7 +19,7 @@ namespace CIPLATFORM.Controllers
             _PlatformRepository = PlatformRepository;
             _CiPlatformContext = CiPlatformContext;
         }
-        [Authorize]
+        
         public IActionResult HomeGrid()
         {
             string name = HttpContext.Session.GetString("Uname");
@@ -62,7 +63,7 @@ namespace CIPLATFORM.Controllers
 
             return View(ms);
         }
-        public IActionResult Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg)
+        public IActionResult Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg , int view)
         {
             string name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
@@ -94,7 +95,9 @@ namespace CIPLATFORM.Controllers
             ViewBag.Totalpages = Math.Ceiling(_PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort, 0, @ViewBag.UId).Count / 6.0);
            
             platformModel.missions = cards.Skip((1 - 1) * 6).Take(6).ToList();
-            return PartialView("_FilterMission", platformModel);
+
+            if (view == 0 || view == 1)            {                return PartialView("_GridCard", platformModel);            }            else            {                return PartialView("_ListCard", platformModel);            }
+            //return PartialView("_FilterMission", platformModel);
         }
         public IActionResult StoryFilter(string? search, int pg)
         {
@@ -147,9 +150,11 @@ namespace CIPLATFORM.Controllers
         public void RecommandToCoWorker(List<int> toUserId, int mid)
         {
             int FromUserId = (int)HttpContext.Session.GetInt32("UId");
-
-            _PlatformRepository.RecommandToCoWorker(FromUserId, toUserId, mid);
-
+            bool check = _PlatformRepository.MICheck(mid,FromUserId,toUserId);
+            if (check)
+            {
+                _PlatformRepository.RecommandToCoWorker(FromUserId, toUserId, mid);
+            }
             MissionListingViewModel volunteerModel = _PlatformRepository.GetCardDetail(mid);
 
         }

@@ -26,6 +26,9 @@
         },
     });
 }
+
+var view = 1;$(document).ready(function () {    $("#list").click(function () {        view = 2;        temp();        console.log(view);    });    $("#grid").click(function () {        view = 1;        temp();    });})
+
 function temp(pg) {
     if (pg == undefined) {
         pg = 1;
@@ -103,6 +106,7 @@ function temp(pg) {
             'search': search,
             'sort': sort,
             'pg': pg,
+            'view' : view,
         },
         dataType: "html", // return datatype like JSON and HTML
         success: function (data) {
@@ -159,22 +163,22 @@ function story(pg) {
     });
 }
 //window.onload = opengrid();
-function opengrid() {
-    console.log("Grid");
-    var div1 = document.getElementById("list-view");
-    var div2 = document.getElementById("grid-view");
-    div1.style.display = 'none';
-    div2.style.display = 'block';
-    console.log("Done");
-}
-function openlist() {
-    console.log("List");
-    var div1 = document.getElementById("list-view");
-    var div2 = document.getElementById("grid-view");
-    div1.style.display = 'block';
-    div2.style.display = 'none';
-    console.log("Done");
-}
+//function opengrid() {
+//    console.log("Grid");
+//    var div1 = document.getElementById("list-view");
+//    var div2 = document.getElementById("grid-view");
+//    div1.style.display = 'none';
+//    div2.style.display = 'block';
+//    console.log("Done");
+//}
+//function openlist() {
+//    console.log("List");
+//    var div1 = document.getElementById("list-view");
+//    var div2 = document.getElementById("grid-view");
+//    div1.style.display = 'block';
+//    div2.style.display = 'none';
+//    console.log("Done");
+//}
 function AddMissionToFavourite(missionId) {
     $.ajax({
 
@@ -191,7 +195,7 @@ function AddMissionToFavourite(missionId) {
                 $('#addToFav').css("color", "red");
 
                 document.getElementById(missionId).className = "bi bi-heart-fill text-danger";
-                document.getElementById("x(" +missionId).className = "bi bi-heart-fill text-danger";
+                //document.getElementById("x(" + missionId).className = "bi bi-heart-fill text-danger";
             }
             else {
                 $('#addToFav').css("color", "black");
@@ -199,7 +203,7 @@ function AddMissionToFavourite(missionId) {
                 $('#addToFav').addClass("bi bi-heart");
 
                 document.getElementById(missionId).className = "bi bi-heart";
-                document.getElementById("x(" + missionId).className = "bi bi-heart";
+                //document.getElementById("x(" + missionId).className = "bi bi-heart";
             }
 
         },

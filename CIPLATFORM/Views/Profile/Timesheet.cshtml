@@ -197,3 +197,76 @@
     </div>
 </div>
 
+
+
+
+
+
+
+<script>
+
+    function Timevalidation()
+    {
+        var Mission = $("#Mission").val();
+        var Date = $("#sDate").val();
+        var Hours = $("#Hours").val();
+        var Minutes = $("#Minutes").val();
+        console.log(Mission);
+        console.log(Date);
+        console.log(Hours);
+        console.log(Minutes);
+
+        document.getElementById('Submitbtn').disabled = true;
+
+
+        if(Mission == 0){
+            $("#MissionError").text("Plaease select the Mission First");
+         }
+        else if(Date.length == 0){
+            $("#DateError").text("Plaease enter the Valid Date");
+        }
+        else if(Hours == 0 && Minutes == 0){
+            $("#TimeError").text("Plaease enter the Valid Time");
+        }
+        
+      
+        else{
+            $("#MissionError").text("");
+            $("#TimeError").text("");
+            $("#DateError").text("");
+            document.getElementById('Submitbtn').disabled = false;
+         }
+    }
+</script>
+
+
+<script>
+
+    function Goalvalidation()
+    {
+        var Mission = $("#GMission").val();
+        var Date = $("#Date").val();
+        var Goal = $("#Goal").val();
+   
+        console.log(Mission);
+        console.log(Date);
+        console.log(Goal);
+        document.getElementById('GSubmitbtn').disabled = true;
+
+        if(Mission == 0){
+            $("#GMissionError").text("Plaease select the Mission First");
+         }
+        else if(Goal == 0){
+            $("#GoalError").text("Plaease enter the Valid Goal value");
+        }
+        else if(Date.length == 0){
+            $("#GDateError").text("Plaease enter the Valid Date");
+        }
+        else{
+            $("#GMissionError").text("");
+            $("#GDateError").text("");
+            $("#GoalError").text("");
+            document.getElementById('GSubmitbtn').disabled = false;
+         }
+    }
+</script>

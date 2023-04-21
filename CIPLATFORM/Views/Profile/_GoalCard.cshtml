@@ -12,26 +12,31 @@
         </div>
         <div class="modal-body">
             <label class="mb-1 ">Mission</label>
-            <select type="text" asp-for="Timesheet.MissionId" class="form-select form-control" placeholder="Select your Mission">
+            <select type="text" asp-for="Timesheet.MissionId" class="form-select form-control" placeholder="Select your Mission" id="GMission" onchange="Goalvalidation();">
                 <option value="">Select your mission</option>
                 @foreach (var obj in Model.goalmissions)
                 {
                     <option value="@obj.Mission.MissionId">@obj.Mission.Title</option>
                 }
             </select>
+            <div id="GMissionError" style="color:red" ></div>
             <label class="mb-1 mt-3">Actions</label>
-            <input type="text" asp-for="Timesheet.Action" class="form-control" placeholder="Enter Actions">
+            <input type="number" id="Goal" asp-for="Timesheet.Action" class="form-control" placeholder="Enter Actions" onkeyup="Goalvalidation();">
+             <div id="GoalError" style="color:red" ></div>
             <label class="mb-1 mt-3"> Date </label>
             <div class="form-group">
-                <input type="date" asp-for="Timesheet.DateVolunteereed" id="sDate" class="form-control">
+                <input type="date" id="Date" asp-for="Timesheet.DateVolunteereed" id="sDate" class="form-control" onchange="Goalvalidation();">
             </div>
+             <div id="GDateError" style="color:red" ></div>
             <label class="mb-1 mt-3" for="exampleFormControlTextarea1">Message</label>
             <textarea class="form-control" asp-for="Timesheet.Notes" id="exampleFormControlTextarea1" rows="4" placeholder="Enter your message..."></textarea>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Close </button>
-            <button type="submit" name="tid" value="@Model.Timesheet.TimesheetId" class="btn btn-primary">Submit</button>
+            <button type="submit" name="tid" id="GSubmitbtn" value="@Model.Timesheet.TimesheetId" class="btn btn-primary" disabled>Submit</button>
         </div>
     </div>
 </div>
 </form>
+
+

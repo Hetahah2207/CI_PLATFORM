@@ -1,0 +1,26 @@
+﻿@using CI_PLATFORM.Entities.ViewModels
+@model MissionListingViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 pt-3">
+            Recent Volunteers
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        @foreach (var data in Model.missionapplications)
+        {
+            <div class="col-4">
+                <div class="row">
+                    <img src=~/images/@data.User.Avatar class="Volunteers" alt="">
+                </div>
+                <div class="row d-flex justify-content-center">
+                    @data.User.FirstName @data.User.LastName
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+

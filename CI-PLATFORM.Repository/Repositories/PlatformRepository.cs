@@ -58,7 +58,7 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public CardsViewModel getCards()
         {
-            List<Mission> missions = _CiPlatformContext.Missions.Include(x =>x.MissionApplications).ToList();
+            List<Mission> missions = _CiPlatformContext.Missions.Include(x => x.MissionApplications).ToList();
             List<User> users = _CiPlatformContext.Users.ToList();
             //List<MissionApplication> missionApplications = _CiPlatformContext.MissionApplications.ToList();
             List<MissionMedium> media = _CiPlatformContext.MissionMedia.Where(x => x.Default == 1).ToList();
@@ -537,6 +537,24 @@ namespace CI_PLATFORM.Repository.Repositories
             List<MissionDocument> documents = _CiPlatformContext.MissionDocuments.Where(x => x.MissionId == mid).ToList();
             return documents;
         }
+        public bool MICheck(int mid, int userId, List<int> toUserId)
+        {
+            MissionInvite mi = new MissionInvite();
+            {
+                foreach (var item in toUserId)
+                {
+                    mi = _CiPlatformContext.MissionInvites.FirstOrDefault(x => x.MissionId == mid && x.FromUserId == userId && x.ToUserId == item);
+                }
+            }  
+            if (mi == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public void RecommandToCoWorker(int FromUserId, List<int> ToUserId, int mid)
         {
             var fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId && u.DeletedAt == null);
@@ -635,6 +653,7 @@ namespace CI_PLATFORM.Repository.Repositories
             List<FavoriteMission> favoriteMission = _CiPlatformContext.FavoriteMissions.ToList();
             MissionListingViewModel CardDetail = new MissionListingViewModel();
             List<User> users = _CiPlatformContext.Users.ToList();
+           
 
             {
                 CardDetail.missions = mission;
