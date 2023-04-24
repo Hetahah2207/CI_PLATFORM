@@ -31,11 +31,13 @@ namespace CI_PLATFORM.Repository.Repositories
             List<City> cities = _CiPlatformContext.Cities.ToList();
             return cities;
         }
-        public List<City> GetCityData(int countryId)
+        public List<City> GetCityData(List<int>? countryId)
         {
 
-            List<City> city = _CiPlatformContext.Cities.Where(i => i.CountryId == countryId).ToList();
-            return city;
+            //List<City> city = _CiPlatformContext.Cities.Where(i => i.CountryId == countryId).ToList();
+            //return city;
+
+            List<City> city = _CiPlatformContext.Cities.Where(i => countryId.Contains((int)i.CountryId)).ToList();            if (countryId.Count == 0)                city = _CiPlatformContext.Cities.ToList();            return city;
 
         }
         public List<MissionTheme> GetMissionThemes()
@@ -545,8 +547,27 @@ namespace CI_PLATFORM.Repository.Repositories
                 {
                     mi = _CiPlatformContext.MissionInvites.FirstOrDefault(x => x.MissionId == mid && x.FromUserId == userId && x.ToUserId == item);
                 }
-            }  
+            }
             if (mi == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool SICheck(int sid, int userId, List<int> toUserId)
+        {
+
+            StoryInvite si = new StoryInvite();
+            {
+                foreach (var item in toUserId)
+                {
+                    si = _CiPlatformContext.StoryInvites.FirstOrDefault(x => x.StoryId == sid && x.FromUserId == userId && x.ToUserId == item);
+                }
+            }
+            if (si == null)
             {
                 return true;
             }
@@ -645,15 +666,25 @@ namespace CI_PLATFORM.Repository.Repositories
             Mission mission = missions.FirstOrDefault(x => x.MissionId == mid);
             List<MissionMedium> photos = media(mid);
             List<MissionDocument> documents = document(mid);
-            List<Mission> relatedMissions = missions.Where(x => x.OrganizationName == mission.OrganizationName || x.ThemeId == mission.ThemeId || x.CountryId == mission.CountryId).ToList();
-            relatedMissions.Remove(mission);
+            //List<Mission> relatedMissions = missions.Where(x => x.CityId == mission.CityId || x.OrganizationName == mission.OrganizationName || x.ThemeId == mission.ThemeId || x.CountryId == mission.CountryId).ToList();
+            //relatedMissions.Remove(mission);
+
+            List<Mission> relatedMissions = missions.Where(a => a.MissionId != mission.MissionId &&
+                                            (a.ThemeId == mission.ThemeId || (a.CityId == mission.CityId || a.CountryId == mission.CountryId ||
+                                            a.OrganizationName == mission.OrganizationName)))
+                                            .OrderByDescending(a => a.ThemeId == mission.ThemeId)
+                                            .ThenByDescending(a => a.CityId == mission.CityId)
+                                            .ThenByDescending(a => a.CountryId == mission.CountryId)
+                                            .ThenByDescending(a => a.OrganizationName == mission.OrganizationName)
+                                            .Take(3)
+                                            .ToList();
             List<MissionSkill> missionSkills = _CiPlatformContext.MissionSkills.Include(m => m.Skill).Where(x => x.MissionId == mid).ToList();
             List<MissionApplication> applications = _CiPlatformContext.MissionApplications.Include(m => m.User).Where(x => x.MissionId == mid).ToList();
             List<Comment> comments = _CiPlatformContext.Comments.Include(m => m.User).Where(x => x.MissionId == mid && x.ApprovalStatus == "Published").ToList();
             List<FavoriteMission> favoriteMission = _CiPlatformContext.FavoriteMissions.ToList();
             MissionListingViewModel CardDetail = new MissionListingViewModel();
             List<User> users = _CiPlatformContext.Users.ToList();
-           
+
 
             {
                 CardDetail.missions = mission;
@@ -681,7 +712,7 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public StoryListingViewModel GetStory(int sid)
         {
-            Story? story = _CiPlatformContext.Stories.Include(m => m.User).FirstOrDefault(m => m.StoryId == sid);
+            Story? story = _CiPlatformContext.Stories.Include(m => m.User).Include(m => m.StoryViews).FirstOrDefault(m => m.StoryId == sid);
             List<StoryMedium> photos = smedia(sid);
             List<User> users = _CiPlatformContext.Users.ToList();
 
@@ -692,6 +723,25 @@ namespace CI_PLATFORM.Repository.Repositories
                 StoryDetail.coworkers = users;
             }
             return StoryDetail;
+        }
+        public StoryView addview(int sid, int UId)
+        {
+            StoryView sv = _CiPlatformContext.StoryViews.FirstOrDefault(x => x.StoryId == sid && x.UserId == UId);
+            if (sv == null)
+            {
+                StoryView sv2 = new StoryView();
+                {
+                    sv2.StoryId = sid;
+                    sv2.UserId = UId;
+                    _CiPlatformContext.StoryViews.Add(sv2);
+                    _CiPlatformContext.SaveChanges();
+                }
+                return sv2;
+            }
+            else
+            {
+                return sv;
+            }
         }
         public List<MissionApplication> Mission(int UId)
         {

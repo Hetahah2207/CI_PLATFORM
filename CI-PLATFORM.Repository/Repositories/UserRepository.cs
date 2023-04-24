@@ -40,7 +40,6 @@ namespace CI_PLATFORM.Repository.Repositories
             }
             return lgn;
         }
-
         public User Register(User obj)
         {
             var user = _CiPlatformContext.Users.FirstOrDefault(x => x.Email == obj.Email);
@@ -98,6 +97,35 @@ namespace CI_PLATFORM.Repository.Repositories
             smtp.Disconnect(true);
             #endregion Send Mail
             return user;
+        }
+        public bool checktime(string token)
+        {
+            PasswordReset pr = _CiPlatformContext.PasswordResets.FirstOrDefault(x => x.Token == token);
+            if(pr == null)
+            {
+                return true;
+            }
+            DateTime dateTimeVariable = pr.CreatedAt;
+            if (DateTime.Now.Subtract(dateTimeVariable).TotalHours > 2)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        public bool checktoken(string token)
+        {
+            PasswordReset pr = _CiPlatformContext.PasswordResets.FirstOrDefault(x => x.Token == token);
+            if(pr == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         public PasswordReset Resetpassword(User obj, string token)
         {

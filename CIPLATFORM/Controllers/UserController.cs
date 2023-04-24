@@ -50,7 +50,17 @@ namespace CIPLATFORM.Controllers
         [HttpPost]
         public IActionResult Login(Login obj)
         {
+            if (obj.Email == null || obj.Password == null)
+            {
+                TempData["loginerr"] = "Email and Password Is required!!!!!";
+                return View();
+            }
             Login login = _UserRepository.login(obj);
+            if (login.user == null && login.admin == null)
+            {
+                TempData["loginerr"] = "Email Or Password Is Inavalid!!!!!";
+                return View();
+            }
             string role = "";
             if (login.admin != null)
             {
@@ -84,12 +94,8 @@ namespace CIPLATFORM.Controllers
                 HttpContext.Session.SetString("Avtar", "");
             }
 
-            if (login.user == null && login.admin == null)
-            {
-                TempData["loginerr"] = "Email Or Password Is Inavalid!!!!!";
-                return View();
-            }
-            else if (login.admin != null)
+
+            if (login.admin != null)
             {
 
 
@@ -159,10 +165,7 @@ namespace CIPLATFORM.Controllers
         {
             User user1 = new User();
             {
-
                 user1.Email = obj.Email;
-
-
             }
             if (ModelState.IsValid)
             {
@@ -180,8 +183,14 @@ namespace CIPLATFORM.Controllers
             }
             return View();
         }
-        public IActionResult Resetpassword()
+        public IActionResult Resetpassword(string token)
         {
+            bool ct = _UserRepository.checktoken(token);
+            if (!ct)
+            {
+                TempData["Message"] = "Your token is Invalid Cannot open the page";
+                return RedirectToAction("Login");
+            }
             return View();
         }
         [HttpPost]
@@ -189,22 +198,28 @@ namespace CIPLATFORM.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User();
+                bool time = _UserRepository.checktime(token);
+                if (!time)
                 {
-
-                    user.Password = obj.Password;
-
-
-                }
-                var validToken = _UserRepository.Resetpassword(user, token);
-
-                if (validToken != null)
-                {
-                    TempData["Message"] = "Your Password is changed";
+                    TempData["Message"] = " Your token is Expired ";
                     return RedirectToAction("Login");
                 }
-                TempData["Message"] = "Token not Found";
-                return RedirectToAction("Login");
+                else
+                {
+                    User user = new User();
+                    {
+                        user.Password = obj.Password;
+                    }
+                    var validToken = _UserRepository.Resetpassword(user, token);
+
+                    if (validToken != null)
+                    {
+                        TempData["Message"] = "Your Password is changed";
+                        return RedirectToAction("Login");
+                    }
+                    TempData["Message"] = "Token not Found";
+                    return RedirectToAction("Login");
+                }
             }
             return View();
         }

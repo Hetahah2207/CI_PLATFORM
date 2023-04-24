@@ -8,18 +8,22 @@
 @if (TempData["logins"] != null)
 {
     <script type="text/javascript">
+         toastr.options = { "closeButton": true, "progressBar": true };
         toastr.success('@TempData["logins"]')
     </script>
 }
 
 
-<hr class="d-none d-md-block">
+<hr class="d-none d-md-block m-0">
 
 @{
     Html.RenderPartial("_navbar2");
 }
 
 <hr>
+
+<div class="container mt-3" id="filter-button" ></div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-9 col-sm-12"></div>

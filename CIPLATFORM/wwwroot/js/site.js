@@ -1,139 +1,143 @@
-﻿function GetCity() {
-    console.log("het");
-    var countryId = $('#countryId').find(":selected").val();
-    /*    debugger;*/
-    $.ajax({
-        url: "/Platform/GetCitys",
-        method: "GET",
-        data: {
-            "countryId": countryId
-        },
-        success: function (data) {
-            data = JSON.parse(data);
-            $("#selectCityList").empty();
-            document.getElementById("selectCityList").innerHTML += `
-        <option value=${name}> City </option>
-        `;
-            data.forEach((name) => {
-                document.getElementById("selectCityList").innerHTML += `
-        <option value=${name.CityId} >${name.Name}</option>
-        `;
-            })
-        },
-        error: function (e) {
-            console.log("Bye city");
-            alert('Error');
-        },
-    });
-}
+﻿////function GetCity() {
+////    console.log("het");
+////    var countryId = $('#countryId').find(":selected").val();
+////    /*    debugger;*/
+////    $.ajax({
+////        url: "/Platform/GetCitys",
+////        method: "GET",
+////        data: {
+////            "countryId": countryId
+////        },
+////        success: function (data) {
+////            data = JSON.parse(data);
+////            $("#selectCityList").empty();
+////            document.getElementById("selectCityList").innerHTML += `
+////        <option value=${name}> City </option>
+////        `;
+////            data.forEach((name) => {
+////                document.getElementById("selectCityList").innerHTML += `
+////        <option value=${name.CityId} >${name.Name}</option>
+////        `;
+////            })
+////        },
+////        error: function (e) {
+////            console.log("Bye city");
+////            alert('Error');
+////        },
+////    });
+////}
 
-var view = 1;$(document).ready(function () {    $("#list").click(function () {        view = 2;        temp();        console.log(view);    });    $("#grid").click(function () {        view = 1;        temp();    });})
-
-function temp(pg) {
-    if (pg == undefined) {
-        pg = 1;
-    }
-    var checkedcntryvalues = [];
-    var div1 = document.getElementById("countryId");
-    var list = div1.getElementsByTagName("option");
-    for (i = 0; i < list.length; i++) {
-        if (list[i].selected) {
-            checkedcntryvalues.push(list[i].value);
-        }
-
-    }
-    console.log(checkedcntryvalues);
+function GetCity() {    var countryIds = [];    var countrydiv = document.getElementById("countryId");    var list = countrydiv.getElementsByTagName("input");    for (i = 0; i < list.length; i++) {        if (list[i].checked) {            countryIds.push(list[i].id);        }    }    console.log("countryids:" + countryIds);    /* var countryId = $('#countryId').find(":selected").val();*/    $.ajax({        url: "/Platform/GetCitys",        method: "POST",        data: {            'countryId': countryIds        },        success: function (data) {            data = JSON.parse(data);            console.log(data);            $("#selectCityList").empty();            // document.getElementById("selectCityList").innerHTML += `            //<option value=${name}> City </option>            //`;            document.getElementById("selectCityList").innerHTML += `<ul class="dropdown-menu">`;            data.forEach((name) => {                // document.getElementById("selectCityList").innerHTML += `                //<option value=${name.CityId} >${name.Name}</option>                //`;                document.getElementById("selectCityList").innerHTML += `<li><input type="checkbox" name="city" id="${name.CityId}" class="city_${name.CityId}" value="${name.Name}" />${name.Name}</li>`;            })            document.getElementById("selectCityList").innerHTML += `</ul>`;        }        ,        error: function (e) {            console.log("Bye");            alert('Error');        },    });}function filterBadges() {    $("#filter-button").empty();    $('input[name="country"]:checked').each(function () {        document.getElementById("filter-button").innerHTML += `<button class="filter rounded-pill border" id="${this.value}" ><div style="width:max-content">${this.value} <i onclick="removeFilter(${this.id},'country')" class="bi bi-x"></i></div></button>`    });    $('input[name="city"]:checked').each(function () {        document.getElementById("filter-button").innerHTML += `<button class="filter rounded-pill border" id="${this.value}" ><div style="width:max-content">${this.value} <i onclick="removeFilter(${this.id},'city')" class="bi bi-x"></i></div></button>`    });    $('input[name="theme"]:checked').each(function () {        document.getElementById("filter-button").innerHTML += `<button class="filter rounded-pill border" id="${this.value}"><div style="width:max-content">${this.value} <i onclick="removeFilter(${this.id},'theme')" class="bi bi-x"></i></div></button>`    });    $('input[name="skill"]:checked').each(function () {        document.getElementById("filter-button").innerHTML += `<button class="filter rounded-pill border" id="${this.value}"><div style="width:max-content">${this.value} <i onclick="removeFilter(${this.id},'skill')" class="bi bi-x"></i></div></button>`    });    document.getElementById("filter-button").innerHTML += `<button class="clearall p-0 rounded-pill border" onclick="clearAll()">Clear all</button>`}function removeFilter(checkboxId, type) {    console.log("rm" + checkboxId);    if (type == 'country') {        $(".country_" + checkboxId).prop("checked", false);        GetCity();    }    if (type == 'city') {        $(".city_" + checkboxId).prop("checked", false);    }    if (type == 'theme') {        $(".theme_" + checkboxId).prop("checked", false);    }    if (type == 'skill') {        $(".skill_" + checkboxId).prop("checked", false);    }    temp();    filterBadges();}function clearAll() {    $('input[name="country"]:checked').each(function () {        $(".country_" + this.id).prop("checked", false);    });    $('input[name="city"]:checked').each(function () {        $(".city_" + this.id).prop("checked", false);    });    $('input[name="theme"]:checked').each(function () {        $(".theme_" + this.id).prop("checked", false);    });    $('input[name="skill"]:checked').each(function () {        $(".skill_" + this.id).prop("checked", false);    });    filterBadges();    temp();    $(".clearall").addClass("d-none");}var view = 1;$(document).ready(function () {    $("#list").click(function () {        view = 2;        temp();        console.log(view);    });    $("#grid").click(function () {        view = 1;        temp();    });})
 
 
-    var checkedvalues = [];
-    var div = document.getElementById("selectCityList");
-    var list = div.getElementsByTagName("option");
-    for (i = 0; i < list.length; i++) {
-        if (list[i].selected) {
-            checkedvalues.push(list[i].value);
-        }
-
-    }
-    console.log(checkedvalues);
+function temp(pg) {    if (pg == undefined) {        pg = 1;    }    console.log(pg);    var checkedcntryvalues = [];    var div1 = document.getElementById("countryId");    var list = div1.getElementsByTagName("input");    for (i = 0; i < list.length; i++) {        if (list[i].checked) {            checkedcntryvalues.push(list[i].id);        }    }    console.log(checkedcntryvalues);    var checkedvalues = [];    var div = document.getElementById("selectCityList");    var list = div.getElementsByTagName("input");    for (i = 0; i < list.length; i++) {        if (list[i].checked) {            checkedvalues.push(list[i].id);        }    }    console.log(checkedvalues);    var checkedthemevalues = [];    var div2 = document.getElementById("theme");    var list = div2.getElementsByTagName("input");    for (i = 0; i < list.length; i++) {        if (list[i].checked) {            checkedthemevalues.push(list[i].id);        }    }    console.log(checkedthemevalues);    var checkedskillvalues = [];    var div3 = document.getElementById("skill");    var list = div3.getElementsByTagName("input");    for (i = 0; i < list.length; i++) {        if (list[i].checked) {            checkedskillvalues.push(list[i].id);        }    }    console.log(checkedskillvalues);    var search = document.getElementById("searchb").value;    console.log(search)    var sort = document.getElementById("sort").value;    console.log(sort)    $.ajax({        type: "POST", // POST        url: '/Platform/Filter',        data: {            'cityId': checkedvalues,            'countryId': checkedcntryvalues,            'themeId': checkedthemevalues,            'skillId': checkedskillvalues,            'search': search,            'sort': sort,            'pg': pg,            'view': view,        },        dataType: "html",        success: function (data) {            $("#filter").empty();            console.log("grid Hii");            $("#filter").html(data);            var div1 = document.getElementById("list-view");            div1.style.display = 'none';        },        error: function (e) {            console.log("Bye");            alert('Error');        },    });}
 
 
+//function temp(pg) {
+//    if (pg == undefined) {
+//        pg = 1;
+//    }
+//    var checkedcntryvalues = [];
+//    var div1 = document.getElementById("countryId");
+//    var list = div1.getElementsByTagName("option");
+//    for (i = 0; i < list.length; i++) {
+//        if (list[i].selected) {
+//            checkedcntryvalues.push(list[i].value);
+//        }
+
+//    }
+//    console.log(checkedcntryvalues);
 
 
+//    var checkedvalues = [];
+//    var div = document.getElementById("selectCityList");
+//    var list = div.getElementsByTagName("option");
+//    for (i = 0; i < list.length; i++) {
+//        if (list[i].selected) {
+//            checkedvalues.push(list[i].value);
+//        }
 
-    var checkedthemevalues = [];
-    var div2 = document.getElementById("theme");
-    var list = div2.getElementsByTagName("input");
-    for (i = 0; i < list.length; i++) {
-        if (list[i].checked) {
-            checkedthemevalues.push(list[i].value);
-        }
-
-    }
-    console.log(checkedthemevalues);
+//    }
+//    console.log(checkedvalues);
 
 
 
-    var checkedskillvalues = [];
-    var div3 = document.getElementById("skill");
-    var list = div3.getElementsByTagName("input");
-    for (i = 0; i < list.length; i++) {
-        if (list[i].checked) {
-            checkedskillvalues.push(list[i].value);
-        }
-
-    }
-    console.log(checkedskillvalues);
 
 
+//    var checkedthemevalues = [];
+//    var div2 = document.getElementById("theme");
+//    var list = div2.getElementsByTagName("input");
+//    for (i = 0; i < list.length; i++) {
+//        if (list[i].checked) {
+//            checkedthemevalues.push(list[i].value);
+//        }
 
-    var search = document.getElementById("searchb").value;
-    console.log(search)
-
-
-    var sort = document.getElementById("sort").value;
-    console.log(sort)
-
-
-    $.ajax({
-        url: '/Platform/Filter',
-        type: "POST", // POST
-
-        data: {
-            'cityId': checkedvalues,
-            'countryId': checkedcntryvalues,
-            'themeId': checkedthemevalues,
-            'skillId': checkedskillvalues,
-            'search': search,
-            'sort': sort,
-            'pg': pg,
-            'view' : view,
-        },
-        dataType: "html", // return datatype like JSON and HTML
-        success: function (data) {
+//    }
+//    console.log(checkedthemevalues);
 
 
-            $("#filter").empty();
-            console.log("grid Hii");
-            $("#filter").html(data);
+
+//    var checkedskillvalues = [];
+//    var div3 = document.getElementById("skill");
+//    var list = div3.getElementsByTagName("input");
+//    for (i = 0; i < list.length; i++) {
+//        if (list[i].checked) {
+//            checkedskillvalues.push(list[i].value);
+//        }
+
+//    }
+//    console.log(checkedskillvalues);
 
 
-            //$("#grid-view").empty();
-            //console.log("grid Hii");
-            //$("#grid-view").html(data);
-            //$("#list-view").empty();
-            //console.log("list Hii");
-            //$("#list-view").html(data);
 
-            var div1 = document.getElementById("list-view");
-            div1.style.display = 'none';
+//    var search = document.getElementById("searchb").value;
+//    console.log(search)
 
-        },
-        error: function (e) {
-            console.log("Bye");
-            alert('Error');
-        },
-    });
-}
+
+//    var sort = document.getElementById("sort").value;
+//    console.log(sort)
+
+
+//    $.ajax({
+//        url: '/Platform/Filter',
+//        type: "POST", // POST
+
+//        data: {
+//            'cityId': checkedvalues,
+//            'countryId': checkedcntryvalues,
+//            'themeId': checkedthemevalues,
+//            'skillId': checkedskillvalues,
+//            'search': search,
+//            'sort': sort,
+//            'pg': pg,
+//            'view' : view,
+//        },
+//        dataType: "html", // return datatype like JSON and HTML
+//        success: function (data) {
+
+
+//            $("#filter").empty();
+//            console.log("grid Hii");
+//            $("#filter").html(data);
+
+
+//            //$("#grid-view").empty();
+//            //console.log("grid Hii");
+//            //$("#grid-view").html(data);
+//            //$("#list-view").empty();
+//            //console.log("list Hii");
+//            //$("#list-view").html(data);
+
+//            var div1 = document.getElementById("list-view");
+//            div1.style.display = 'none';
+
+//        },
+//        error: function (e) {
+//            console.log("Bye");
+//            alert('Error');
+//        },
+//    });
+//}
 function story(pg) {
     if (pg == undefined) {
         pg = 1;
@@ -180,6 +184,7 @@ function story(pg) {
 //    console.log("Done");
 //}
 function AddMissionToFavourite(missionId) {
+    
     $.ajax({
 
         url: '/Platform/AddMissionToFavourite',
@@ -193,16 +198,25 @@ function AddMissionToFavourite(missionId) {
                 $('#addToFav').removeClass();
                 $('#addToFav').addClass("bi bi-heart-fill");
                 $('#addToFav').css("color", "red");
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true
+                };
+                toastr.success("Added To the favourite");
+                document.getElementById('add_' + missionId).className = "bi bi-heart-fill text-danger";
 
-                document.getElementById(missionId).className = "bi bi-heart-fill text-danger";
                 //document.getElementById("x(" + missionId).className = "bi bi-heart-fill text-danger";
             }
             else {
                 $('#addToFav').css("color", "black");
                 $('#addToFav').removeClass();
                 $('#addToFav').addClass("bi bi-heart");
-
-                document.getElementById(missionId).className = "bi bi-heart";
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true
+                };
+                toastr.error('Remove From the favourite');
+                document.getElementById('add_' + missionId).className = "bi bi-heart";
                 //document.getElementById("x(" + missionId).className = "bi bi-heart";
             }
 

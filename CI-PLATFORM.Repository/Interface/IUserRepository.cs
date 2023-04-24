@@ -10,7 +10,9 @@ namespace CI_PLATFORM.Repository.Interface
         //User Login(User obj);
         public Login login(Login obj);
         User Register(User obj);
+        public bool checktoken(string token);
         User Forgotpassword(User obj);
+        public bool checktime(string token);
         PasswordReset Resetpassword(User obj, string token);
     }
 }

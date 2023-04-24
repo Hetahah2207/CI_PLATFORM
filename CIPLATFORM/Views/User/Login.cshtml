@@ -105,14 +105,14 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1"> Email address </label>
                     <input asp-for="Email" type="email" class="form-control form-control-sm" placeholder="evan.donohue@gmail.com" id="exampleInputEmail1" aria-label="Large" aria-describedby="emailHelp">
-                    <span style="color:red;" asp-validation-for="Email"></span>
+                    @*<span style="color:red;" asp-validation-for="Email"></span>*@
                     <input asp-for="returnUrl" type="hidden" class="form-control form-control-sm" id="exampleInputEmail1" aria-label="Large" aria-describedby="emailHelp">
                 </div>
                 <br>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Password </label>
                     <input asp-for="Password" type="password" class="form-control form-control-sm" id="exampleInputPassword1">
-                    <span style="color:red;" asp-validation-for="Password"></span>
+                    @*<span style="color:red;" asp-validation-for="Password"></span>*@
                 </div>
                 <br>
                 <button type="submit" asp-action="Login" class="btn btn-outline btn-block" style="background: #F8863400 0% 0% no-repeat padding-box;

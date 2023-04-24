@@ -5,6 +5,15 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+@*@if (TempData["success"] != null)
+{
+    <script type="text/javascript">
+         toastr.options = { "closeButton": true, "progressBar": true };
+        toastr.success('@TempData["success"]')
+    </script>
+}*@
+
+
 <hr class="d-none d-md-block">
 
 <div class="container">
@@ -100,18 +109,18 @@
 
 
                         </div>
-                        <div class="col-12 col-md-6 mt-2" id="recommand" onclick="recommandToCoWorker(@Model.missions.MissionId)">
+                        <div class="col-12 col-md-6 mt-2" id="recommand">
 
-                            <button type="button" class="btn btn-outline w-100  rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background: #F8863400 0% 0% no-repeat padding-box; border: 2px solid #020201; border-radius: 24px; opacity: 1; color:#020202">
+                            <button type="button" class="btn btn-outline-dark w-100  rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 <i class="bi bi-square-fill"><span> Recommend to a Co-Worker</span></i>
                             </button>
 
 
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" onclick="recommandToCoWorker(@Model.missions.MissionId)">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel"> Recommend to a Co-Worker</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">

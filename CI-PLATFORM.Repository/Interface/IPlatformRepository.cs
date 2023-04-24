@@ -5,7 +5,8 @@ using System;using System.Collections.Generic;using System.Linq;using System.
     {
         public List<Country> GetCountryData();
         public List<City> GetCitys();
-        public List<City> GetCityData(int countryId);
+        public List<City> GetCityData(List<int>? countryId);
+        //public List<City> GetCityData(int countryId);
         public List<MissionTheme> GetMissionThemes();
         //public List<Skill> GetSkills();
         //public List<Mission> GetMissions();
@@ -25,11 +26,13 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public bool applyMission(int mid, int uid);
         public void RecommandToCoWorker(int FromUserId, List<int> ToUserId, int mid);
         public bool MICheck(int mid, int userId, List<int> toUserId);
+        public bool SICheck(int sid, int userId, List<int> toUserId);
         public StoryListingViewModel GetStoryDetail();
         public List<StoryMedium> smedia(int sid);
         public StoryListingViewModel GetStory(int sid);
         public void RecommandStory(int FromUserId, List<int> ToUserId, int sid);
         public bool MissionRating(int userId, int mid, int rating);
+        public StoryView addview(int sid, int UId);
         public List<MissionApplication> Mission(int UId);
         public StoryListingViewModel ShareStory(int UId);
         public bool saveStory(StoryListingViewModel obj, int status, int uid);
