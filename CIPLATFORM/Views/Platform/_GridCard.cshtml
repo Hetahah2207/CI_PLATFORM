@@ -127,13 +127,32 @@
                                 </div>
                                 <div class="col-md-6">
 
-                                    @for (int i = 1; i <= (int)@item.MissionRatings.Average(x => x.Rating); i++)
-                                    {
+                                    @*@for (int i = 1; i <= (int)@item.MissionRatings.Average(x => x.Rating); i++)
+                                        {
                                         <i class="bi bi-star-fill" style="color: #F8D441;"></i>
-                                    }
-                                    @for (int i = 1; i <= 5 - (int)@item.MissionRatings.Average(x => x.Rating); i++)
-                                    {
+                                        }
+                                        @for (int i = 1; i <= 5 - (int)@item.MissionRatings.Average(x => x.Rating); i++)
+                                        {
                                         <i class="bi bi-star" style="color: #F8D441;"></i>
+                                        }*@
+
+                                    @{
+                                        var ratings = item.MissionRatings.Average(x => x.Rating);
+                                        var fullStars = (int)ratings;
+                                        var partialStar = ratings - fullStars;
+                                        var emptyStars = 5 - fullStars - (partialStar > 0 ? 1 : 0);
+                                        @for (var i = 0; i < fullStars; i++)
+                                        {
+                                            <i class="bi bi-star-fill" style="color: #F8D441;"></i>
+                                        }
+                                        @if (partialStar > 0)
+                                        {
+                                            <i class="bi bi-star-half" style="color: #F8D441;"></i>
+                                        }
+                                        @for (var i = 0; i < emptyStars; i++)
+                                        {
+                                            <i class="bi bi-star" style="color: #F8D441;"></i>
+                                        }
                                     }
                                 </div>
                             </div>
@@ -222,7 +241,7 @@
                                 }
                                 else if (item.EndDate < DateTime.Now)
                                 {
-                                     <button type="button" class="btn btn-outline apply">
+                                    <button type="button" class="btn btn-outline apply">
                                         <a asp-controller="Platform" asp-action="MissionListing" asp-route-mid="@item.MissionId" style="text-decoration:none;color:black">
                                             View Deatail
                                             <i class=" ms-2 bi bi-arrow-right-short"></i>

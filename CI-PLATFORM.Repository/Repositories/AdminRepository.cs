@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 
 namespace CI_PLATFORM.Repository.Repositories
 {
@@ -23,6 +24,8 @@ namespace CI_PLATFORM.Repository.Repositories
             AdminViewModel um = new AdminViewModel();
             {
                 um.users = _CiPlatformContext.Users.Where(x => x.DeletedAt == null).ToList();
+                um.cities = _CiPlatformContext.Cities.ToList();
+                um.countries = _CiPlatformContext.Countries.ToList();
                 um.missions = _CiPlatformContext.Missions.Where(x => x.DeletedAt == null).ToList();
 
                 um.CmsPages = _CiPlatformContext.CmsPages.Where(x => x.DeletedAt == null).ToList();
@@ -66,6 +69,55 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public bool addcms(AdminViewModel obj, int command)
         {
+            if (command == 1)
+            {
+                if (obj.user.UserId == 0)
+                {
+                    User user = new User();
+                    {
+                        user.FirstName = obj.user.FirstName;
+                        user.LastName = obj.user.LastName;
+                        user.Email = obj.user.Email;
+                        user.Password = Crypto.HashPassword(obj.user.Password);
+                        user.EmployeeId = obj.user.EmployeeId;
+                        user.Department = obj.user.Department;
+                        user.CountryId = obj.user.CountryId;
+                        user.CityId = obj.user.CityId;
+                        user.ProfileText = obj.user.ProfileText;
+                        user.Status = obj.user.Status;
+                        if (obj.Avatarfile != null)
+                        {
+                            user.Avatar = obj.Avatarfile.FileName;
+                        }
+                        _CiPlatformContext.Add(user);
+                        _CiPlatformContext.SaveChanges();
+                    }
+                }
+                else
+                {
+                    User user = _CiPlatformContext.Users.FirstOrDefault(x => x.UserId == obj.user.UserId);
+                    {
+                        user.FirstName = obj.user.FirstName;
+                        user.LastName = obj.user.LastName;
+                        user.Email = obj.user.Email;
+                        //user.Password = Crypto.HashPassword(obj.user.Password);
+                        user.EmployeeId = obj.user.EmployeeId;
+                        user.Department = obj.user.Department;
+                        user.CountryId = obj.user.CountryId;
+                        user.CityId = obj.user.CityId;
+                        user.ProfileText = obj.user.ProfileText;
+                        user.Status = obj.user.Status;
+                        if (obj.Avatarfile != null)
+                        {
+                            user.Avatar = obj.Avatarfile.FileName;
+                        }
+                        user.UpdatedAt = DateTime.Now;
+                    }
+                    _CiPlatformContext.Update(user);
+                    _CiPlatformContext.SaveChanges();
+                    return false;
+                }
+            }
             if (command == 2)
             {
                 if (obj.CmsPage.CmsPageId == 0)
@@ -102,7 +154,7 @@ namespace CI_PLATFORM.Repository.Repositories
                     {
                         missionTheme.Title = obj.missionTheme.Title;
                         missionTheme.Status = obj.missionTheme.Status;
-                        missionTheme.CreatedAt = new DateTime(2022,4,20,10,30,0);
+                        missionTheme.CreatedAt = new DateTime(2022, 4, 20, 10, 30, 0);
                     }
                     _CiPlatformContext.Add(missionTheme);
                     _CiPlatformContext.SaveChanges();
@@ -158,6 +210,10 @@ namespace CI_PLATFORM.Repository.Repositories
                 if (page == "nav-cms")
                 {
                     am.CmsPage = _CiPlatformContext.CmsPages.FirstOrDefault(x => x.CmsPageId == id);
+                }
+                if (page == "nav-user")
+                {
+                    am.user = _CiPlatformContext.Users.FirstOrDefault(x => x.UserId == id);
                 }
                 if (page == "nav-theme")
                 {

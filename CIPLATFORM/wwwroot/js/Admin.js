@@ -1,14 +1,12 @@
-﻿function searchuser(pg, key)
-{
+﻿function searchuser(pg, key) {
     if (pg == undefined) {
         pg = 1;
     }
     if (key == "user") {
         var search = document.getElementById("searchuser").value;
     }
-    if (key == "cms")
-    {
-        var search = document.getElementById("searchcms").value; 
+    if (key == "cms") {
+        var search = document.getElementById("searchcms").value;
     }
     if (key == "mission") {
         var search = document.getElementById("searchmission").value;
@@ -33,14 +31,13 @@
         data: {
             'search': search,
             'pg': pg,
-            'key' : key,
+            'key': key,
         },
         dataType: "html", // return datatype like JSON and HTML
         success: function (data) {
 
             console.log(data);
-            if (key == "user")
-            {
+            if (key == "user") {
                 $("#hi").empty();
                 $("#hi").html(data);
             }
@@ -48,8 +45,7 @@
                 $("#hi2").empty();
                 $("#hi2").html(data);
             }
-            else if (key == "mission")
-            {
+            else if (key == "mission") {
                 $("#hi3").empty();
                 $("#hi3").html(data);
             }
@@ -61,8 +57,7 @@
                 $("#hi5").empty();
                 $("#hi5").html(data);
             }
-            else if (key == "application")
-            {
+            else if (key == "application") {
                 $("#hi6").empty();
                 $("#hi6").html(data);
             }
@@ -84,7 +79,6 @@ function getdata(x, id) {
 
     var addForm = page.querySelector("#edit");
 
-    debugger
 
 
     $.ajax({
@@ -96,7 +90,7 @@ function getdata(x, id) {
             "page": x,
         },
         success: function (data) {
-         
+
             console.log(data);
             var htmlObject = document.createElement('div');
             htmlObject.innerHTML = data;
@@ -106,17 +100,17 @@ function getdata(x, id) {
 
             console.log(abc);
             console.log(addForm);
-        
+
             addForm.replaceWith(abc);
             if (x == "nav-cms") {
                 var abc = document.getElementById("cms2");
                 CKEDITOR.replace(abc);
             }
+            if (x == "nav-user") {                $("#profileImageInput1").on('change', function () {
+                    console.log("2");
+                    readURL1(this);
 
-            //if (y == 3) {
-            //    var abc = document.getElementById("mission2");
-            //    CKEDITOR.replace(abc);
-            //}
+                });            }
         },
         error: function (e) {
             debugger
@@ -125,4 +119,41 @@ function getdata(x, id) {
         },
     });
 
+}
+
+
+function GetsCity(x) {
+    if (x != undefined) {
+        var countryId = $('#countryId' + x).find(":selected").val();
+        var city = "selectCityList" + x;
+    }
+    else {
+        var countryId = $('#countryId').find(":selected").val();
+        var city = "selectCityList";
+    }
+        $.ajax({
+            url: "/Platform/GetCitys",
+            method: "GET",
+            data: {
+                "countryId": countryId
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                $("#"+city).empty();
+                
+                document.getElementById(city).innerHTML += `
+        <option value=${name}> City </option>
+        `;
+                data.forEach((name) => {
+                    document.getElementById(city).innerHTML += `
+        <option value=${name.CityId} >${name.Name}</option>
+        `;
+                })
+            },
+            error: function (e) {
+                console.log("Bye city");
+                alert('Error');
+            },
+        });
+    
 }

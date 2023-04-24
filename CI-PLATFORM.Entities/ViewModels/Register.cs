@@ -48,7 +48,8 @@ public class ForgotPwd
 public class ResetPwd
 {
 
-
+    [RegularExpression(@"^(?=.*[A-Z])(?=.*\d).+$", ErrorMessage = "Password must contain at least one uppercase letter and one digit")]
+    [StringLength(20, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 20 characters long")]
     [Required(ErrorMessage = "Password is Required")]
     public string Password { get; set; } = null!;
 

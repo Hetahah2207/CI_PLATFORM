@@ -3,8 +3,10 @@ using CI_PLATFORM.Entities.Models;
 using CI_PLATFORM.Entities.ViewModels;
 using CI_PLATFORM.Repository.Interface;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Web.Helpers;
 
 namespace CIPLATFORM.Controllers
 {
@@ -55,7 +57,11 @@ namespace CIPLATFORM.Controllers
                 TempData["loginerr"] = "Email and Password Is required!!!!!";
                 return View();
             }
-            Login login = _UserRepository.login(obj);
+            //var passwordHasher = new PasswordHasher<Login>();
+            //obj.Password = passwordHasher.HashPassword(obj,obj.Password);
+            //var passwordVerificationResult = passwordHasher.VerifyHashedPassword(objUser, objUser.Password, obj.Password);
+            //if (passwordVerificationResult == PasswordVerificationResult.Success)
+                Login login = _UserRepository.login(obj);
             if (login.user == null && login.admin == null)
             {
                 TempData["loginerr"] = "Email Or Password Is Inavalid!!!!!";
@@ -137,7 +143,10 @@ namespace CIPLATFORM.Controllers
                     user.FirstName = obj.FirstName;
                     user.LastName = obj.LastName;
                     user.Email = obj.Email;
-                    user.Password = obj.Password;
+                    user.Password = Crypto.HashPassword(obj.Password);
+                    //user.Password = obj.Password;
+                    //var passwordHasher = new Microsoft.AspNetCore.Identity.PasswordHasher<User>();
+                    //user.Password = passwordHasher.HashPassword(user, obj.Password);
                     user.PhoneNumber = obj.PhoneNumber;
                 }
                 var check = _UserRepository.Register(user);
@@ -208,8 +217,11 @@ namespace CIPLATFORM.Controllers
                 {
                     User user = new User();
                     {
-                        user.Password = obj.Password;
+                        user.Password = Crypto.HashPassword(obj.Password);
                     }
+                    //string hashedPassword = Crypto.HashPassword(obj.Password);
+
+         
                     var validToken = _UserRepository.Resetpassword(user, token);
 
                     if (validToken != null)

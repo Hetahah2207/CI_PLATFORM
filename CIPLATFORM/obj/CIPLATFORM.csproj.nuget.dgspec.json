@@ -10,7 +10,7 @@
         "projectUniqueName": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj",
         "projectName": "CI-PLATFORM.Entities",
         "projectPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Entities\\CI-PLATFORM.Entities.csproj",
-        "packagesPath": "C:\\Users\\tatva\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\pci106\\.nuget\\packages\\",
         "outputPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
@@ -18,7 +18,7 @@
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\tatva\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pci106\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -107,7 +107,7 @@
         "projectUniqueName": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Repository\\CI-PLATFORM.Repository.csproj",
         "projectName": "CI-PLATFORM.Repository",
         "projectPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Repository\\CI-PLATFORM.Repository.csproj",
-        "packagesPath": "C:\\Users\\tatva\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\pci106\\.nuget\\packages\\",
         "outputPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CI-PLATFORM.Repository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
@@ -115,7 +115,7 @@
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\tatva\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pci106\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -149,6 +149,14 @@
             "MailKit": {
               "target": "Package",
               "version": "[3.5.0, )"
+            },
+            "Microsoft.AspNet.Identity.Core": {
+              "target": "Package",
+              "version": "[2.2.3, )"
+            },
+            "Microsoft.AspNet.WebPages": {
+              "target": "Package",
+              "version": "[3.2.9, )"
             },
             "Microsoft.AspNetCore.Http": {
               "target": "Package",
@@ -208,7 +216,7 @@
         "projectUniqueName": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\CIPLATFORM.csproj",
         "projectName": "CIPLATFORM",
         "projectPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\CIPLATFORM.csproj",
-        "packagesPath": "C:\\Users\\tatva\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\pci106\\.nuget\\packages\\",
         "outputPath": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
@@ -216,7 +224,7 @@
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\tatva\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pci106\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -253,6 +261,10 @@
             "MailKit": {
               "target": "Package",
               "version": "[3.5.0, )"
+            },
+            "Microsoft.AspNet.WebPages": {
+              "target": "Package",
+              "version": "[3.2.9, )"
             },
             "Microsoft.AspNetCore.Http": {
               "target": "Package",

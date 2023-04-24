@@ -1,4 +1,5 @@
 ﻿using CI_PLATFORM.Entities.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,10 @@ namespace CI_PLATFORM.Entities.ViewModels
     public class AdminViewModel
     {
         public List<User> users { get; set; } = new List<User>();
+        public User user { get; set; } = new User();
+        public List<City> cities { get; set; } = new List<City>();
+        public List<Country> countries { get; set; } = new List<Country>();
+        public IFormFile? Avatarfile { get; set; }
         public List<Mission> missions { get; set; } = new List<Mission>();
         
         public List<CmsPage> CmsPages { get; set; } = new List<CmsPage>();
@@ -20,5 +25,6 @@ namespace CI_PLATFORM.Entities.ViewModels
         public Skill Skill { get; set; }  = new Skill();
         public List<MissionTheme> missionThemes { get; set; } = new List<MissionTheme>();
         public MissionTheme missionTheme { get; set; } = new MissionTheme();
+
     }
 }

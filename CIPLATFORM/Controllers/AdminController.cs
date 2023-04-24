@@ -54,6 +54,14 @@ namespace CIPLATFORM.Controllers
         [HttpPost]
         public IActionResult Admin(AdminViewModel obj, int command)
         {
+            if (command == 1)
+            {
+                bool addcmspage = _AdminRepository.addcms(obj, command);
+                if (addcmspage)
+                    TempData["true"] = "user added Successfully";
+                else
+                    TempData["false"] = "user updated Successfully";
+            }
             if (command == 2)
             {
                 bool addcmspage = _AdminRepository.addcms(obj, command);
@@ -102,7 +110,7 @@ namespace CIPLATFORM.Controllers
             ViewBag.Totalpages7 = Math.Ceiling(am.stories.Count() / 5.0);
             am.stories = am.stories.Skip((1 - 1) * 5).Take(5).ToList();
             ViewBag.pg_no = 1;
-            return View(am);
+            return RedirectToAction("Admin");
         }
         public IActionResult UserFilter(string? search, int pg, string key)
         {
@@ -184,6 +192,12 @@ namespace CIPLATFORM.Controllers
             {
                 am.CmsPage = _AdminRepository.EditForm(id, page).CmsPage;
                 return PartialView("_CMSPages", am);
+            }
+            else if(page == "nav-user")
+            {
+                am.user = _AdminRepository.EditForm(id, page).user;
+                //am.Avatarfile.FileName = am.user.Avatar;
+                return PartialView("_user", am);
             }
             else if (page == "nav-theme")
             {

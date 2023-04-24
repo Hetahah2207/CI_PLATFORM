@@ -6,12 +6,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 @*@if (TempData["success"] != null)
-{
+    {
     <script type="text/javascript">
-         toastr.options = { "closeButton": true, "progressBar": true };
-        toastr.success('@TempData["success"]')
+    toastr.options = { "closeButton": true, "progressBar": true };
+    toastr.success('@TempData["success"]')
     </script>
-}*@
+    }*@
 
 
 <hr class="d-none d-md-block">
@@ -80,13 +80,47 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6 d-flex justify-content-center">
+                        <div class="col-6 justify-content-center">
                             <i class="bi bi-person-check " style="font-size: 25px;"></i>
-                            <span> 10 <br> seats left</span>
+                            @{
+                                if (Model.missions.MissionType == "Goal")
+                                {
+                                    int seates = @Model.missions.GoalMissions.FirstOrDefault().GoalValue;
+                                    int apply = @Model.missions.MissionApplications.Count();
+                                    int left = seates - apply;
+
+                                    <span>@left</span>
+                                    <br>
+                                    <span>seats left</span>
+                                }
+                                else
+                                {
+                                    int apply = @Model.missions.MissionApplications.Count();
+                                    <span>@apply</span>
+                                    <br>
+                                    <span>Already Volunteered</span>
+                                }
+                            }
                         </div>
-                        <div class="col-6 d-flex justify-content-center">
-                            <i class="bi bi-clock" style="font-size: 25px;"></i>
-                            <span> @Model.missions.EndDate.ToString().Substring(0,10) <br> Deadline</span>
+                        <div class="col-6 justify-content-center">
+                            @* <i class="bi bi-clock" style="font-size: 25px;"></i>
+                                <span> @Model.missions.EndDate.ToString().Substring(0,10) <br> Deadline</span>*@
+                            @{
+                                if (Model.missions.MissionType == "Goal")
+                                {
+                                    int seates = @Model.missions.GoalMissions.FirstOrDefault().GoalValue;
+                                    int apply = @Model.missions.MissionApplications.Count();
+                                    float per = (((float)apply / (float)seates) * (float)(100));
+                                    <input type="range" class="mt-1 i1" id="slider" name="slider" min="0" max="100" value=@per>
+                                    <p>@apply Achieved</p>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-clock"></i> @Model.missions.EndDate.ToString().Substring(0,10)
+                                    <br>
+                                    <span class="small text-muted">&nbsp &nbsp Deadline</span>
+                                }
+                            }
                         </div>
                     </div>
                     <hr>
@@ -195,32 +229,32 @@
                         </div>
                     </div>
                     <div class="container-fluid row row-cols-2 row-cols-sm-4 g-2 ">
-                        <div class="col ">
-                            <div class="h-100 border">
+                        <div class="col">
+                            <div class="h-100" style="border:2px solid grey;">
 
-                                <i class="bi bi-geo-alt"></i>
-                                <p class=" small">City: @Model.missions.City.Name</p>
+                                <i class="bi bi-geo-alt ms-2"></i>
+                                <p class="small ms-2">City: @Model.missions.City.Name</p>
 
                             </div>
                         </div>
                         <div class="col ">
-                            <div class=" h-100  border">
+                            <div class=" h-100" style="border:2px solid grey;">
 
-                                <i class="bi bi-globe"></i>
-                                <p class=" small">Theme:  @Model.missions.Theme.Title</p>
+                                <i class="bi bi-globe ms-2"></i>
+                                <p class=" small ms-2">Theme:  @Model.missions.Theme.Title</p>
                             </div>
                         </div>
                         <div class="col">
-                            <div class=" h-100 border">
+                            <div class=" h-100" style="border:2px solid grey;">
 
-                                <i class="bi bi-calendar3"> </i>
-                                <p class=" small"> @Model.missions.StartDate.ToString().Substring(0,10) <br> until @Model.missions.EndDate.ToString().Substring(0,10)</p>
+                                <i class="bi bi-calendar3 ms-2"> </i>
+                                <p class=" small ms-2"> @Model.missions.StartDate.ToString().Substring(0,10) <br> until @Model.missions.EndDate.ToString().Substring(0,10)</p>
                             </div>
                         </div>
                         <div class="col">
-                            <div class=" h-100  border">
-                                <i class="bi bi-people"></i>
-                                <p class=" small">Organization: @Model.missions.OrganizationName</p>
+                            <div class="h-100" style="border:2px solid grey;">
+                                <i class="bi bi-people ms-2"></i>
+                                <p class=" small ms-2">Organization: @Model.missions.OrganizationName</p>
                             </div>
                         </div>
                     </div>
@@ -390,13 +424,38 @@
                             <div class="col-3 pe-0">Rating</div>
                             <div class="col-9">
 
-                                @for (int i = 1; i <= (int)@Model.missions.MissionRatings.Average(x => x.Rating); i++)
-                                {
+                                @*@for (int i = 1; i <= (int)@Model.missions.MissionRatings.Average(x => x.Rating); i++)
+                                    {
                                     <i class="bi bi-star-fill" style="color: #F8D441;"></i>
-                                }
-                                @for (int i = 1; i <= 5 - (int)@Model.missions.MissionRatings.Average(x => x.Rating); i++)
-                                {
+                                    }
+                                    @for (int i = 1; i <= 5 - (int)@Model.missions.MissionRatings.Average(x => x.Rating); i++)
+                                    {
                                     <i class="bi bi-star" style="color: #F8D441;"></i>
+                                    }*@
+                                @{
+
+                                    var ratings = Model.missions.MissionRatings.Average(x => x.Rating);
+                                    var fullStars = (int)ratings;
+                                    var partialStar = ratings - fullStars;
+                                    var emptyStars = 5 - fullStars - (partialStar > 0 ? 1 : 0);
+
+
+
+                                    @for (var i = 0; i < fullStars; i++)
+                                    {
+                                        <i class="bi bi-star-fill" style="color: #F8D441;"></i>
+                                    }
+                                    @if (partialStar > 0)
+                                    {
+                                        <i class="bi bi-star-half" style="color: #F8D441;"></i>
+                                    }
+                                    @for (var i = 0; i < emptyStars; i++)
+                                    {
+                                        <i class="bi bi-star" style="color: #F8D441;"></i>
+                                    }
+
+
+
                                 }
                                 (by @Model.missions.MissionRatings.Count volunteers)
                             </div>

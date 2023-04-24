@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 using CI_PLATFORM.Entities.ViewModels;
+using System.Web.Helpers;
 
 namespace CI_PLATFORM.Repository.Repositories
 {
@@ -35,8 +36,22 @@ namespace CI_PLATFORM.Repository.Repositories
         {
             Login lgn = new Login();
             {
-                lgn.user = _CiPlatformContext.Users.FirstOrDefault(u => u.Email == obj.Email && u.Password == obj.Password);
                 lgn.admin = _CiPlatformContext.Admins.FirstOrDefault(a => a.Email == obj.Email && a.Password == a.Password);
+                lgn.user = _CiPlatformContext.Users.FirstOrDefault(u => u.Email == obj.Email);
+                if (Crypto.VerifyHashedPassword(lgn.user.Password, obj.Password))
+                {
+                    return lgn;
+                }
+                else
+                {
+                    return null;
+                }
+                    //lgn.user = _CiPlatformContext.Users.FirstOrDefault(u => u.Email == obj.Email && u.Password == obj.Password);
+
+                    //var passwordHasher = new PasswordHasher<Login>();
+                    //var passwordVerificationResult = passwordHasher.VerifyHashedPassword(objUser, objUser.Password, obj.Password);
+                   
+                //lgn.admin = _CiPlatformContext.Admins.FirstOrDefault(a => a.Email == obj.Email && a.Password == a.Password);
             }
             return lgn;
         }

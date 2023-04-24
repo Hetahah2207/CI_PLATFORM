@@ -12,6 +12,7 @@ using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
+using System.Web.Helpers;
 
 namespace CI_PLATFORM.Repository.Repositories
 {
@@ -61,11 +62,12 @@ namespace CI_PLATFORM.Repository.Repositories
             User? pm = _CiPlatformContext.Users.FirstOrDefault(x => x.UserId == UId);
             if (pm != null)
             {
-                if (user.resetPass.OldPassword == pm.Password)
+                bool isPasswordMatch = Crypto.VerifyHashedPassword(pm.Password, user.resetPass.OldPassword);
+
+                if (isPasswordMatch)
                 {
                     {
-                        pm.Password = user.resetPass.Password;
-
+                        pm.Password = Crypto.HashPassword(user.resetPass.Password);
                     }
                     _CiPlatformContext.Users.Update(pm);
                     _CiPlatformContext.SaveChanges();
@@ -211,23 +213,23 @@ namespace CI_PLATFORM.Repository.Repositories
                 pm.timemissions = TimeMission(UId);
                 pm.goalmissions = GoalMission(UId);
             }
-            return pm;  
+            return pm;
         }
         public bool updatetimesheet(ProfileViewModel obj, int tid, int UId)
-            {
+        {
             Timesheet ts = _CiPlatformContext.Timesheets.FirstOrDefault(x => x.TimesheetId == tid);
-            if(ts != null)
+            if (ts != null)
             {
                 ts.MissionId = obj.Timesheet.MissionId;
-                if(obj.Hours != null || obj.Minutes != null)
+                if (obj.Hours != null || obj.Minutes != null)
                 {
                     ts.Time = new TimeSpan(obj.Hours, obj.Minutes, 0);
                 }
                 else
                 {
-                    ts.Time = new TimeSpan(0,0,0);
+                    ts.Time = new TimeSpan(0, 0, 0);
                 }
-                if(obj.Timesheet.Action != null)
+                if (obj.Timesheet.Action != null)
                 {
                     ts.Action = obj.Timesheet.Action;
                 }
@@ -241,7 +243,7 @@ namespace CI_PLATFORM.Repository.Repositories
 
                 _CiPlatformContext.Timesheets.Update(ts);
                 _CiPlatformContext.SaveChanges();
-                
+
                 return false;
             }
             else
@@ -266,7 +268,7 @@ namespace CI_PLATFORM.Repository.Repositories
                     _CiPlatformContext.SaveChanges();
                 }
                 return true;
-            }            
+            }
         }
         public bool deletetimesheet(int tid)
         {
@@ -282,7 +284,7 @@ namespace CI_PLATFORM.Repository.Repositories
             {
                 return false;
             }
-            
+
         }
     }
 }

@@ -604,7 +604,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 var email = new MimeMessage();
                 email.From.Add(MailboxAddress.Parse(fromEmailId));
                 email.To.Add(MailboxAddress.Parse(toEmailId));
-                email.Subject = "Reset Your Password";
+                email.Subject = "Your co-worker has recommanded this mission.Check this out";
                 email.Body = new TextPart(TextFormat.Html) { Text = mailBody };
 
                 // send email
@@ -648,7 +648,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 var email = new MimeMessage();
                 email.From.Add(MailboxAddress.Parse(fromEmailId));
                 email.To.Add(MailboxAddress.Parse(toEmailId));
-                email.Subject = "Reset Your Password";
+                email.Subject = "Your co-worker has recommanded this mission.Check this out";
                 email.Body = new TextPart(TextFormat.Html) { Text = mailBody };
 
                 // send email
