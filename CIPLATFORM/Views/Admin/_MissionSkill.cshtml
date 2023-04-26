@@ -71,7 +71,8 @@
     <form method="post" class="px-3">
 
         <label class="mb-1 mt-3">Skill Name</label>
-        <input asp-for="Skill.SkillName" type="text" class="form-control" id="formGroupExampleInput">
+        <input asp-for="Skill.SkillName" type="text" class="form-control" id="SkillTitle1" onkeyup="Skillvalidation(1);">
+        <div id="SkillTitleError1" style="color:red;"> This Field is mandatory</div>
         <label class="mb-1 mt-3">Status</label>
         <select type="text" asp-for="Skill.Status" class="form-select form-control">
             <option value="1">Active</option>
@@ -85,7 +86,7 @@
                     Cancel
                 </button>
                 <button type="submit" class="threebt rounded-pill btn btn-outline-warning"
-                        value="5" name="command">
+                        value="5" name="command" id="Skillubmitbtn1" disabled>
                     Save
                 </button>
             </div>
@@ -97,7 +98,8 @@
     <hr class="m-0">
     <form method="post" class="px-3">
         <label class="mb-1 mt-3">Skill Name</label>
-        <input asp-for="Skill.SkillName" type="text" class="form-control" id="formGroupExampleInput">
+        <input asp-for="Skill.SkillName" type="text" class="form-control" id="SkillTitle2" onkeyup="Skillvalidation(2);">
+        <div id="SkillTitleError2" style="color:red;"></div>
         <input asp-for="Skill.SkillId" type="hidden" class="form-control" id="formGroupExampleInput">
         <label class="mb-1 mt-3">Status</label>
         <select type="text" asp-for="Skill.Status" class="form-select form-control">
@@ -112,10 +114,36 @@
                     Cancel
                 </button>
                 <button type="submit" class="threebt rounded-pill btn btn-outline-warning"
-                        value="5" name="command">
+                        value="5" name="command" id="Skillubmitbtn2" disabled>
                     Save
                 </button>
             </div>
         </div>
     </form>
 </div>
+
+
+
+<script>
+    function Skillvalidation(x)
+    {
+        var Title = $("#SkillTitle"+x).val();
+        //var Slug = $("#CMSSlug"+x).val();
+   
+        console.log(Title);
+        //console.log(Slug);
+        document.getElementById('Skillubmitbtn'+x).disabled = true;
+
+        if(Title.length == 0){
+            $("#SkillTitleError"+x).text("Plaease enter the title First");
+         }
+        //else if(Slug.length == 0){
+        //    $("#CMSSlugError"+x).text("Plaease enter the slug First");
+        //}
+        else{
+            $("#SkillTitleError"+x).text("");
+            //$("#CMSSlugError"+x).text("");
+            document.getElementById('Skillubmitbtn'+x).disabled = false;
+         }
+    }
+</script>

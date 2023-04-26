@@ -68,8 +68,8 @@
     <form method="post" class="px-3">
         <div>
         <label for="select mission" class="mt-3"> Title </label>
-        <input asp-for="CmsPage.Title" id="CMSTitle" type="text" class="form-control" id="formGroupExampleInput" onkeyup="CMSvalidation();">
-        <span class="mb-5" id="CMSTitleError" style="color:red;"></span>
+        <input asp-for="CmsPage.Title" id="CMSTitle1" type="text" class="form-control" id="CMSTitle1" onkeyup="CMSvalidation(1);">
+        <div id="CMSTitleError1" style="color:red;"></div>
         </div>
         <label for="cms1" class="mt-3"> Description</label>
         <textarea asp-for="CmsPage.Description" id="cms1" cols="172" rows="10" maxlength="40000"></textarea>
@@ -79,8 +79,8 @@
         </script>
         <div>
         <label for="select mission" class="mt-3"> Slug </label>
-        <input asp-for="CmsPage.Slug" id="CMSSlug" type="text" class="form-control" id="formGroupExampleInput" onkeyup="CMSvalidation();">
-        <span id="CMSSlugError" style="color:red;"></span>
+        <input asp-for="CmsPage.Slug" id="CMSSlug1" type="text" class="form-control" id="CMSSlug1" onkeyup="CMSvalidation(1);">
+        <div id="CMSSlugError1" style="color:red;"></div>
         </div>
         <div class="row my-3">
             <div class="col-10"></div>
@@ -89,7 +89,7 @@
                         onclick="addpage('nav-cms');">
                     Cancel
                 </button>
-                <button type="submit" id="CMSubmitbtn" class="threebt rounded-pill btn btn-outline-warning"
+                <button type="submit" id="CMSubmitbtn1" class="threebt rounded-pill btn btn-outline-warning"
                         value="2" name="command" disabled>
                     Save
                 </button>
@@ -102,8 +102,8 @@
     <hr class="m-0">
     <form method="post" class="px-3">
         <label for="select mission" class="mt-3"> Title </label>
-        <input asp-for="CmsPage.Title" type="text" class="form-control" id="formGroupExampleInput">
-        <span id="CMSTitleError" style="color:red;"></span>
+        <input asp-for="CmsPage.Title" id="CMSTitle2" type="text" class="form-control"  onkeyup="CMSvalidation(2);">
+        <div id="CMSTitleError2" style="color:red;"></div>
         <input asp-for="CmsPage.CmsPageId" type="hidden" class="form-control" id="formGroupExampleInput">
         <label for="cms2" class="mt-3"> Description</label>
         <textarea asp-for="CmsPage.Description" id="cms2" cols="172" rows="10"
@@ -113,8 +113,8 @@
             CKEDITOR.replace(abc);
         </script>
         <label for="select mission" class="mt-3"> Slug </label>
-        <input asp-for="CmsPage.Slug" type="text" class="form-control" id="formGroupExampleInput">
-        <span id="CMSSlugError" style="color:red;"></span>
+        <input asp-for="CmsPage.Slug" id="CMSSlug2" type="text" class="form-control"  onkeyup="CMSvalidation(2);">
+        <div id="CMSSlugError2" style="color:red;"></div>
         <div class="row my-3">
             <div class="col-10"></div>
             <div class="col-2">
@@ -122,8 +122,8 @@
                         onclick="editpage('nav-cms');">
                     Cancel
                 </button>
-                <button type="submit" class="threebt rounded-pill btn btn-outline-warning"
-                        value="2" name="command">
+                <button type="submit" id="CMSubmitbtn2" class="threebt rounded-pill btn btn-outline-warning"
+                        value="2" name="command" disabled>
                     Save
                 </button>
             </div>
@@ -134,33 +134,25 @@
 
 
 <script>
-
-    function CMSvalidation()
+    function CMSvalidation(x)
     {
-        var Title = $("#CMSTitle").val();
-        //var Description = $("#cms1").val();
-        var Slug = $("#CMSSlug").val();
+        var Title = $("#CMSTitle"+x).val();
+        var Slug = $("#CMSSlug"+x).val();
    
         console.log(Title);
-        //console.log(Description);
         console.log(Slug);
-        document.getElementById('CMSubmitbtn').disabled = true;
+        document.getElementById('CMSubmitbtn'+x).disabled = true;
 
         if(Title.length == 0){
-            $("#CMSTitleError").text("Plaease select the Mission First");
-
+            $("#CMSTitleError"+x).text("Plaease enter the title First");
          }
-        //else if(cms1.length == 0){
-        //    $("#CMSDescriptionError").text("Plaease enter the Valid Goal value");
-        //}
         else if(Slug.length == 0){
-            $("#CMSSlugError").text("Plaease enter the Valid Date");
+            $("#CMSSlugError"+x).text("Plaease enter the slug First");
         }
         else{
-            $("#CMSTitleError").text("");
-            //$("#CMSDescriptionError").text("");
-            $("#CMSSlugError").text("");
-            document.getElementById('CMSubmitbtn').disabled = false;
+            $("#CMSTitleError"+x).text("");
+            $("#CMSSlugError"+x).text("");
+            document.getElementById('CMSubmitbtn'+x).disabled = false;
          }
     }
 </script>

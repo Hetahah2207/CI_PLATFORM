@@ -16,7 +16,10 @@ namespace CI_PLATFORM.Entities.ViewModels
         public List<Country> countries { get; set; } = new List<Country>();
         public IFormFile? Avatarfile { get; set; }
         public List<Mission> missions { get; set; } = new List<Mission>();
-        
+        public Mission mission { get; set; } = new Mission();
+        public List<MissionMedium> missionMedia = new List<MissionMedium>();
+        public List<IFormFile>? missionDocuments { get; set; }
+        public List<MissionSkill> missionSkills = new List<MissionSkill>();
         public List<CmsPage> CmsPages { get; set; } = new List<CmsPage>();
         public CmsPage CmsPage { get; set; } = new CmsPage();
         public List<MissionApplication>? missionapplications { get; set; } = new List<MissionApplication>();

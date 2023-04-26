@@ -128,22 +128,26 @@
         </div>
         <div class="row mt-3">
             <div class="col-12 col-sm-6">
-                <label>Name</label>
-                <input type="text" asp-for="user.FirstName" class="form-control" placeholder="Enter your name">
+                <label>Name*</label>
+                <input type="text" asp-for="user.FirstName" class="form-control" placeholder="Enter your name" id="UserNamex" onkeyup="Uservalidation('x');">
+                <div id="UNameErrorx" style="color:red;"></div>
             </div>
             <div class="col-12 col-sm-6">
-                <label>Surname</label>
-                <input type="text" asp-for="user.LastName" class="form-control" placeholder="Enter your surname">
+                <label>Surname*</label>
+                <input type="text" asp-for="user.LastName" class="form-control" placeholder="Enter your surname" id="USNamex" onkeyup="Uservalidation('x');">
+                <div id="USNameErrorx" style="color:red;"></div>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-12 col-sm-6">
-                <label>Email</label>
-                <input type="text" asp-for="user.Email" class="form-control" placeholder="Enter Email">
+                <label>Email*</label>
+                <input type="text" asp-for="user.Email" class="form-control" placeholder="Enter Email" id="UserEmailx" onkeyup="Uservalidation('x');">
+                <div id="UEmailErrorx" style="color:red;"></div>
             </div>
             <div class="col-12 col-sm-6">
-                <label>Password</label>
-                <input type="password" asp-for="user.Password" class="form-control" placeholder="Enter Password">
+                <label>Password*</label>
+                <input type="password" asp-for="user.Password" class="form-control" placeholder="Enter Password" id="UserPassx" onkeyup="Uservalidation('x');">
+                <div id="UPassErrorx" style="color:red;"></div>
             </div>
         </div>
         <div class="row mt-3">
@@ -159,27 +163,29 @@
         <div class="row mt-3">
             <div class="col-12 col-sm-6">
                 <label>Country*</label>
-                <select class="form-select" id="countryIdx"  onchange="GetsCity('x');" aria-label="Default select example" aria-placeholder="Select your country" asp-for="user.CountryId">
+                <select class="form-select" id="countryIdx" onchange="GetsCity('x'); Uservalidation('x');" aria-label="Default select example" aria-placeholder="Select your country" asp-for="user.CountryId">
                     <option value="0">Select your country</option>
                     @foreach (var item in @Model.countries)
                     {
                         <option value="@item.CountryId">@item.Name</option>
                     }
                 </select>
+                <div id="UCountryErrorx" style="color:red;"></div>
             </div>
             <div class="col-12 col-sm-6">
                 <label>City*</label>
-                <select class="form-select" aria-label="Default select example" aria-placeholder="Select your city" asp-for="user.CityId" id="selectCityListx">
+                <select class="form-select" aria-label="Default select example" aria-placeholder="Select your city" asp-for="user.CityId" id="selectCityListx" onchange="Uservalidation('x');">
                     <option value="0">Select your city</option>
                     @foreach (var item in @Model.cities)
                     {
                         <option value="@item.CityId">@item.Name</option>
                     }
                 </select>
+                <div id="UCityErrorx" style="color:red;"></div>
             </div>
         </div>
         <div class="form-group mt-3">
-            <label for="exampleFormControlTextarea1">My Profile*</label>
+            <label for="exampleFormControlTextarea1">My Profile</label>
             <textarea class="form-control" asp-for="user.ProfileText" id="exampleFormControlTextarea1" rows="4" placeholder="Enter your ProfileText..."></textarea>
         </div>
         <div class="row mt-3">
@@ -200,7 +206,7 @@
                 </button>
             </div>
             <div class="col-1">
-                <button type="submit" value="1" name="command" class=" btn btn-outline-warning rounded-pill ">
+                <button type="submit" value="1" name="command" class=" btn btn-outline-warning rounded-pill " id="UserSubmitbtnx" disabled>
                     Save
                 </button>
             </div>
@@ -222,19 +228,22 @@
         </div>
         <div class="row mt-3">
             <div class="col-12 col-sm-6">
-                <label>Name</label>
-                <input type="text" asp-for="user.FirstName" class="form-control" placeholder="Enter your name">
-                <input asp-for="user.UserId" type="hidden" class="form-control" id="formGroupExampleInput">
+                <label>Name*</label>
+                <input type="text" asp-for="user.FirstName" class="form-control" placeholder="Enter your name" id="UserNamey" onkeyup="Uservalidation('y');">
+                <div id="UNameErrory" style="color:red;"></div>
+                <input asp-for="user.UserId" type="hidden" class="form-control">
             </div>
             <div class="col-12 col-sm-6">
-                <label>Surname</label>
-                <input type="text" asp-for="user.LastName" class="form-control" placeholder="Enter your surname">
+                <label>Surname*</label>
+                <input type="text" asp-for="user.LastName" class="form-control" placeholder="Enter your surname" id="USNamey" onkeyup="Uservalidation('y');">
+                <div id="USNameErrory" style="color:red;"></div>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-12 col-sm-6">
-                <label>Email</label>
-                <input type="text" asp-for="user.Email" class="form-control" placeholder="Enter Email">
+                <label>Email*</label>
+                <input type="text" asp-for="user.Email" class="form-control" placeholder="Enter Email" id="UserEmaily" onkeyup="Uservalidation('y');">
+                <div id="UEmailErrory" style="color:red;"></div>
             </div>
             <div class="col-12 col-sm-6">
                 @*<label>Password</label>*@
@@ -254,27 +263,29 @@
         <div class="row mt-3">
             <div class="col-12 col-sm-6">
                 <label>Country*</label>
-                <select class="form-select" asp-for="user.CountryId" aria-label="Default select example" id="countryIdy" onchange="GetsCity('y');" aria-placeholder="Select your country">
-                     <option value="0">Select your country</option>
+                <select class="form-select" asp-for="user.CountryId" aria-label="Default select example" id="countryIdy" onchange="GetsCity('y'); Uservalidation('y');" aria-placeholder="Select your country">
+                    <option value="0">Select your country</option>
                     @foreach (var item in @Model.countries)
                     {
                         <option value="@item.CountryId">@item.Name</option>
                     }
                 </select>
+                <div id="UCountryErrory" style="color:red;"></div>
             </div>
             <div class="col-12 col-sm-6">
                 <label>City*</label>
-                <select class="form-select" asp-for="user.CityId" aria-label="Default select example" aria-placeholder="Select your country" id="selectCityListy">
+                <select class="form-select" asp-for="user.CityId" aria-label="Default select example" aria-placeholder="Select your country" id="selectCityListy" onchange="Uservalidation('y');">
                     <option value="0">Select your city</option>
                     @foreach (var item in @Model.cities)
                     {
                         <option value="@item.CityId">@item.Name</option>
                     }
                 </select>
+                <div id="UCityErrory" style="color:red;"></div>
             </div>
         </div>
         <div class="form-group mt-3">
-            <label for="exampleFormControlTextarea1">My Profile*</label>
+            <label for="exampleFormControlTextarea1">My Profile</label>
             <textarea class="form-control" asp-for="user.ProfileText" id="exampleFormControlTextarea1" rows="4" placeholder="Enter your comments..."></textarea>
         </div>
         <div class="row mt-3">
@@ -295,7 +306,7 @@
                 </button>
             </div>
             <div class="col-1">
-                <button type="submit" value="1" name="command" class=" btn btn-outline-warning rounded-pill ">
+                <button type="submit" value="1" name="command" class=" btn btn-outline-warning rounded-pill " id="UserSubmitbtny" disabled>
                     Save
                 </button>
             </div>
@@ -322,7 +333,6 @@
     readURL(this);
 
     });
-
 </script>
 <script>
     var readURL1 = function(input) {
@@ -339,5 +349,54 @@
     readURL1(this);
 
     });
+</script>
 
+
+<script>
+    function Uservalidation(x){
+        var Name = $("#UserName"+x).val();
+        var SName = $("#USName"+x).val();
+        var Email = $("#UserEmail"+x).val();
+        if(x == 'x'){
+        var Pass = $("#UserPass"+x).val();
+        }
+        var City = $("#selectCityList"+x).val();
+        var Country = $("#countryId"+x).val();
+        console.log(City);
+        console.log(Country);
+        console.log(Name);
+        console.log(SName);
+
+        document.querySelector('#UserSubmitbtn'+x).disabled = true;
+
+        if(Name.length == 0){
+            $("#UNameError"+x).text("Plaease enter the name first");
+        }
+        else if(SName.length == 0){
+            $("#USNameError"+x).text("Plaease enter the Last name first");
+        }
+        else if(Email.length == 0){
+            $("#UEmailError"+x).text("Plaease enter the Last name first");
+        }
+        else if(x == 'x' && Pass.length == 0){
+            $("#UPassError"+x).text("Plaease enter the Last name first");
+        }
+        else if(Country == 0){
+            $("#UCountryError"+x).text("Plaease select the Country ");
+         }
+        else if(City == 0){
+            $("#UCityError"+x).text("Plaease select the city");
+         }
+        else{
+            $("#UCityError"+x).text("");
+            $("#UCountryError"+x).text("");
+            $("#UNameError"+x).text("");
+            $("#USNameError"+x).text("");
+            $("#UEmailError"+x).text("");
+            if(x=='x'){
+            $("#UPassError"+x).text("");
+            }
+            document.querySelector('#UserSubmitbtn'+x).disabled = false;
+         }
+    }
 </script>

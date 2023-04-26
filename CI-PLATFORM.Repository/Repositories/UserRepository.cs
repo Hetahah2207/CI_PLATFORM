@@ -34,26 +34,29 @@ namespace CI_PLATFORM.Repository.Repositories
 
         public Login login(Login obj)
         {
+
             Login lgn = new Login();
             {
                 lgn.admin = _CiPlatformContext.Admins.FirstOrDefault(a => a.Email == obj.Email && a.Password == a.Password);
                 lgn.user = _CiPlatformContext.Users.FirstOrDefault(u => u.Email == obj.Email);
-                if (Crypto.VerifyHashedPassword(lgn.user.Password, obj.Password))
+                if (lgn.user == null)
                 {
                     return lgn;
                 }
                 else
                 {
-                    return null;
+                    if (Crypto.VerifyHashedPassword(lgn.user.Password, obj.Password))
+                    {
+                        return lgn;
+                    }
+                    else
+                    {
+                        lgn = new Login();
+                        return lgn;
+                    }
                 }
-                    //lgn.user = _CiPlatformContext.Users.FirstOrDefault(u => u.Email == obj.Email && u.Password == obj.Password);
-
-                    //var passwordHasher = new PasswordHasher<Login>();
-                    //var passwordVerificationResult = passwordHasher.VerifyHashedPassword(objUser, objUser.Password, obj.Password);
-                   
-                //lgn.admin = _CiPlatformContext.Admins.FirstOrDefault(a => a.Email == obj.Email && a.Password == a.Password);
             }
-            return lgn;
+          
         }
         public User Register(User obj)
         {
@@ -116,7 +119,7 @@ namespace CI_PLATFORM.Repository.Repositories
         public bool checktime(string token)
         {
             PasswordReset pr = _CiPlatformContext.PasswordResets.FirstOrDefault(x => x.Token == token);
-            if(pr == null)
+            if (pr == null)
             {
                 return true;
             }
@@ -133,7 +136,7 @@ namespace CI_PLATFORM.Repository.Repositories
         public bool checktoken(string token)
         {
             PasswordReset pr = _CiPlatformContext.PasswordResets.FirstOrDefault(x => x.Token == token);
-            if(pr == null)
+            if (pr == null)
             {
                 return false;
             }

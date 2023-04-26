@@ -333,7 +333,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 search = search.ToLower();
                 missioncards = missioncards.Where(x => x.Title.ToLower().Contains(search)).ToList();
             }
-            if (countryId.Count > 0)
+            if (countryId.Count > 0)           /*countryId!=null &&*/
             {
                 missioncards = missioncards.Where(c => countryId.Contains((int)c.CountryId)).ToList();
             }
@@ -385,7 +385,7 @@ namespace CI_PLATFORM.Repository.Repositories
         {
             var pageSize = 6;
             List<Story> cards = new List<Story>();
-            var storycards = _CiPlatformContext.Stories.Include(m => m.StoryMedia).Include(m => m.Mission).Include(m => m.Mission.Theme).Include(m => m.User).ToList();
+            var storycards = _CiPlatformContext.Stories.Include(m => m.StoryMedia).Include(m => m.Mission).Include(m => m.Mission.Theme).Include(m => m.User).Where(m => m.Status == "PUBLISHED").ToList();
             //var Missionskills = _CiPlatformContext.MissionSkills.Include(m => m.Skill).ToList();
             List<int> temp = new List<int>();
 
@@ -578,7 +578,7 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public void RecommandToCoWorker(int FromUserId, List<int> ToUserId, int mid)
         {
-            var fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId && u.DeletedAt == null);
+            var fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId);
             var fromEmailId = fromUser.Email;
 
             foreach (var user in ToUserId)
@@ -618,7 +618,7 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public void RecommandStory(int FromUserId, List<int> ToUserId, int sid)
         {
-            var fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId && u.DeletedAt == null);
+            var fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId);
             var fromEmailId = fromUser.Email;
             //if (user1 == null)
             //{
@@ -702,7 +702,7 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public StoryListingViewModel GetStoryDetail()
         {
-            List<Story> stories = _CiPlatformContext.Stories.Include(m => m.User).Include(m => m.StoryMedia).Include(m => m.Mission).ToList();
+            List<Story> stories = _CiPlatformContext.Stories.Include(m => m.User).Include(m => m.StoryMedia).Include(m => m.Mission).Where(m => m.Status == "PUBLISHED").ToList();
 
             StoryListingViewModel StoryDetail = new StoryListingViewModel();
             {

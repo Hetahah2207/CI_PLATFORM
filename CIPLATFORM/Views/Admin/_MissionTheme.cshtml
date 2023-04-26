@@ -72,9 +72,8 @@
     <form method="post" class="px-3">
 
         <label for="select mission" class="mt-3"> Theme Name </label>
-        <input asp-for="missionTheme.Title" type="text" class="form-control" id="formGroupExampleInput">
-
-
+        <input asp-for="missionTheme.Title" type="text" class="form-control" id="ThemeTitle1" onkeyup="Themevalidation(1);">
+        <div id="ThemeTitleError1" style="color:red;"> This Field is mandatory</div>
 
         <label class="mb-1 mt-3">Status</label>
         <select type="text" asp-for="missionTheme.Status" class="form-select form-control">
@@ -90,7 +89,7 @@
                     Cancel
                 </button>
                 <button type="submit" class="threebt rounded-pill btn btn-outline-warning"
-                        value="4" name="command">
+                        value="4" name="command" id="Themesubmitbtn1" disabled>
                     Save
                 </button>
             </div>
@@ -102,7 +101,8 @@
     <hr class="m-0">
     <form method="post" class="px-3">
         <label for="select mission" class="mt-3"> Theme Name </label>
-        <input asp-for="missionTheme.Title" type="text" class="form-control" id="formGroupExampleInput">
+        <input asp-for="missionTheme.Title" type="text" class="form-control" id="ThemeTitle2" onkeyup="Themevalidation(2);">
+        <div id="ThemeTitleError2" style="color:red;"></div>
         <input asp-for="missionTheme.MissionThemeId" type="hidden" class="form-control" id="formGroupExampleInput">
 
 
@@ -120,10 +120,29 @@
                     Cancel
                 </button>
                 <button type="submit" class="threebt rounded-pill btn btn-outline-warning"
-                        value="4" name="command">
+                        value="4" name="command" id="Themesubmitbtn2" disabled>
                     Save
                 </button>
             </div>
         </div>
     </form>
 </div>
+
+
+<script>
+    function Themevalidation(x)
+    {
+        var Title = $("#ThemeTitle"+x).val();
+        console.log(Title);
+      
+        document.getElementById('Themesubmitbtn'+x).disabled = true;
+
+        if(Title.length == 0){
+            $("#ThemeTitleError"+x).text("Plaease enter the title First");
+         }
+        else{
+            $("#ThemeTitleError"+x).text("");
+            document.getElementById('Themesubmitbtn'+x).disabled = false;
+         }
+    }
+</script>

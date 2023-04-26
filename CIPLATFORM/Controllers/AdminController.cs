@@ -70,6 +70,14 @@ namespace CIPLATFORM.Controllers
                 else
                     TempData["false"] = "cmspage updated Successfully";
             }
+            if (command == 3)
+            {
+                bool addcmspage = _AdminRepository.addcms(obj, command);
+                if (addcmspage)
+                    TempData["true"] = "Mission added Successfully";
+                else
+                    TempData["false"] = "Mission updated Successfully";
+            }
             if (command == 4)
             {
                 bool addcmspage = _AdminRepository.addcms(obj, command);
@@ -193,10 +201,26 @@ namespace CIPLATFORM.Controllers
                 am.CmsPage = _AdminRepository.EditForm(id, page).CmsPage;
                 return PartialView("_CMSPages", am);
             }
+            else if (page == "nav-mission")
+            {
+                am.mission = _AdminRepository.EditForm(id, page).mission;
+                am.missionThemes = _AdminRepository.getData().missionThemes;
+                am.skills = _AdminRepository.getData().skills;
+                if(am.mission.CountryId != null)
+                {
+                    am.cities = _AdminRepository.getData().cities.Where(x => x.CountryId == am.mission.CountryId).ToList();
+                }
+                
+                return PartialView("_Mission", am);
+            }
             else if(page == "nav-user")
             {
                 am.user = _AdminRepository.EditForm(id, page).user;
                 //am.Avatarfile.FileName = am.user.Avatar;
+                if(am.user.CountryId != null)
+                {
+                    am.cities = _AdminRepository.getData().cities.Where(x => x.CountryId == am.user.CountryId).ToList();
+                }
                 return PartialView("_user", am);
             }
             else if (page == "nav-theme")

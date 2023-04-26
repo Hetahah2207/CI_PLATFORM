@@ -27,11 +27,9 @@ namespace CI_PLATFORM.Repository.Repositories
                 um.cities = _CiPlatformContext.Cities.ToList();
                 um.countries = _CiPlatformContext.Countries.ToList();
                 um.missions = _CiPlatformContext.Missions.Where(x => x.DeletedAt == null).ToList();
-
                 um.CmsPages = _CiPlatformContext.CmsPages.Where(x => x.DeletedAt == null).ToList();
                 um.missionapplications = _CiPlatformContext.MissionApplications.Include(x => x.Mission).Include(x => x.User).Where(x => x.ApprovalStatus == "Pending").ToList();
                 um.stories = _CiPlatformContext.Stories.Include(x => x.User).Where(x => x.Status == "PENDING" || x.Status == "DRAFT").Where(x => x.DeletedAt == null).ToList();
-
                 um.skills = _CiPlatformContext.Skills.Where(x => x.DeletedAt == null).ToList();
                 um.missionThemes = _CiPlatformContext.MissionThemes.Where(x => x.DeletedAt == null).ToList();
             }
@@ -210,6 +208,10 @@ namespace CI_PLATFORM.Repository.Repositories
                 if (page == "nav-cms")
                 {
                     am.CmsPage = _CiPlatformContext.CmsPages.FirstOrDefault(x => x.CmsPageId == id);
+                }
+                if (page == "nav-mission")
+                {
+                    am.mission = _CiPlatformContext.Missions.Include(x => x.MissionMedia).Include(x => x.GoalMissions).FirstOrDefault(x => x.MissionId == id);
                 }
                 if (page == "nav-user")
                 {

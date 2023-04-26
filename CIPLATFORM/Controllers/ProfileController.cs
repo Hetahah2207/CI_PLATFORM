@@ -29,8 +29,8 @@ namespace CIPLATFORM.Controllers
             List<Country> countries = _PlatformRepository.GetCountryData();
             ViewBag.countries = countries;
 
-            List<City> Cities = _PlatformRepository.GetCitys();
-            ViewBag.Cities = Cities;
+            List<City> Cities = new List<City>();
+           
 
             if (name != null)
             {
@@ -38,6 +38,11 @@ namespace CIPLATFORM.Controllers
                 ViewBag.UId = UserId;
 
                 ProfileViewModel pm = _ProfileRepository.getUser(@ViewBag.UId);
+                if (pm.CountryId != null)
+                {
+                    Cities = _PlatformRepository.GetCitys().Where(x => x.CountryId == pm.CountryId).ToList();
+                }
+                ViewBag.Cities = Cities;
                 return View(pm);
             }
 
@@ -92,18 +97,26 @@ namespace CIPLATFORM.Controllers
                     }
                 }
                 obj = _ProfileRepository.getUser(@ViewBag.UId);
-                return View(obj);
+                return RedirectToAction("Profile");
             }
 
             if (save == 3)
             {
                 bool saveprofile = _ProfileRepository.saveProfile(obj, @ViewBag.UId);
-                //obj.skills = _ProfileRepository.getUser(@ViewBag.UId).skills;
-                //obj.userSkills = _ProfileRepository.getUser(@ViewBag.UId).userSkills;
                 obj = _ProfileRepository.getUser(@ViewBag.UId);
                 if (saveprofile)
                 {
                     TempData["true"] = "Profile Updated Successfully";
+                    HttpContext.Session.SetString("Uname", obj.FirstName + " " + obj.LastName);
+                    HttpContext.Session.SetInt32("UId", (Int32)obj.UserId);
+                    if (obj.Avatar != null)
+                    {
+                        HttpContext.Session.SetString("Avtar", obj.Avatar);
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetString("Avtar", "");
+                    }
                 }
                 else
                 {
@@ -117,7 +130,7 @@ namespace CIPLATFORM.Controllers
                 {
                     HttpContext.Session.SetString("Avtar", "");
                 }
-                return View(obj);
+                return RedirectToAction("Profile");
             }
             if (save == 4)
             {
@@ -141,9 +154,9 @@ namespace CIPLATFORM.Controllers
                 //obj.skills = _ProfileRepository.getUser(@ViewBag.UId).skills;
                 //obj.userSkills = _ProfileRepository.getUser(@ViewBag.UId).userSkills;
 
-                return View(obj);
+                return RedirectToAction("Profile");
             }
-            return View(obj);
+            return RedirectToAction("Profile");
         }
         public IActionResult Timesheet()
         {
@@ -175,13 +188,30 @@ namespace CIPLATFORM.Controllers
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
             }
-            bool b =  _ProfileRepository.updatetimesheet(obj, tid, ViewBag.UId);
-            if (b)
-                TempData["true"] = "Activity added successfully";
+            DateTime today = DateTime.Today;
+            if (obj.Timesheet.DateVolunteereed > today)
+            {
+                TempData["error"] = "Date is invalid";
+            }
+            else if (obj.Hours > 24 || obj.Hours < 0 || obj.Minutes > 60 || obj.Minutes < 0)
+            {
+                TempData["error"] = "Time is invalid";
+            }
+            else if(obj.Timesheet.Action < 0)
+            {
+                TempData["error"] = "Action is invalid";
+            }
             else
-                TempData["false"] = "Activity updated successfully";
+            {
+                bool b = _ProfileRepository.updatetimesheet(obj, tid, ViewBag.UId);
+                if (b)
+                    TempData["true"] = "Activity added successfully";
+                else
+                    TempData["false"] = "Activity updated successfully";
+            }
+
             ProfileViewModel pm = _ProfileRepository.GetTimsheet(@ViewBag.UId);
-            return View(pm);
+            return RedirectToAction("Timesheet");
         }
         public IActionResult getActivity(int tid)
         {
@@ -211,7 +241,7 @@ namespace CIPLATFORM.Controllers
             else
                 TempData["delete"] = "Activity cannot deleted";
             return RedirectToAction("Timesheet");
-            
+
         }
 
     }
