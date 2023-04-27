@@ -7,12 +7,14 @@
         flex-wrap: wrap;
         margin-bottom: 20px;
     }
+
         #uploaded-images img {
             max-width: 200px;
             max-height: 200px;
             margin-right: 10px;
             margin-bottom: 10px;
         }
+
     #drop-zone {
         border: 2px dashed #ccc;
         padding: 20px;
@@ -20,9 +22,11 @@
         font-size: 20px;
         margin-bottom: 20px;
     }
+
     .tox-notifications-container {
         display: none !important;
     }
+
     .file {
         width: 100%;
         height: 100%;
@@ -30,6 +34,7 @@
         opacity: 0;
         cursor: pointer;
     }
+
     output {
         width: 100%;
         height: 100%;
@@ -40,6 +45,7 @@
         position: relative;
         border-radius: 5px;
     }
+
         output .image {
             height: 100%;
             border-radius: 5px;
@@ -47,10 +53,12 @@
             overflow: hidden;
             position: relative;
         }
+
             output .image img {
                 height: 75px;
                 width: 75px;
             }
+
             output .image span {
                 position: absolute;
                 top: -4px;
@@ -59,9 +67,11 @@
                 font-size: 22px;
                 color: white;
             }
+
                 output .image span:hover {
                     opacity: 0.8;
                 }
+
         output .span--hidden {
             visibility: hidden;
         }
@@ -82,8 +92,26 @@
                 <tr>
                     <td>@obj.Title </td>
                     <td>@obj.MissionType</td>
-                    <td>@obj.StartDate.Value.ToShortDateString()</td>
-                    <td>@obj.EndDate.Value.ToShortDateString()</td>
+                    <td>
+                        @if (obj.StartDate != null)
+                        {
+                            @obj.StartDate.Value.ToShortDateString()
+                        }
+                        else
+                        {
+                            <span>StartDate is not provided here</span>
+                        }
+                    </td>
+                    <td>
+                        @if (obj.EndDate != null)
+                        {
+                            @obj.EndDate.Value.ToShortDateString()
+                        }
+                        else
+                        {
+                            <span>EndDate is not provided here</span>
+                        }
+                    </td>
 
                     <td style="text-align: center;">
                         <button type="button" class="btn p-0" onclick="editform('nav-mission'); getdata('nav-mission',@obj.MissionId);">
@@ -124,35 +152,137 @@
 <div class="border" id="add" style="display: none;">
     <h3 class="p-3 m-0" style="background-color: #F8F9FC;"> Add mission</h3>
     <hr class="m-0">
-    <form method="post" class="px-3">
+    <form method="post" class="px-3" enctype="multipart/form-data">
+        <input type="hidden" asp-for="mission.MissionId"/>
         <label for="select mission" class="mt-3"> Title </label>
-        <input type="text" class="form-control" id="formGroupExampleInput">
-        <label for="mission1" class="mt-3"> Description</label>
-        <textarea id="mission1" cols="172" rows="10"
+        <input type="text" asp-for="mission.Title" class="form-control" id="formGroupExampleInput" required>
+        <label for="select mission" class="mt-3"> Short Description </label>
+        <textarea type="text" asp-for="mission.ShortDescription" class="form-control" id="formGroupExampleInput"></textarea>
+        <label for="mission" class="mt-3"> Description</label>
+        <textarea id="mission" asp-for="mission.Description" cols="172" rows="10"
                   maxlength="40000"></textarea>
         <script>
-            var abc = document.getElementById("mission1");
-            CKEDITOR.replace(abc);
+            var mission = document.getElementById("mission");
+            CKEDITOR.replace(mission);
         </script>
-        <label for="select mission" class="mt-3"> Slug </label>
-        <input type="text" class="form-control" id="formGroupExampleInput">
+        <div class="row mt-3">
+            <div class="col-12 col-sm-6">
+                <label>Country*</label>
+                <select id="countryIdb" asp-for="mission.CountryId" onchange="GetsCity('b');" class="form-select" aria-label="Default select example" aria-placeholder="Select your country" required>
+                    <option value="">Select your country</option>
+                    @foreach (var obj in @Model.countries)
+                    {
+                        <option value="@obj.CountryId">@obj.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-12 col-sm-6">
+                <label>City*</label>
+                <select class="form-select" asp-for="mission.CityId" aria-label="Default select example" aria-placeholder="Select your City" id="selectCityListb" required>
+                    <option value="">Select your City</option>
+                    @foreach (var item in @Model.cities)
+                    {
+                        <option value="@item.CityId"> @item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <label for="select mission" class="mt-3"> Organisation Name </label>
+        <input type="text" asp-for="mission.OrganizationName" class="form-control" id="formGroupExampleInput">
+        <label for="select mission" class="mt-3"> Organisation Detail </label>
+        <textarea type="text" asp-for="mission.OrganizationDetail" class="form-control" id="formGroupExampleInput"></textarea>
+        <label for="select mission" class="mt-3"> Start Date </label>
+        <input type="date" asp-for="mission.StartDate" class="form-control" id="formGroupExampleInput">
+        <label for="select mission" class="mt-3"> End Date </label>
+        <input type="date" asp-for="mission.EndDate" class="form-control" id="formGroupExampleInput">
+        <label class="mb-1 mt-3">Mission Type</label>
+        <select asp-for="mission.MissionType" type="text" class="form-select form-control" required>
+            <option value="">Select your mission type</option>
+            <option value="Time">Time</option>
+            <option value="Goal">Goal</option>
 
-        <label class="mb-1 mt-3">Mission</label>
-        <select type="text" class="form-select form-control">
-            <option value="1">Select your mission</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
         </select>
+        <label for="select mission" class="mt-3">Total Seats</label>
+        <input type="text" class="form-control" id="formGroupExampleInput">
+        <div class="row mt-3">
+            <div class="col-12 col-sm-6">
+                <label>Mission Theme</label>
+                <select asp-for="mission.ThemeId" class="form-select" aria-label="Default select example" required>
+                    <option value="">Select your Mission Theme</option>
+                    @foreach (var obj in @Model.newmissionThemes)
+                    {
+                        <option value="@obj.MissionThemeId">@obj.Title</option>
+                    }
+                </select>
+            </div>
+            <div class="col-12 col-sm-6">
+                <label>Mission Skills</label>
+                <a class="nav-link  text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Skills
+                </a>
+                <ul class="dropdown-menu" id="missionSkill1">
+
+                    @foreach (var item in @Model.newskills)
+                    {
+
+                        <li><input class="check" id="@item.SkillId" type="checkbox" onchange="misSkills();" /> @item.SkillName </li>
+                    }
+                </ul>
+                <div id="inputSkill1" class="d-none"></div>
+
+            </div>
+            <script>
+                function misSkills()
+                {
+                   var missionSkill = document.getElementById("missionSkill1");
+                   var ck = missionSkill.getElementsByClassName("check");
+                   console.log(ck);
+                   $("#inputSkill1").empty();
+                   for (i = 0; i < ck.length; i++)
+                   {
+                       if (ck[i].checked)
+                       {
+                           document.getElementById("inputSkill1").innerHTML +=`<input type="hidden" asp-for="editmissionSkills" name="editmissionSkills"  value="${ck[i].id}"/>`;
+                       }
+                     }
+                }
+            </script>
+        </div>
+        <label class="mb-1 mt-3">Mission Availability</label>
+        <select asp-for="mission.Avaibility" type="text" class="form-select form-control" required>
+            <option value="">Select your Availability</option>
+            <option value="monthly">monthly</option>
+            <option value="week-end">week-end</option>
+            <option value="weekly">weekly</option>
+            <option value="daily">daily</option>
+        </select>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-label">Upload Your Photos &Aacute; Documents</label>
+                    <div class="d-flex justify-content-center align-items-center border input-div1 position-relative" style="height:150px">
+                        <input asp-for="missionDocuments" id="imageupload1" type="file" class="file" accept="image/*" multiple /><img src="~/img/drag-and-drop.png">
+                    </div>
+                </div>
+            </div>
+            <output class="mt-3" id="preview1"></output>
+        </div>
+        <input asp-for="missionDs" type="file" accept="*" multiple />
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label>Enter your url</label>
+                <input type="text" asp-for="url" class="form-control" id="sUrl" placeholder="Enter your url">
+            </div>
+        </div>
         <div class="row my-3">
             <div class="col-10"></div>
             <div class="col-2">
                 <button type="button" class="cancell rounded-pill btn btn-outline-dark"
-                        onclick="addpage('nav-mission');">
+                        onclick="addpage('nav-mission',3);">
                     Cancel
                 </button>
                 <button type="submit" class="threebt rounded-pill btn btn-outline-warning"
-                        value="2" name="command">
+                        value="3" name="command">
                     Save
                 </button>
             </div>
@@ -164,43 +294,10 @@
 <div class="border mt-3" id="edit" style="display: none;">
     <h3 class="p-3 m-0" style="background-color: #F8F9FC;"> Edit mission </h3>
     <hr class="m-0">
-    @*<form action="" class="px-3">
-        <label for="select mission" class="mt-3"> Title </label>
-        <input type="text" class="form-control" id="formGroupExampleInput">
-        <label for="mission2" class="mt-3"> Description</label>
-        <textarea id="mission2" cols="172" rows="10" maxlength="40000"></textarea>
-        <script>
-        var abc = document.getElementById("mission2");
-        CKEDITOR.replace(abc);
-        </script>
-        <label for="select mission" class="mt-3"> Slug </label>
-        <input type="text" class="form-control" id="formGroupExampleInput">
-
-        <label class="mb-1 mt-3">Mission</label>
-        <select type="text" class="form-select form-control">
-        <option value="1">Select your mission</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        </select>
-        <div class="row my-3">
-        <div class="col-10"></div>
-        <div class="col-2">
-        <button type="button" class="cancell rounded-pill btn btn-outline-dark"
-        onclick="editpage('nav-mission');">
-        Cancel
-        </button>
-        <button type="submit" class="threebt rounded-pill btn btn-outline-warning"
-        value="2" name="command">
-        Save
-        </button>
-        </div>
-        </div>
-        </form>*@
     <form method="post" enctype="multipart/form-data" class="px-3">
         <input type="hidden" asp-for="mission.MissionId" />
         <label for="select mission" class="mt-3"> Title </label>
-        <input type="text" asp-for="mission.Title" class="form-control" id="formGroupExampleInput">
+        <input type="text" asp-for="mission.Title" class="form-control" id="formGroupExampleInput" required>
         <label for="select mission" class="mt-3"> Short Description </label>
         <textarea type="text" asp-for="mission.ShortDescription" class="form-control" id="formGroupExampleInput"></textarea>
         <label for="mission2" class="mt-3"> Description</label>
@@ -213,9 +310,8 @@
         <div class="row mt-3">
             <div class="col-12 col-sm-6">
                 <label>Country*</label>
-                <select id="countryIda" asp-for="mission.CountryId" onchange="GetsCity('a');" class="form-select" aria-label="Default select example"
-                        aria-placeholder="Select your country">
-                    <option value="0">Select your country</option>
+                <select id="countryIda" asp-for="mission.CountryId" onchange="GetsCity('a');" class="form-select" aria-label="Default select example" required>
+                    <option value="">Select your country</option>
                     @foreach (var obj in @Model.countries)
                     {
                         <option value="@obj.CountryId">@obj.Name</option>
@@ -224,9 +320,8 @@
             </div>
             <div class="col-12 col-sm-6">
                 <label>City*</label>
-                <select class="form-select" asp-for="mission.CityId" aria-label="Default select example"
-                        aria-placeholder="Select your City" id="selectCityLista">
-                    <option value="0">Select your City</option>
+                <select class="form-select" asp-for="mission.CityId" aria-label="Default select example" id="selectCityLista" required>
+                    <option value="">Select your City</option>
                     @foreach (var item in @Model.cities)
                     {
                         <option value="@item.CityId">@item.Name</option>
@@ -243,25 +338,19 @@
         <label for="select mission" class="mt-3"> End Date </label>
         <input type="date" asp-for="mission.EndDate" class="form-control" id="formGroupExampleInput">
         <label class="mb-1 mt-3">Mission Type</label>
-        <select asp-for="mission.MissionType" type="text" class="form-select form-control">
-            <option value="0">Select your mission type</option>
+        <select asp-for="mission.MissionType" type="text" class="form-select form-control" required>
+            <option value="">Select your mission type</option>
             <option value="Time">Time</option>
             <option value="Goal">Goal</option>
 
         </select>
-        @if (Model.mission.MissionType == "Goal")
-        {
-            <label for="select mission" class="mt-3">Total Seats</label>
-            <input type="text" asp-for="mission.GoalMissions.FirstOrDefault().GoalValue" class="form-control" id="formGroupExampleInput">
-        }
-        <label for="select mission" class="mt-3"> Mission registration deadline </label>
-        <input type="date" asp-for="mission.EndDate" class="form-control" id="formGroupExampleInput">
+        <label for="select mission" class="mt-3">Total Seats</label>
+        <input type="text" asp-for="mission.GoalMissions.FirstOrDefault().GoalValue" class="form-control" id="formGroupExampleInput">
         <div class="row mt-3">
             <div class="col-12 col-sm-6">
                 <label>Mission Theme</label>
-                <select asp-for="mission.ThemeId" class="form-select" aria-label="Default select example"
-                        aria-placeholder="Select your country">
-                    <option value="0">Select your Mission Theme</option>
+                <select asp-for="mission.ThemeId" class="form-select" aria-label="Default select example" required>
+                    <option value="">Select your Mission Theme</option>
                     @foreach (var obj in @Model.missionThemes)
                     {
                         <option value="@obj.MissionThemeId">@obj.Title</option>
@@ -270,23 +359,48 @@
             </div>
             <div class="col-12 col-sm-6">
                 <label>Mission Skills</label>
-                <select class="form-control" asp-for="missionSkills" size="9" id="selected_features" multiple="multiple">
+                <a class="nav-link  text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Skills
+                </a>
+                <ul class="dropdown-menu" id="missionSkillE">
 
                     @foreach (var item in @Model.skills)
                     {
-                        <option value="@(item.SkillId)">
-                            @item.SkillName
-                        </option>
+                        @if (Model.mission.MissionSkills.Any(x => x.SkillId == item.SkillId))
+                        {
+                            <li><input class="check" id="@item.SkillId" type="checkbox" onchange="missSkills();" checked />@item.SkillName </li>
+                        }
+                        else
+                        {
+
+                            <li><input class="check" id="@item.SkillId" type="checkbox" onchange="missSkills();" />@item.SkillName </li>
+                        }
+
                     }
+                </ul>
 
-                </select>
-
-
+                <div id="inputSkillE" class="d-none"></div>
             </div>
+            <script>
+                function missSkills()
+                {
+                   var missionSkill = document.getElementById("missionSkillE");
+                   var ck = missionSkill.getElementsByClassName("check");
+                   console.log(ck);
+                   $("#inputSkillE").empty();
+                   for (i = 0; i < ck.length; i++)
+                   {
+                       if (ck[i].checked)
+                       {
+                           document.getElementById("inputSkillE").innerHTML +=`<input type="hidden" asp-for="editmissionSkills" name="editmissionSkills"  value="${ck[i].id}"/>`;
+                       }
+                   }
+                }
+            </script>
         </div>
         <label class="mb-1 mt-3">Mission Availability</label>
-        <select asp-for="mission.Avaibility" type="text" class="form-select form-control">
-            <option value="0">Select your Availability</option>
+        <select asp-for="mission.Avaibility" type="text" class="form-select form-control" required>
+            <option value="">Select your Availability</option>
             <option value="monthly">monthly</option>
             <option value="week-end">week-end</option>
             <option value="weekly">weekly</option>
@@ -298,7 +412,7 @@
                 <div class="form-group">
                     <label class="form-label">Upload Your Photos &Aacute; Documents</label>
                     <div class="d-flex justify-content-center align-items-center border input-div position-relative" style="height:150px">
-                        <input asp-for="missionDocuments" id="imageupload" type="file" class="file"  multiple /><img src="~/images/drag-and-drop.png">
+                        <input asp-for="missionDocuments" id="imageupload" type="file" class="file" multiple /><img src="~/images/drag-and-drop.png">
                     </div>
                 </div>
 
@@ -307,21 +421,21 @@
             <output class="mt-3" id="preview"></output>
 
         </div>
-
+        <input asp-for="missionDs" type="file" accept="*" multiple />
         <div class="col-lg-12">
             <div class="form-group">
-                <input type="text" class="form-control" id="sUrl" placeholder="Enter your url">
+                <input type="text" asp-for="url" class="form-control" id="sUrl" placeholder="Enter your url">
             </div>
         </div>
-         <div id="photos" class="d-none">
-        @if (Model.mission.MissionMedia.Count > 0)
-        {
-            @foreach (var item in @Model.mission.MissionMedia)
+        <div id="photos" class="d-none">
+            @if (Model.mission.MissionMedia.Count > 0)
             {
-                <input type="hidden" class="Dimg" value="@item.MediaPath" />
+                @foreach (var item in @Model.mission.MissionMedia)
+                {
+                    <input type="hidden" class="Dimg" value="@item.MediaPath" />
+                }
             }
-        }
-    </div>
+        </div>
         <div class="row my-3">
             <div class="col-10"></div>
             <div class="col-2">

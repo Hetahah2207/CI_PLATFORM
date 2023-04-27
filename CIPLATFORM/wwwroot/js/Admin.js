@@ -65,6 +65,7 @@
                 $("#hi7").empty();
                 $("#hi7").html(data);
             }
+            else if (key == "banner") {                $("#hi8").empty();                $("#hi8").html(data);            }
         },
         error: function (e) {
             console.log("Bye");
@@ -119,7 +120,6 @@ function getdata(x, id) {
             if (x == "nav-user") {                $("#profileImageInput1").on('change', function () {
                     console.log("2");
                     readURL1(this);
-
                 });            }
             if (x == "nav-mission") {                var abc = document.getElementById("mission2");
                 CKEDITOR.replace(abc);
@@ -156,9 +156,9 @@ function getdata(x, id) {
                     let images = ""
                     imagesArray.forEach((image, index) => {
                         images += `<div class="image storyimages">
-                                             <img src="${URL.createObjectURL(image)}" alt="image">
-                                             <span onclick="deleteImg(${index})">&times;</span>
-                                           </div>`
+                                        <img src="${URL.createObjectURL(image)}" alt="image">
+                                        <span onclick="deleteImg(${index})">&times;</span>
+                                   </div>`
                     })
                     output.innerHTML = images
                 }
@@ -204,9 +204,9 @@ function getdata(x, id) {
 
 
                         images += `<div class="image">
-                                                <img src="${img}" alt="image">
-                                                <span onclick="deleteImg(${index})">&times;</span>
-                                              </div>`
+                                        <img src="${img}" alt="image">
+                                        <span onclick="deleteImg(${index})">&times;</span>
+                                   </div>`
 
                     });
 

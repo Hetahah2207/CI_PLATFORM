@@ -24,7 +24,7 @@
                 <!-- Container for the image gallery -->
                 <div class="container p-0 pb-5 h-100" style="max-width: 100%;">
 
-                    @for (int i = 1; i <= Model.missionmedias.Count; i++)
+                    @for (int i = 1; i <= Model.missionmedias?.Count; i++)
                     {
                         <div class="mySlides">
 
@@ -37,7 +37,7 @@
                     <a class="next" onclick="plusSlides(1)">&#10095;</a>
                     <div class="row g-1">
 
-                        @for (int i = 1; i <= Model.missionmedias.Count; i++)
+                        @for (int i = 1; i <= Model.missionmedias?.Count; i++)
                         {
                             <div class="col">
                                 <img class="demo cursor" src=~/images/@(Model.missionmedias[i-1].MediaPath) style="width:100%;" onclick="currentSlide(@i)">
@@ -54,10 +54,14 @@
 
                             <h3 class="card-title">@Model.missions.Title</h3>
 
-
-                            <p class="card-text">@Model.missions.ShortDescription </p>
-
-
+                            @if (@Model.missions.ShortDescription != null)
+                            {
+                                <p class="card-text">@Model.missions.ShortDescription </p>
+                            }
+                            else
+                            {
+                                <p class="card-text">ShortDescription is not provided here</p>
+                            }
                             <div class="wrapper  d-flex justify-content-center">
                                 <hr class="divider">
                                 <div class=" d-flex justify-content-center b2 ">
@@ -69,13 +73,13 @@
                                         else if (@Model.missions.StartDate <= DateTime.Now && DateTime.Now <= @Model.missions.EndDate)
                                         {
                                             <span>Ongoing Opportunity</span>
-
-
                                         }
                                         else
                                         {
-                                            <span>@Model.missions.StartDate.ToString().Substring(0,10)  until @Model.missions.EndDate.ToString().Substring(0,10) </span>
-
+                                            @if (@Model.missions.StartDate != null && @Model.missions.EndDate != null)
+                                            {
+                                                <span>@Model.missions.StartDate?.ToString().Substring(0,10)  until @Model.missions.EndDate?.ToString().Substring(0,10) </span>
+                                            }
                                         }
                                     </div>
                                 </div>
@@ -86,7 +90,7 @@
                             <div class="col-6 justify-content-center">
                                 <i class="bi bi-person-check " style="font-size: 25px;"></i>
                                 @{
-                                    if (Model.missions.MissionType == "Goal")
+                                    if (Model.missions.MissionType == "Goal" && Model.missions.GoalMissions.Count > 0)
                                     {
                                         int seates = @Model.missions.GoalMissions.FirstOrDefault().GoalValue;
                                         int apply = @Model.missions.MissionApplications.Count();
@@ -106,10 +110,8 @@
                                 }
                             </div>
                             <div class="col-6 justify-content-center">
-                                @* <i class="bi bi-clock" style="font-size: 25px;"></i>
-                                    <span> @Model.missions.EndDate.ToString().Substring(0,10) <br> Deadline</span>*@
                                 @{
-                                    if (Model.missions.MissionType == "Goal")
+                                    if (Model.missions.MissionType == "Goal" && Model.missions.GoalMissions.Count > 0)
                                     {
                                         int seates = @Model.missions.GoalMissions.FirstOrDefault().GoalValue;
                                         int apply = @Model.missions.MissionApplications.Count();
@@ -119,9 +121,17 @@
                                     }
                                     else
                                     {
-                                        <i class="bi bi-clock"></i> @Model.missions.EndDate.ToString().Substring(0,10)
-                                        <br>
-                                        <span class="small text-muted">&nbsp &nbsp Deadline</span>
+                                        @if (@Model.missions.EndDate != null)
+                                        {
+                                            <i class="bi bi-clock"></i> @Model.missions.EndDate?.ToString().Substring(0,10)
+                                            <br>
+                                            <span class="small text-muted">&nbsp &nbsp Deadline</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Deadline is not provided here</span>
+
+                                        }
                                     }
                                 }
                             </div>
@@ -180,18 +190,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @* <button type="button" class="btn btn-outline-dark rounded-pill w-100" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-square-fill"></i>
-                                    Recommend to a Co-Worker
-                                    </button>
-                                    <ul class="dropdown-menu">
 
-                                    @foreach (var item in Model.coworkers)
-                                    {
-
-                                    <li><input type="checkbox" value="@item.UserId" /> @item.FirstName @item.LastName </li>
-                                    }
-                                    </ul>*@
                             </div>
                         </div>
                         <div class="row">
@@ -220,11 +219,7 @@
                                         <span class="bi bi-star star1" value="2"></span>
                                         <span class="bi bi-star star1" value="1"></span>
                                     }
-                                    @*<span class="fa fa-star star1" value="5"></span>
-                                        <span class="fa fa-star star1" value="4"></span>
-                                        <span class="fa fa-star star1" value="3"></span>
-                                        <span class="fa fa-star star1" value="2"></span>
-                                        <span class="fa fa-star star1" value="1"></span>*@
+
                                 </div>
 
 
@@ -251,7 +246,14 @@
                                 <div class=" h-100" style="border:2px solid grey;">
 
                                     <i class="bi bi-calendar3 ms-2"> </i>
-                                    <p class=" small ms-2"> @Model.missions.StartDate.ToString().Substring(0,10) <br> until @Model.missions.EndDate.ToString().Substring(0,10)</p>
+                                    @if (@Model.missions.StartDate != null && @Model.missions.EndDate != null)
+                                    {
+                                        <p class=" small ms-2"> @Model.missions.StartDate?.ToString().Substring(0,10) <br> until @Model.missions.EndDate?.ToString().Substring(0,10)</p>
+                                    }
+                                    else
+                                    {
+                                        <span>StartDate or EndDate is not provided here</span>
+                                    }
                                 </div>
                             </div>
                             <div class="col">
@@ -278,11 +280,21 @@
                                             Your Request has been sent for Approve
                                         </button>
                                     }
-                                    else if (Model.missions.EndDate < DateTime.Now)
+                                    else if (Model.missions.EndDate != null)
                                     {
-                                        <button type="button" class="btn btn-outline apply" id="applyMission" onclick="applyMission(@Model.missions.MissionId)" disabled>
-                                            Enddate has been passed
-                                        </button>
+                                        if (Model.missions.EndDate < DateTime.Now)
+                                        {
+                                            <button type="button" class="btn btn-outline apply" id="applyMission" onclick="applyMission(@Model.missions.MissionId)" disabled>
+                                                Enddate has been passed
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-outline apply" id="applyMission" onclick="applyMission(@Model.missions.MissionId)">
+                                                Apply now
+                                                <i class=" ms-2 bi bi-arrow-right-short"></i>
+                                            </button>
+                                        }
                                     }
                                     else
                                     {
@@ -323,37 +335,49 @@
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
-                    <h3>Introduction</h3>
-                    <span>
-                        @Model.missions.Description<br><br>
-                    </span>
-                    <h3>Challenge</h3>
-                    <span>
-                        @Model.missions.Description<br><br>
-                    </span>
-                    <h3>Document</h3>
-                    <div>
-                        @foreach (var documents in Model.missiondocuments)
-                        {
-                            <a href=~/images/@documents.DocumentPath target="_blank">
-                                <button type="button" class="btn btn-outline-dark  rounded-pill ">
-                                    @if (@documents.DocumentType == "PDF")
-                                    {
-                                        <i class="bi bi-filetype-pdf">@documents.DocumentName</i>
-                                    }
-                                    else if (@documents.DocumentType == "Image")
-                                    {
-                                        <i class="bi bi-file-image">@documents.DocumentName</i>
-
-                                    }
-
-                                </button>
-                            </a>
-                        }
-                    </div>
+                    @if (@Model.missions?.Description != null)
+                    {
+                        <h3>Introduction</h3>
+                        <span>
+                            @Model.missions.Description<br><br>
+                        </span>
+                        <h3>Challenge</h3>
+                        <span>
+                            @Model.missions.Description<br><br>
+                        </span>
+                    }
+                    else
+                    {
+                        <span>Description is not provided here</span>
+                    }
+                    @if (Model.missiondocuments != null)
+                    {
+                        <h3>Document</h3>
+                        <div>
+                            @foreach (var documents in Model.missiondocuments)
+                            {
+                                <a href=~/images/@documents.DocumentPath target="_blank">
+                                    <button type="button" class="btn btn-outline-dark  rounded-pill ">
+                                        @if (@documents.DocumentType == "PDF")
+                                        {
+                                            <i class="bi bi-filetype-pdf">@documents.DocumentName</i>
+                                        }
+                                        else if (@documents.DocumentType == "Image")
+                                        {
+                                            <i class="bi bi-file-image">@documents.DocumentName</i>
+                                        }
+                                    </button>
+                                </a>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <span>Document is not provided here</span>
+                    }
                 </div>
                 <div class="tab-pane fade" id="tab-2" role="tabpanel">
-                    @Model.missions.OrganizationDetail
+                    @Model.missions?.OrganizationDetail
                 </div>
                 <div class="tab-pane fade" id="tab-3" role="tabpanel">
 
@@ -364,7 +388,7 @@
                                   placeholder="Enter your comments"></textarea>
                     </div>
                     <div class=" mt-3 mb-3">
-                        <button type="button" class="btn btn-outline-warning rounded-pill" onclick="comment(@Model.missions.MissionId)">
+                        <button type="button" class="btn btn-outline-warning rounded-pill" onclick="comment(@Model.missions?.MissionId)">
                             Post Comment
                         </button>
                     </div>
@@ -412,9 +436,16 @@
                         <div class="row">
                             <div class="col-3">Skills</div>
                             <div class="col-9">
-                                @foreach (var item in Model.missionskills)
+                                @if (Model.missionskills != null)
                                 {
-                                    @item.Skill.SkillName <br />
+                                    @foreach (var item in Model.missionskills)
+                                    {
+                                        @item.Skill.SkillName <br />
+                                    }
+                                }
+                                else
+                                {
+                                    <span>Skills are not provided here</span>
                                 }
                             </div>
                         </div>
@@ -428,21 +459,12 @@
                             <div class="col-3 pe-0">Rating</div>
                             <div class="col-9">
 
-                                @*@for (int i = 1; i <= (int)@Model.missions.MissionRatings.Average(x => x.Rating); i++)
-                                    {
-                                    <i class="bi bi-star-fill" style="color: #F8D441;"></i>
-                                    }
-                                    @for (int i = 1; i <= 5 - (int)@Model.missions.MissionRatings.Average(x => x.Rating); i++)
-                                    {
-                                    <i class="bi bi-star" style="color: #F8D441;"></i>
-                                    }*@
-                                @{
-
+                                @if (Model.missions.MissionRatings.Count > 0)
+                                {
                                     var ratings = Model.missions.MissionRatings.Average(x => x.Rating);
                                     var fullStars = (int)ratings;
                                     var partialStar = ratings - fullStars;
                                     var emptyStars = 5 - fullStars - (partialStar > 0 ? 1 : 0);
-
 
 
                                     @for (var i = 0; i < fullStars; i++)
@@ -457,9 +479,6 @@
                                     {
                                         <i class="bi bi-star" style="color: #F8D441;"></i>
                                     }
-
-
-
                                 }
                                 (by @Model.missions.MissionRatings.Count volunteers)
                             </div>
@@ -486,7 +505,7 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-3">
         @{
             int n;
-            if (Model.relatedmissions.Count < 3)
+            if (Model.relatedmissions?.Count < 3)
             {
                 n = Model.relatedmissions.Count;
             }
@@ -540,23 +559,23 @@
                                     @Model.relatedmissions[i].OrganizationName
                                 </div>
                                 <div class="col-md-6">
-                                    @*  <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>*@
-
-                                    @* @(item.MissionRatings.FirstOrDefault()?.Rating)*@
-                                    @* @for (int i = 0; i <= @item.MissionRatings.FirstOrDefault()?.Rating; i++)
+                                    @if (@Model.relatedmissions[i].MissionRatings.Count > 0)
+                                    {
+                                        @for (int j = 1; j <= (int)@Model.relatedmissions[i].MissionRatings.Average(x => x.Rating); j++)
                                         {
-                                        <i class="bi bi-star-fill" style="color: #F8D441;"></i>
-                                        }*@
-                                    @for (int j = 1; j <= (int)@Model.relatedmissions[i].MissionRatings.Average(x => x.Rating); j++)
-                                    {
-                                        <i class="bi bi-star-fill" style="color: #F8D441;"></i>
+                                            <i class="bi bi-star-fill" style="color: #F8D441;"></i>
+                                        }
+                                        @for (int j = 1; j <= 5 - (int)@Model.relatedmissions[i].MissionRatings.Average(x => x.Rating); j++)
+                                        {
+                                            <i class="bi bi-star" style="color: #F8D441;"></i>
+                                        }
                                     }
-                                    @for (int j = 1; j <= 5 - (int)@Model.relatedmissions[i].MissionRatings.Average(x => x.Rating); j++)
+                                    else
                                     {
+                                        <i class="bi bi-star" style="color: #F8D441;"></i>
+                                        <i class="bi bi-star" style="color: #F8D441;"></i>
+                                        <i class="bi bi-star" style="color: #F8D441;"></i>
+                                        <i class="bi bi-star" style="color: #F8D441;"></i>
                                         <i class="bi bi-star" style="color: #F8D441;"></i>
                                     }
                                 </div>
@@ -567,7 +586,7 @@
                             <div class=" d-flex justify-content-center b2 ">
 
                                 <div class="d-flex justify-content-center .left .right ">
-                                    @* @item.StartDate.ToShortDateString() until @item.EndDate.ToShortDateString()*@
+
                                     @if (Model.missions.MissionType == "Goal")
                                     {
                                         <span class="textline">@Model.missions.GoalMissions.FirstOrDefault()?.GoalObjectiveText </span>
@@ -580,8 +599,18 @@
                                     }
                                     else
                                     {
-                                        <span>@Model.missions.StartDate.ToString().Substring(0,10)  until @Model.missions.EndDate.ToString().Substring(0,10) </span>
-
+                                        @if(Model.missions.StartDate != null && Model.missions.EndDate != null)
+                                        {
+                                            <span>
+                                                @Model.missions.StartDate?.ToString().Substring(0,10)
+                                                until 
+                                                @Model.missions.EndDate?.ToString().Substring(0,10) 
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span>StartDate or EndDate is not provided here</span>
+                                        }
                                     }
                                 </div>
 
@@ -599,7 +628,15 @@
                                 </div>
                                 <div class="col-6 ">
                                     <i class="bi bi-clock" style="font-size: 25px;"></i>
-                                    @Model.relatedmissions[i].EndDate.ToString().Substring(0,10)  <br> Deadline
+                                    @if (@Model.relatedmissions[i].EndDate != null)
+                                    {
+                                        @Model.relatedmissions[i].EndDate?.ToString().Substring(0,10)  <br>
+                                        <span>Deadline</span>
+                                    }
+                                    else
+                                    {
+                                         <span>Deadline is not provided here</span>
+                                    }
                                 </div>
                             </div>
                         </div>

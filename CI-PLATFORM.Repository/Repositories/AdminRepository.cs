@@ -31,15 +31,15 @@ namespace CI_PLATFORM.Repository.Repositories
                 um.missionapplications = _CiPlatformContext.MissionApplications.Include(x => x.Mission).Include(x => x.User).Where(x => x.ApprovalStatus == "Pending").ToList();
                 um.stories = _CiPlatformContext.Stories.Include(x => x.User).Where(x => x.Status == "PENDING" || x.Status == "DRAFT").Where(x => x.DeletedAt == null).ToList();
                 um.skills = _CiPlatformContext.Skills.Where(x => x.DeletedAt == null).ToList();
+                um.newskills = _CiPlatformContext.Skills.Where(x => x.DeletedAt == null).ToList();
                 um.missionThemes = _CiPlatformContext.MissionThemes.Where(x => x.DeletedAt == null).ToList();
+                um.newmissionThemes = _CiPlatformContext.MissionThemes.Where(x => x.DeletedAt == null).ToList();
+                um.banners = _CiPlatformContext.Banners.Where(x => x.DeletedAt == null).ToList();
             }
             return um;
         }
         public AdminViewModel UserFilter(string search, int pg)
         {
-
-
-
             var pageSize = 5;
             AdminViewModel obj = getData();
             if (search != null)
@@ -62,6 +62,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 obj.CmsPages = obj.CmsPages.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
                 obj.missionThemes = obj.missionThemes.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
                 obj.skills = obj.skills.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
+                obj.banners = obj.banners.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
             }
             return obj;
         }
@@ -90,6 +91,7 @@ namespace CI_PLATFORM.Repository.Repositories
                         _CiPlatformContext.Add(user);
                         _CiPlatformContext.SaveChanges();
                     }
+                    return true;
                 }
                 else
                 {
@@ -141,6 +143,183 @@ namespace CI_PLATFORM.Repository.Repositories
                     }
                     _CiPlatformContext.Update(cms);
                     _CiPlatformContext.SaveChanges();
+                    return false;
+                }
+            }
+            if (command == 3)
+            {
+                if (obj.mission.MissionId == 0)
+                {
+                    Mission mission = new Mission();
+                    {
+                        mission.Title = obj.mission.Title;
+                        mission.Description = obj.mission.Description;
+                        mission.ShortDescription = obj.mission.ShortDescription;
+                        mission.CountryId = obj.mission.CountryId;
+                        mission.CityId = obj.mission.CityId;
+                        mission.OrganizationName = obj.mission.OrganizationName;
+                        mission.OrganizationDetail = obj.mission.OrganizationDetail;
+                        mission.StartDate = obj.mission.StartDate;
+                        mission.EndDate = obj.mission.EndDate;
+                        mission.MissionType = obj.mission.MissionType;
+                        mission.Avaibility = obj.mission.Avaibility;
+                        mission.ThemeId = obj.mission.ThemeId;
+                        _CiPlatformContext.Missions.Add(mission);
+                        _CiPlatformContext.SaveChanges();
+                    }
+
+                    if (obj.missionDocuments != null)
+                    {
+                        foreach (var item in obj.missionDocuments)
+                        {
+                            MissionMedium mm = new MissionMedium();
+                            {
+                                mm.MediaName = item.Name;
+                                mm.MissionId = mission.MissionId;
+                                mm.MediaPath = item.FileName;
+                                mm.MediaType = "png";
+                            }
+                            _CiPlatformContext.MissionMedia.Add(mm);
+                            _CiPlatformContext.SaveChanges();
+                        }
+                    }
+
+                    if (obj.editmissionSkills != null)
+                    {
+                        foreach (var item in obj.editmissionSkills)
+                        {
+                            MissionSkill ms = new MissionSkill();
+                            {
+                                ms.SkillId = item;
+                                ms.MissionId = mission.MissionId;
+                            }
+                            _CiPlatformContext.MissionSkills.Add(ms);
+                            _CiPlatformContext.SaveChanges();
+                        }
+                    }
+
+                    if (obj.url != null)
+                    {
+                        MissionMedium nmds = new MissionMedium();
+                        {
+                            nmds.MediaName = obj.url;
+                            nmds.MissionId = mission.MissionId;
+                            nmds.MediaPath = obj.url;
+                            nmds.MediaType = "url";
+                        }
+                        _CiPlatformContext.MissionMedia.Add(nmds);
+                        _CiPlatformContext.SaveChanges();
+                    }
+
+                    if (obj.missionDs != null)
+                    {
+                        foreach (var item in obj.missionDs)
+                        {
+                            MissionDocument md = new MissionDocument();
+                            {
+                                md.DocumentName = item.FileName;
+                                md.MissionId = mission.MissionId;
+                                md.DocumentType = item.ContentType;
+                                md.DocumentPath = item.FileName;
+                            }
+                            _CiPlatformContext.MissionDocuments.Add(md);
+                            _CiPlatformContext.SaveChanges();
+                        }
+                    }
+
+
+                    return true;
+                }
+                else
+                {
+                    Mission mission = _CiPlatformContext.Missions.FirstOrDefault(x => x.MissionId == obj.mission.MissionId);
+                    {
+                        mission.Title = obj.mission.Title;
+                        mission.Description = obj.mission.Description;
+                        mission.ShortDescription = obj.mission.ShortDescription;
+                        mission.CountryId = obj.mission.CountryId;
+                        mission.CityId = obj.mission.CityId;
+                        mission.OrganizationName = obj.mission.OrganizationName;
+                        mission.OrganizationDetail = obj.mission.OrganizationDetail;
+                        mission.StartDate = obj.mission.StartDate;
+                        mission.EndDate = obj.mission.EndDate;
+                        mission.MissionType = obj.mission.MissionType;
+                        mission.Avaibility = obj.mission.Avaibility;
+                        mission.ThemeId = obj.mission.ThemeId;
+                        mission.UpdatedAt = DateTime.Now;
+                    }
+                    _CiPlatformContext.Missions.Update(mission);
+                    _CiPlatformContext.SaveChanges();
+
+
+                    if (obj.editmissionSkills.Count != 0)
+                    {
+                        List<MissionSkill> skillList = _CiPlatformContext.MissionSkills.Where(x => x.MissionId == mission.MissionId).ToList();
+                        _CiPlatformContext.MissionSkills.RemoveRange(skillList);
+                        foreach (var item in obj.editmissionSkills)
+                        {
+                            MissionSkill ms = new MissionSkill();
+                            {
+                                ms.SkillId = item;
+                                ms.MissionId = mission.MissionId;
+                            }
+                            _CiPlatformContext.MissionSkills.Add(ms);
+                            _CiPlatformContext.SaveChanges();
+                        }
+                    }
+
+
+                    List<MissionMedium> missionMedia = _CiPlatformContext.MissionMedia.Where(x => x.MissionId == mission.MissionId && x.MediaType == "png").ToList();
+                    _CiPlatformContext.MissionMedia.RemoveRange(missionMedia);
+                    foreach (var item in obj.missionDocuments)
+                    {
+                        MissionMedium mm = new MissionMedium();
+                        {
+                            mm.MediaName = item.Name;
+                            mm.MissionId = mission.MissionId;
+                            mm.MediaPath = item.FileName;
+                            mm.MediaType = "png";
+                        }
+                        _CiPlatformContext.MissionMedia.Add(mm);
+                        _CiPlatformContext.SaveChanges();
+                    }
+                    if (obj.url != null)
+                    {
+                        MissionMedium mds = _CiPlatformContext.MissionMedia.FirstOrDefault(x => x.MissionId == mission.MissionId && x.MediaType == "url");
+                        if (mds != null)
+                        {
+                            _CiPlatformContext.MissionMedia.Remove(mds);
+                        }
+                        MissionMedium nmds = new MissionMedium();
+                        {
+                            nmds.MediaName = obj.url;
+                            nmds.MissionId = mission.MissionId;
+                            nmds.MediaPath = obj.url;
+                            nmds.MediaType = "url";
+                        }
+                        _CiPlatformContext.MissionMedia.Add(nmds);
+                        _CiPlatformContext.SaveChanges();
+                    }
+                    if (obj.missionDs != null)
+                    {
+                        List<MissionDocument> missionDocuments = _CiPlatformContext.MissionDocuments.Where(x => x.MissionId == mission.MissionId).ToList();
+                        _CiPlatformContext.MissionDocuments.RemoveRange(missionDocuments);
+                        foreach (var item in obj.missionDs)
+                        {
+                            MissionDocument md = new MissionDocument();
+                            {
+                                md.DocumentName = item.FileName;
+                                md.MissionId = mission.MissionId;
+                                md.DocumentType = item.ContentType;
+                                md.DocumentPath = item.FileName;
+                            }
+                            _CiPlatformContext.MissionDocuments.Add(md);
+                            _CiPlatformContext.SaveChanges();
+                        }
+                    }
+
+
+
                     return false;
                 }
             }
@@ -198,6 +377,42 @@ namespace CI_PLATFORM.Repository.Repositories
                     return false;
                 }
             }
+            if (command == 8)
+            {
+                if (obj.banner.BannerId == 0)
+                {
+                    Banner banner1 = _CiPlatformContext.Banners.FirstOrDefault(x => x.SortOrder == obj.banner.SortOrder && x.DeletedAt == null);
+                    if (banner1 != null)
+                    {
+                        {
+                            banner1.DeletedAt = DateTime.Now;
+                        }
+                        _CiPlatformContext.Banners.Update(banner1);
+                        _CiPlatformContext.SaveChanges();
+                    }
+                    Banner banner = new Banner();
+                    {
+                        banner.Text = obj.banner.Text;
+                        banner.SortOrder = obj.banner.SortOrder;
+                        banner.Image = obj.banner.Image;
+                    }
+                    _CiPlatformContext.Add(banner);
+                    _CiPlatformContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    Banner banner = _CiPlatformContext.Banners.FirstOrDefault(x => x.BannerId == obj.banner.BannerId);
+                    {
+                        banner.Text = obj.banner.Text;
+                        banner.SortOrder = obj.banner.SortOrder;
+                        banner.Image = obj.banner.Image;
+                    }
+                    _CiPlatformContext.Update(banner);
+                    _CiPlatformContext.SaveChanges();
+                    return false;
+                }
+            }
             return false;
 
         }
@@ -211,7 +426,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 }
                 if (page == "nav-mission")
                 {
-                    am.mission = _CiPlatformContext.Missions.Include(x => x.MissionMedia).Include(x => x.GoalMissions).FirstOrDefault(x => x.MissionId == id);
+                    am.mission = _CiPlatformContext.Missions.Include(x => x.MissionSkills).Include(x => x.MissionMedia).Include(x => x.GoalMissions).FirstOrDefault(x => x.MissionId == id);
                 }
                 if (page == "nav-user")
                 {
@@ -224,6 +439,10 @@ namespace CI_PLATFORM.Repository.Repositories
                 if (page == "nav-skill")
                 {
                     am.Skill = _CiPlatformContext.Skills.FirstOrDefault(x => x.SkillId == id);
+                }
+                if (page == "nav-banner")
+                {
+                    am.banner = _CiPlatformContext.Banners.FirstOrDefault(x => x.BannerId == id);
                 }
             }
             return am;
@@ -274,7 +493,13 @@ namespace CI_PLATFORM.Repository.Repositories
                     _CiPlatformContext.Stories.Update(story);
                     _CiPlatformContext.SaveChanges();
                 }
-
+                if (page == 8)
+                {
+                    Banner banner = _CiPlatformContext.Banners.FirstOrDefault(x => x.BannerId == id);
+                    banner.DeletedAt = DateTime.Now;
+                    _CiPlatformContext.Banners.Update(banner);
+                    _CiPlatformContext.SaveChanges();
+                }
                 return true;
             }
             else

@@ -348,7 +348,25 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="nav-banner" role="tabpanel" aria-labelledby="nav-banner-tab">
-                            <h4 class="pt-3 pb-2">Banner</h4>
+                            @*<h4 class="pt-3 pb-2">Banner</h4>*@
+                            <div id="pageContent">
+
+                                <h4>Banner</h4>
+                                <hr class="m-0">
+                                <div class="row mt-3 g-0">
+                                    <div class="col-12 text-end">
+                                        <button type="button" class="btn btn-outline-warning rounded-pill" onclick="addform('nav-banner',8);">
+                                            <i class="bi bi-plus"></i>
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="hi8">
+                                @{
+                                    Html.RenderPartial("_Banner");
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -402,7 +420,6 @@
         }
     </script>
     <script>
-        console.log("hfhf");
         const inputDiv = document.querySelector(".input-div")
          const input = document.querySelector("#imageupload")
          const output = document.querySelector("#preview")

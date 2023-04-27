@@ -31,7 +31,14 @@ namespace CI_PLATFORM.Repository.Repositories
         //    var user = _CiPlatformContext.Users.FirstOrDefault(U => U.Email == obj.Email && U.Password == obj.Password);
         //    return user;
         //}
-
+        public AdminViewModel getbanners()
+        {
+            AdminViewModel am = new AdminViewModel();
+            {
+                am.banners = _CiPlatformContext.Banners.Where(x => x.DeletedAt == null).OrderBy(x => x.SortOrder).ToList();
+            }
+            return am;
+        }
         public Login login(Login obj)
         {
 

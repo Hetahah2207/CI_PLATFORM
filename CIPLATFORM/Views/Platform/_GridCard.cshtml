@@ -75,12 +75,7 @@
                                 <img src="~/images/user.png" class=" img-fluid cancle-img" alt="">
                             </button>
 
-                            @*    <button type="button" class="btn btn-outline w-100  rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background: #F8863400 0% 0% no-repeat padding-box;
-                                border: 2px solid #020201;
-                                border-radius: 24px;
-                                opacity: 1; color:#020202">
-                                <i class="bi bi-square-fill  "><span> Recommend to a Co-Worker</span></i>
-                                </button>*@
+
 
 
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -118,25 +113,33 @@
                     <div class="card-body">
                         <h5 class="card-title">@item.Title</h5>
                         <p class="card-text">
-                            @item.ShortDescription
+                            @if (item.ShortDescription != null)
+                            {
+                                @item.ShortDescription
+                            }
+                            else
+                            {
+                                <span>ShortDescription is not provided here</span>
+                            }
                         </p>
                         <div class="container p-2">
                             <div class="row d-flex">
                                 <div class="col-md-6">
-                                    @item.OrganizationName
+                                    @if (item.OrganizationName != null)
+                                    {
+                                        @item.OrganizationName
+                                    }
+                                    else
+                                    {
+                                        <span>OrganizationName is not provided here</span>
+                                    }
                                 </div>
                                 <div class="col-md-6">
 
-                                    @*@for (int i = 1; i <= (int)@item.MissionRatings.Average(x => x.Rating); i++)
-                                        {
-                                        <i class="bi bi-star-fill" style="color: #F8D441;"></i>
-                                        }
-                                        @for (int i = 1; i <= 5 - (int)@item.MissionRatings.Average(x => x.Rating); i++)
-                                        {
-                                        <i class="bi bi-star" style="color: #F8D441;"></i>
-                                        }*@
 
-                                    @{
+
+                                    @if (item.MissionRatings.Count > 0)
+                                    {
                                         var ratings = item.MissionRatings.Average(x => x.Rating);
                                         var fullStars = (int)ratings;
                                         var partialStar = ratings - fullStars;
@@ -154,6 +157,14 @@
                                             <i class="bi bi-star" style="color: #F8D441;"></i>
                                         }
                                     }
+                                    else
+                                    {
+                                        <i class="bi bi-star" style="color: #F8D441;"></i>
+                                        <i class="bi bi-star" style="color: #F8D441;"></i>
+                                        <i class="bi bi-star" style="color: #F8D441;"></i>
+                                        <i class="bi bi-star" style="color: #F8D441;"></i>
+                                        <i class="bi bi-star" style="color: #F8D441;"></i>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -163,7 +174,7 @@
 
                                 <div class="d-flex justify-content-center .left .right ">
                                     @{
-                                        if (item.MissionType == "Goal")
+                                        if (item.MissionType == "Goal" && item.GoalMissions.Count > 0)
                                         {
                                             <span class="textline">@item.GoalMissions.FirstOrDefault()?.GoalObjectiveText </span>
                                         }
@@ -173,7 +184,14 @@
                                         }
                                         else
                                         {
-                                            <span>@item.StartDate.ToString().Substring(0,10)  until @item.EndDate.ToString().Substring(0,10) </span>
+                                            @if (item.StartDate != null && item.EndDate != null)
+                                            {
+                                                <span>@item.StartDate.ToString().Substring(0,10)  until @item.EndDate.ToString().Substring(0,10) </span>
+                                            }
+                                            else
+                                            {
+                                                <span>StartDate or EndDate is not provided here</span>
+                                            }
                                         }
                                     }
                                 </div>
@@ -187,7 +205,7 @@
 
                                     <i class="bi bi-person-check " style="font-size: 28px;"></i>
                                     @{
-                                        if (item.MissionType == "Goal")
+                                        if (item.MissionType == "Goal" && item.GoalMissions.Count > 0)
                                         {
                                             int seates = @item.GoalMissions.FirstOrDefault().GoalValue;
                                             int apply = @item.MissionApplications.Count();
@@ -208,7 +226,7 @@
                                 </div>
                                 <div class="col-6 ">
                                     @{
-                                        if (item.MissionType == "Goal")
+                                        if (item.MissionType == "Goal" && item.GoalMissions.Count > 0)
                                         {
                                             int seates = @item.GoalMissions.FirstOrDefault().GoalValue;
                                             int apply = @item.MissionApplications.Count();
@@ -218,9 +236,16 @@
                                         }
                                         else
                                         {
-                                            <i class="bi bi-clock"></i> @item.EndDate.ToString().Substring(0,10)
-                                            <br>
-                                            <span class="small text-muted">&nbsp &nbsp Deadline</span>
+                                            @if (@item.EndDate != null)
+                                            {
+                                                <i class="bi bi-clock"></i> @item.EndDate.ToString().Substring(0,10)
+                                                <br>
+                                                <span class="small text-muted">&nbsp &nbsp Deadline</span>
+                                            }
+                                            else
+                                            {
+                                                <span>EndDate is not provided here</span>
+                                            }
                                         }
                                     }
                                 </div>
@@ -239,14 +264,23 @@
                                         </a>
                                     </button>
                                 }
-                                else if (item.EndDate < DateTime.Now)
+                                else if (@item.EndDate != null)
                                 {
-                                    <button type="button" class="btn btn-outline apply">
-                                        <a asp-controller="Platform" asp-action="MissionListing" asp-route-mid="@item.MissionId" style="text-decoration:none;color:black">
-                                            View Deatail
-                                            <i class=" ms-2 bi bi-arrow-right-short"></i>
-                                        </a>
-                                    </button>
+                                    if (item.EndDate < DateTime.Now)
+                                    {
+                                        <button type="button" class="btn btn-outline apply">
+                                            <a asp-controller="Platform" asp-action="MissionListing" asp-route-mid="@item.MissionId" style="text-decoration:none;color:black">
+                                                View Deatail
+                                                <i class=" ms-2 bi bi-arrow-right-short"></i>
+                                            </a>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-outline apply">
+                                            <a asp-controller="Platform" asp-action="MissionListing" asp-route-mid="@item.MissionId" style="text-decoration:none;color:black"> Apply <i class=" ms-2 bi bi-arrow-right-short"></i></a>
+                                        </button>
+                                    }
                                 }
                                 else
                                 {
@@ -268,11 +302,7 @@
 
 <nav aria-label="Page navigation example mt-4">
     <ul class="pagination justify-content-center" onchange="temp()">
-        @* <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous" onclick="Previous(2)">
-            <span aria-hidden="true">&laquo;</span>
-            </a>
-            </li>*@
+
         @{
             double totalpages = ViewBag.Totalpages;
 
@@ -298,12 +328,5 @@
             }
         }
 
-
-
-        @* <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next" onclick="NextPage(1)">
-            <span aria-hidden="true">&raquo;</span>
-            </a>
-            </li>*@
     </ul>
 </nav>

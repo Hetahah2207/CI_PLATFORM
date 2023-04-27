@@ -48,6 +48,11 @@ namespace CIPLATFORM.Controllers
 
             ViewBag.Totalpages7 = Math.Ceiling(am.stories.Count() / 5.0);
             am.stories = am.stories.Skip((1 - 1) * 5).Take(5).ToList();
+
+            ViewBag.Totalpages8 = Math.Ceiling(am.banners.Count() / 5.0);
+            am.banners = am.banners.Skip((1 - 1) * 5).Take(5).ToList();
+       
+
             ViewBag.pg_no = 1;
             return View(am);
         }
@@ -94,7 +99,14 @@ namespace CIPLATFORM.Controllers
                 else
                     TempData["false"] = "Skill updated Successfully";
             }
-
+            if (command == 8)
+            {
+                bool missionskill = _AdminRepository.addcms(obj, command);
+                if (missionskill)
+                    TempData["true"] = "Banner added Successfully";
+                else
+                    TempData["false"] = "Banner updated Successfully";
+            }
 
             AdminViewModel am = _AdminRepository.getData();
             ViewBag.Totalpages = Math.Ceiling(am.users.Count() / 5.0);
@@ -117,6 +129,11 @@ namespace CIPLATFORM.Controllers
 
             ViewBag.Totalpages7 = Math.Ceiling(am.stories.Count() / 5.0);
             am.stories = am.stories.Skip((1 - 1) * 5).Take(5).ToList();
+
+            ViewBag.Totalpages8 = Math.Ceiling(am.banners.Count() / 5.0);
+            am.banners = am.banners.Skip((1 - 1) * 5).Take(5).ToList();
+            
+
             ViewBag.pg_no = 1;
             return RedirectToAction("Admin");
         }
@@ -136,7 +153,7 @@ namespace CIPLATFORM.Controllers
             ViewBag.Totalpages5 = Math.Ceiling(x.skills.Count() / 5.0);
             ViewBag.Totalpages6 = Math.Ceiling(x.missionapplications.Count() / 5.0);
             ViewBag.Totalpages7 = Math.Ceiling(x.stories.Count() / 5.0);
-
+            ViewBag.Totalpages8 = Math.Ceiling(x.banners.Count() / 5.0);
 
 
             if (key == "user")
@@ -167,6 +184,10 @@ namespace CIPLATFORM.Controllers
             {
                 return PartialView("_Story", fusers);
             }
+            if (key == "banner")
+            {
+                return PartialView("_Banner", fusers);
+            }
             return View(fusers);
         }
 
@@ -194,6 +215,10 @@ namespace CIPLATFORM.Controllers
 
             ViewBag.Totalpages7 = Math.Ceiling(am.stories.Count() / 5.0);
             am.stories = am.stories.Skip((1 - 1) * 5).Take(5).ToList();
+
+            ViewBag.Totalpages8 = Math.Ceiling(am.banners.Count() / 5.0);
+            am.banners = am.banners.Skip((1 - 1) * 5).Take(5).ToList();
+
             ViewBag.pg_no = 1;
 
             if (page == "nav-cms")
@@ -210,7 +235,6 @@ namespace CIPLATFORM.Controllers
                 {
                     am.cities = _AdminRepository.getData().cities.Where(x => x.CountryId == am.mission.CountryId).ToList();
                 }
-                
                 return PartialView("_Mission", am);
             }
             else if(page == "nav-user")
@@ -233,7 +257,11 @@ namespace CIPLATFORM.Controllers
                 am.Skill = _AdminRepository.EditForm(id, page).Skill;
                 return PartialView("_MissionSkill", am);
             }
-
+            else if (page == "nav-banner")
+            {
+                am.banner = _AdminRepository.EditForm(id, page).banner;
+                return PartialView("_Banner", am);
+            }
             return PartialView("_CMSPages", am);
         }
         public IActionResult DeleteActivity(int id, int page)

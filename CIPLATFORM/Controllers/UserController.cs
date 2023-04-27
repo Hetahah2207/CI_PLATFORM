@@ -20,6 +20,9 @@ namespace CIPLATFORM.Controllers
         }
         public IActionResult Login(String returnUrl = "")
         {
+           List<Banner> banners = new List<Banner>();
+           banners = _UserRepository.getbanners().banners;
+           ViewBag.banners = banners;
             Login login = new Login();
             {
                 login.returnUrl = returnUrl;

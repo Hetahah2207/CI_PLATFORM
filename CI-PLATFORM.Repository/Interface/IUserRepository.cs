@@ -8,6 +8,7 @@ namespace CI_PLATFORM.Repository.Interface
         //public List<User> GetUserData();
 
         //User Login(User obj);
+        public AdminViewModel getbanners();
         public Login login(Login obj);
         User Register(User obj);
         public bool checktoken(string token);

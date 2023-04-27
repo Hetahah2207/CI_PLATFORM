@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "uJCOnCN5h7iiyYajrY3xkiAPRyPNPZD0ZEZjA9G+e8c=",
+  "Hash": "O9UK5CUbjJIJbVKQXTtATPj15SLYYs8pUumVJsnWlg4=",
   "Source": "CIPLATFORM",
   "BasePath": "_content/CIPLATFORM",
   "Mode": "Default",
@@ -202,6 +202,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\StoryListing.css"
+    },
+    {
+      "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\css\\Style.css",
+      "SourceId": "CIPLATFORM",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\",
+      "BasePath": "_content/CIPLATFORM",
+      "RelativePath": "css/Style.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\Style.css"
     },
     {
       "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\favicon.ico",
