@@ -29,7 +29,7 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public bool SICheck(int sid, int userId, List<int> toUserId);
         public StoryListingViewModel GetStoryDetail();
         public List<StoryMedium> smedia(int sid);
-        public StoryListingViewModel GetStory(int sid);
+        public StoryListingViewModel GetStory(int sid, int uid);
         public void RecommandStory(int FromUserId, List<int> ToUserId, int sid);
         public bool MissionRating(int userId, int mid, int rating);
         public StoryView addview(int sid, int UId);

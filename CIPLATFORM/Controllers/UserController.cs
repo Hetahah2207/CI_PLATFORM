@@ -20,9 +20,9 @@ namespace CIPLATFORM.Controllers
         }
         public IActionResult Login(String returnUrl = "")
         {
-           List<Banner> banners = new List<Banner>();
-           banners = _UserRepository.getbanners().banners;
-           ViewBag.banners = banners;
+            List<Banner> banners = new List<Banner>();
+            banners = _UserRepository.getbanners().banners;
+            ViewBag.banners = banners;
             Login login = new Login();
             {
                 login.returnUrl = returnUrl;
@@ -67,7 +67,7 @@ namespace CIPLATFORM.Controllers
             //obj.Password = passwordHasher.HashPassword(obj,obj.Password);
             //var passwordVerificationResult = passwordHasher.VerifyHashedPassword(objUser, objUser.Password, obj.Password);
             //if (passwordVerificationResult == PasswordVerificationResult.Success)
-                Login login = _UserRepository.login(obj);
+            Login login = _UserRepository.login(obj);
             if (login.user == null && login.admin == null)
             {
                 TempData["loginerr"] = "Email Or Password Is Inavalid!!!!!";
@@ -85,10 +85,10 @@ namespace CIPLATFORM.Controllers
 
             var claims = new List<Claim>
                 {
-                        new Claim("role",role),
-                        new Claim("Name", $"{login.user.FirstName} {login.user.LastName}"),
-                        new Claim("Email", login.user.Email),
-                        new Claim("Uid", login.user.UserId.ToString()),
+                    new Claim("role",role),
+                    new Claim("Name", $"{login.user.FirstName} {login.user.LastName}"),
+                    new Claim("Email", login.user.Email),
+                    new Claim("Uid", login.user.UserId.ToString()),
                 };
             var identity = new ClaimsIdentity(claims, "AuthCookie");
             var Principle = new ClaimsPrincipal(identity);
@@ -227,7 +227,7 @@ namespace CIPLATFORM.Controllers
                     }
                     //string hashedPassword = Crypto.HashPassword(obj.Password);
 
-         
+
                     var validToken = _UserRepository.Resetpassword(user, token);
 
                     if (validToken != null)

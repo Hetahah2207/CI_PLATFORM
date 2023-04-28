@@ -166,7 +166,7 @@ namespace CIPLATFORM.Controllers
             {
                 _PlatformRepository.RecommandStory(FromUserId, toUserId, sid);
             }
-            StoryListingViewModel volunteerModel = _PlatformRepository.GetStory(sid);
+            StoryListingViewModel volunteerModel = _PlatformRepository.GetStory(sid, FromUserId);
 
         }
         public void AddComment(int obj, string comnt)
@@ -213,7 +213,6 @@ namespace CIPLATFORM.Controllers
         //}
 
         public JsonResult GetCitys(List<int>? countryId)        {            List<City> city = _PlatformRepository.GetCityData(countryId);            var json = JsonConvert.SerializeObject(city);            return Json(json);        }
-        [Authorize]
         public IActionResult StoryListing ()
         {
             string? name = HttpContext.Session.GetString("Uname");
@@ -312,7 +311,7 @@ namespace CIPLATFORM.Controllers
 
             ViewBag.sid = sid;
             StoryView sv = _PlatformRepository.addview(sid, ViewBag.UId);
-            StoryListingViewModel sd = _PlatformRepository.GetStory(sid);
+            StoryListingViewModel sd = _PlatformRepository.GetStory(sid, @ViewBag.UId);
 
             return View(sd);
         }

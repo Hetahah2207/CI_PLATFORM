@@ -29,7 +29,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 um.missions = _CiPlatformContext.Missions.Where(x => x.DeletedAt == null).ToList();
                 um.CmsPages = _CiPlatformContext.CmsPages.Where(x => x.DeletedAt == null).ToList();
                 um.missionapplications = _CiPlatformContext.MissionApplications.Include(x => x.Mission).Include(x => x.User).Where(x => x.ApprovalStatus == "Pending").ToList();
-                um.stories = _CiPlatformContext.Stories.Include(x => x.User).Where(x => x.Status == "PENDING" || x.Status == "DRAFT").Where(x => x.DeletedAt == null).ToList();
+                um.stories = _CiPlatformContext.Stories.Include(x => x.User).Where(x => x.Status == "PENDING").Where(x => x.DeletedAt == null).ToList();
                 um.skills = _CiPlatformContext.Skills.Where(x => x.DeletedAt == null).ToList();
                 um.newskills = _CiPlatformContext.Skills.Where(x => x.DeletedAt == null).ToList();
                 um.missionThemes = _CiPlatformContext.MissionThemes.Where(x => x.DeletedAt == null).ToList();

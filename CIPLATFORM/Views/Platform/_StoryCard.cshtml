@@ -9,7 +9,7 @@
                 <div class="card">
 
                     <div class="bg">
-                        <img src=~/images/A/@item.StoryMedia.FirstOrDefault()?.Path style="max-height:220px;max-width:360px" class="banner1"
+                        <img src=~/images/A/@item.StoryMedia.Where(x => x.Type =="png").FirstOrDefault().Path style="max-height:220px;max-width:360px" class="banner1"
                          class="card-img-top" alt="...">
                         <div class="banner-header d-flex justify-content-center ">
                             <div class="  apply2">

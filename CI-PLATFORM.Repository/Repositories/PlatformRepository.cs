@@ -62,7 +62,6 @@ namespace CI_PLATFORM.Repository.Repositories
         {
             List<Mission> missions = _CiPlatformContext.Missions.Include(x => x.MissionApplications).ToList();
             List<User> users = _CiPlatformContext.Users.ToList();
-            //List<MissionApplication> missionApplications = _CiPlatformContext.MissionApplications.ToList();
             List<MissionMedium> media = _CiPlatformContext.MissionMedia.Where(x => x.Default == 1).ToList();
             List<MissionSkill> missionSkills = _CiPlatformContext.MissionSkills.ToList();
             List<MissionTheme> missionThemes = _CiPlatformContext.MissionThemes.ToList();
@@ -71,14 +70,11 @@ namespace CI_PLATFORM.Repository.Repositories
             List<Country> countries = _CiPlatformContext.Countries.ToList();
             List<FavoriteMission> favoriteMission = _CiPlatformContext.FavoriteMissions.ToList();
 
-
-
             CardsViewModel missionCards = new CardsViewModel();
             {
 
                 missionCards.missions = missions;
                 missionCards.coworkers = users;
-                //missionCards.missionApplications = missionApplications;
                 missionCards.missionthemes = missionThemes;
                 missionCards.missionskill = missionSkills;
                 missionCards.media = media;
@@ -140,16 +136,19 @@ namespace CI_PLATFORM.Repository.Repositories
                 }
                 if (sort == 2)
                 {
-
                     missioncards = missioncards.OrderBy(x => x.CreatedAt).ToList();
-
                 }
                 if (sort == 3)
                 {
-
                     missioncards = missioncards.Where(x => x.FavoriteMissions.Any(x => x.UserId == UId)).ToList();
-
-
+                }
+                if (sort == 4)
+                {
+                    missioncards = missioncards.Where(x => x.MissionType == "Goal").OrderBy(x => x.GoalMissions.FirstOrDefault().GoalValue).ToList();
+                }
+                if (sort == 5)
+                {
+                    missioncards = missioncards.Where(x => x.MissionType == "Goal").OrderByDescending(x => x.GoalMissions.FirstOrDefault().GoalValue).ToList();
                 }
             }
             if (pg != 0)
@@ -338,12 +337,12 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public void RecommandToCoWorker(int FromUserId, List<int> ToUserId, int mid)
         {
-            var fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId);
+            User fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId);
             var fromEmailId = fromUser.Email;
 
             foreach (var user in ToUserId)
             {
-                var toUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == user && u.DeletedAt == null);
+                User toUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == user && u.DeletedAt == null);
                 var toEmailId = toUser.Email;
 
                 MissionInvite invite = new MissionInvite();
@@ -468,17 +467,19 @@ namespace CI_PLATFORM.Repository.Repositories
             }
             return StoryDetail;
         }
-        public StoryListingViewModel GetStory(int sid)
+        public StoryListingViewModel GetStory(int sid, int uid)
         {
             Story? story = _CiPlatformContext.Stories.Include(m => m.User).Include(m => m.StoryViews).FirstOrDefault(m => m.StoryId == sid);
             List<StoryMedium> photos = smedia(sid);
             List<User> users = _CiPlatformContext.Users.ToList();
+            List<User> allUser = _CiPlatformContext.Users.Where(x => x.DeletedAt == null).ToList();            List<StoryInvite> alreaduInvite = _CiPlatformContext.StoryInvites.Where(x => x.StoryId == sid && x.FromUserId == uid).Include(x => x.ToUser).ToList();            foreach (var i in alreaduInvite)            {                allUser = allUser.Where(x => x.UserId != i.ToUserId).ToList();            }
 
             StoryListingViewModel StoryDetail = new StoryListingViewModel();
             {
                 StoryDetail.storymedias = photos;
                 StoryDetail.story = story;
-                StoryDetail.coworkers = users;
+                StoryDetail.coworkers = allUser;
+                StoryDetail.alreadyinvite = alreaduInvite;
             }
             return StoryDetail;
         }
@@ -576,31 +577,36 @@ namespace CI_PLATFORM.Repository.Repositories
         public bool SaveImage(StoryListingViewModel obj, List<IFormFile> file)
         {
             var xyz = _CiPlatformContext.Stories.FirstOrDefault(x => x.Title == obj.story.Title);
-            var filePaths = new List<string>();
-            foreach (var formFile in file)
+            if (file != null)
             {
-                StoryMedium mediaobj = new StoryMedium();
-
-                mediaobj.StoryId = xyz.StoryId;
-                mediaobj.Path = formFile.FileName;
-                mediaobj.Type = "png";
-
-                _CiPlatformContext.StoryMedia.Add(mediaobj);
-                _CiPlatformContext.SaveChanges();
-
-                if (formFile.Length > 0)
+                List<StoryMedium> check = _CiPlatformContext.StoryMedia.Where(x => x.StoryId == xyz.StoryId && x.Type == "png").ToList();
+                _CiPlatformContext.StoryMedia.RemoveRange(check);
+                var filePaths = new List<string>();
+                foreach (var formFile in file)
                 {
+                    StoryMedium mediaobj = new StoryMedium();
 
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/A", formFile.FileName);
-                    if (File.Exists(filePath) == false)
+                    mediaobj.StoryId = xyz.StoryId;
+                    mediaobj.Path = formFile.FileName;
+                    mediaobj.Type = "png";
+
+                    _CiPlatformContext.StoryMedia.Add(mediaobj);
+                    _CiPlatformContext.SaveChanges();
+
+                    if (formFile.Length > 0)
                     {
-                        filePaths.Add(filePath);
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            formFile.CopyToAsync(stream);
-                        }
-                    }
 
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/A", formFile.FileName);
+                        if (File.Exists(filePath) == false)
+                        {
+                            filePaths.Add(filePath);
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                formFile.CopyToAsync(stream);
+                            }
+                        }
+
+                    }
                 }
             }
 

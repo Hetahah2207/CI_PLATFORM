@@ -478,15 +478,16 @@ function Sdata() {
                                 /*returnImage = image;*/
                                 showImg = "/images/A/" + image;
                                 toDataUrl(showImg, function (x) {
-                                    image = x;
+                                    image1 = x;
 
-                                    dT.items.add(new File([image], image, {
+                                    dT.items.add(new File([image1], image, {
                                         type: "image/png"
                                     }));
-                                    imagesArray.push(new File([image], image, {
+                                    imagesArray.push(new File([image1], image, {
                                         type: "image/png"
                                     }));
                                     //debugger
+                                    document.querySelector('#imageupload').files = dT.files;
                                     //document.querySelector('#imageupload').files = dT.files;
                                 });
                                 images += `<div class="image"><img src="${showImg}" alt="image"><span onclick="deleteImage(${index})">&times;</span></div>`

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "O9UK5CUbjJIJbVKQXTtATPj15SLYYs8pUumVJsnWlg4=",
+  "Hash": "llVU7Yjhx+WqpsjX2phKHQPHKWqVWoRvJLzUinlhef4=",
   "Source": "CIPLATFORM",
   "BasePath": "_content/CIPLATFORM",
   "Mode": "Default",
@@ -304,6 +304,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\A\\achieved.png"
+    },
+    {
+      "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\images\\A\\add1.png",
+      "SourceId": "CIPLATFORM",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\",
+      "BasePath": "_content/CIPLATFORM",
+      "RelativePath": "images/A/add1.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\A\\add1.png"
     },
     {
       "Identity": "D:\\CI-PLATFORm\\CI_PLATFORM\\CIPLATFORM\\wwwroot\\images\\A\\Animal-welfare-&-save-birds-campaign.png",

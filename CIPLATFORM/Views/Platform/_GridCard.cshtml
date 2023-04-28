@@ -21,7 +21,7 @@
         @foreach (var item in Model.missions)
         {
             <div class="col">
-                <div class="card ">
+                <div class="card">
                     <img src=~/images/@(item.MissionMedia.FirstOrDefault()?.MediaPath) class="card-img-top" alt="...">
                     <div class="position-relative">
                         <div class="position-absolute top-100 start-50 translate-middle round p-2 title" style="background-color: white;">
@@ -85,7 +85,7 @@
                                             <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body" onclick="recommandToCoWorker(@item.MissionId)">
+                                        <div class="modal-body" onchange="recommandToCoWorker(@item.MissionId)">
 
 
                                             @foreach (var item1 in Model.coworkers)
