@@ -24,7 +24,8 @@ namespace CI_PLATFORM.Entities.ViewModels
         public string? commentDescription { get; set; }
         public List<User>? coworkers { get; set; } = new List<User>();
         public int UserRating { get; set; }
-        public long MissionId { get; set; }        public string? Avatar { get; set; }         public string? UserName { get; set; } 
+        public long MissionId { get; set; }        public string? Avatar { get; set; }         public string? UserName { get; set; }
+        public List<MissionInvite> alreadyinvite { get; set; } = new List<MissionInvite>();
 
     }
 }

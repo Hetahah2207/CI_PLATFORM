@@ -156,14 +156,14 @@
 
 
                             </div>
-                            <div class="col-12 col-md-6 mt-2" id="recommand">
+                            <div class="col-12 col-md-6 mt-2" id="recommand" onchange="recommandToCoWorker(@Model.missions.MissionId)">
 
                                 <button type="button" class="btn btn-outline-dark w-100  rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     <i class="bi bi-square-fill"><span> Recommend to a Co-Worker</span></i>
                                 </button>
 
 
-                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" onclick="recommandToCoWorker(@Model.missions.MissionId)">
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -172,6 +172,14 @@
                                             </div>
                                             <div class="modal-body">
 
+                                                @foreach (var item in Model.alreadyinvite)
+                                                {
+
+                                                    <div class="d-flex justify-content-start">
+                                                        <i class="bi bi-check-circle-fill text-black"></i>
+                                                        <span class="ms-3" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif"> @item.ToUser.FirstName @item.ToUser.LastName</span>
+                                                    </div>
+                                                }
 
                                                 @foreach (var item in Model.coworkers)
                                                 {
@@ -599,12 +607,12 @@
                                     }
                                     else
                                     {
-                                        @if(Model.missions.StartDate != null && Model.missions.EndDate != null)
+                                        @if (Model.missions.StartDate != null && Model.missions.EndDate != null)
                                         {
                                             <span>
                                                 @Model.missions.StartDate?.ToString().Substring(0,10)
-                                                until 
-                                                @Model.missions.EndDate?.ToString().Substring(0,10) 
+                                                until
+                                                @Model.missions.EndDate?.ToString().Substring(0,10)
                                             </span>
                                         }
                                         else
@@ -635,7 +643,7 @@
                                     }
                                     else
                                     {
-                                         <span>Deadline is not provided here</span>
+                                        <span>Deadline is not provided here</span>
                                     }
                                 </div>
                             </div>

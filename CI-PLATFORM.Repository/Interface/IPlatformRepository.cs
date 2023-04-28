@@ -18,7 +18,7 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg, int UId);
         //public List<Story> StoryFilter(string? search);
         public List<Story> StoryFilter(string? search, int pg);
-        public MissionListingViewModel GetCardDetail(int mid);
+        public MissionListingViewModel GetCardDetail(int mid, int uid);
         public List<MissionMedium> media(int mid);
         public bool addToFav(int missionId, int userId);
         public List<MissionDocument> document(int mid);

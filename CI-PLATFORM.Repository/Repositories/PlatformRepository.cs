@@ -97,227 +97,6 @@ namespace CI_PLATFORM.Repository.Repositories
             return missionNumber;
 
         }
-        //public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg)
-        //{
-        //    var pageSize = 6;
-        //    List<Mission> cards = new List<Mission>();
-        //    var missioncards = GetMissionDetails();
-        //    var Missionskills = GetSkills();
-        //    List<int> temp = new List<int>();
-
-
-        //    if (cityId.Count != 0 || countryId.Count != 0 )
-        //    {
-        //        foreach (var n in countryId)
-        //        {
-        //            foreach (var item in missioncards)
-        //            {
-        //                bool countrychek = cards.Any(x => x.MissionId == item.MissionId);
-        //                if (item.CountryId == n && countrychek == false)
-        //                {
-        //                    cards.Add(item);
-        //                }
-        //            }
-        //        }
-
-        //        if (cityId.Count != 0)
-        //        {
-        //            cards.Clear();
-        //            foreach (var n in cityId)
-        //            {
-        //                foreach (var item in missioncards)
-        //                {
-        //                    bool citychek = cards.Any(x => x.MissionId == item.MissionId);
-        //                    if (item.CityId == n && citychek == false)
-        //                    {
-        //                        cards.Add(item);
-        //                    }
-
-        //                }
-        //            }
-        //        }
-
-        //        //if (themeId.Count != 0)
-        //        //{
-        //        //    foreach (var n in themeId)
-        //        //    {
-        //        //        foreach (var item in missioncards)
-        //        //        {
-        //        //            bool themechek = cards.Any(x => x.MissionId == item.MissionId);
-        //        //            if (item.ThemeId == n && themechek == false)
-        //        //            {
-        //        //                cards.Add(item);
-        //        //            }
-        //        //        }
-        //        //    }
-        //        //}
-        //        //if (skillId.Count != 0)
-        //        //{
-        //        //    foreach (var n in skillId)
-        //        //    {
-        //        //        foreach (var item in Missionskills)
-        //        //        {
-        //        //            bool skillchek = cards.Any(x => x.MissionId == item.MissionId);
-        //        //            if (item.SkillId == n && skillchek == false)
-        //        //            {
-
-        //        //                cards.Add(missioncards.FirstOrDefault(x => x.MissionId == item.MissionId));
-        //        //            }
-        //        //        }
-        //        //    }
-        //        //}
-
-        //        if (search != null)
-        //        {
-        //            foreach (var n in missioncards)
-        //            {
-        //                var title = n.Title.ToLower();
-        //                if (title.Contains(search.ToLower()))
-        //                {
-        //                    cards.Add(n);
-        //                }
-        //            }
-        //            if (pg != 0)
-        //            {
-        //                cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-        //            }
-        //        }
-        //        if (sort != null)
-        //        {
-        //            if (sort == 1)
-        //            {
-        //                cards = cards.OrderByDescending(x => x.CreatedAt).ToList();
-        //            }
-        //            if (sort == 2)
-        //            {
-        //                cards = cards.OrderBy(x => x.CreatedAt).ToList(); 
-        //            }
-        //        }
-        //        if (pg != 0)
-        //        {
-        //            cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-        //        }
-        //        return cards;
-        //    }
-
-        //    if (themeId.Count != 0)
-        //    {
-        //        foreach (var n in themeId)
-        //        {
-        //            foreach (var item in missioncards)
-        //            {
-        //                bool themechek = cards.Any(x => x.MissionId == item.MissionId);
-        //                if (item.ThemeId == n && themechek == false)
-        //                {
-        //                    cards.Add(item);
-        //                }
-        //            }
-        //        }
-        //        if (sort != null)
-        //        {
-        //            if (sort == 1)
-        //            {
-        //                cards = cards.OrderByDescending(x => x.CreatedAt).ToList();
-        //            }
-        //            if (sort == 2)
-        //            {
-        //                cards = cards.OrderBy(x => x.CreatedAt).ToList();
-        //            }
-        //        }
-        //        if (pg != 0)
-        //        {
-        //            cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-        //        }
-        //        return cards;
-        //    }
-
-        //    if (skillId.Count != 0)
-        //    {
-        //        foreach (var n in skillId)
-        //        {
-        //            foreach (var item in Missionskills)
-        //            {
-        //                bool skillchek = cards.Any(x => x.MissionId == item.MissionId);
-        //                if (item.SkillId == n && skillchek == false)
-        //                {
-
-        //                    cards.Add(missioncards.FirstOrDefault(x => x.MissionId == item.MissionId));
-
-        //                }
-        //            }
-        //        }
-        //        if (sort != null)
-        //        {
-        //            if (sort == 1)
-        //            {
-        //                cards = cards.OrderByDescending(x => x.CreatedAt).ToList();
-        //            }
-        //            if (sort == 2)
-        //            {
-        //                cards = cards.OrderBy(x => x.CreatedAt).ToList();
-        //            }
-        //        }
-        //        if (pg != 0)
-        //        {
-        //            cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-        //        }
-        //        return cards;
-        //    }
-
-        //    else if (cityId.Count == 0 && countryId.Count == 0 && themeId.Count == 0 && skillId.Count == 0 && search == null)
-        //    {
-        //        foreach (var item in missioncards)
-        //        {
-        //            cards.Add(item);
-        //        }
-
-
-        //        if (sort != null)
-        //        {
-        //            if (sort == 1)
-        //            {
-        //                missioncards = missioncards.OrderByDescending(x => x.CreatedAt).ToList();
-        //                if (pg != 0)
-        //                {
-        //                    missioncards = missioncards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-        //                }
-        //                return missioncards;
-        //            }
-        //            if (sort == 2)
-        //            {
-        //                missioncards = missioncards.OrderBy(x => x.CreatedAt).ToList();
-        //                if (pg != 0)
-        //                {
-        //                    missioncards = missioncards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-        //                }
-        //                return missioncards;
-        //            }
-        //        }
-        //        if (pg != 0)
-        //        {
-        //            cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-        //        }
-
-        //    }
-        //    if (search != null && cityId.Count == 0 && countryId.Count == 0 && themeId.Count == 0 && skillId.Count == 0 && sort == null)
-        //    {
-
-        //        foreach (var n in missioncards)
-        //        {
-        //            var title = n.Title.ToLower();
-        //            if (title.Contains(search.ToLower()))
-        //            {
-        //                cards.Add(n);
-        //            }
-        //        }
-        //        if (pg != 0)
-        //        {
-        //            cards = cards.Skip((pg - 1) * pageSize).Take(pageSize).ToList();
-        //        }
-        //    }
-        //    return cards;
-
-        //}
         public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg, int UId)
         {
 
@@ -406,25 +185,6 @@ namespace CI_PLATFORM.Repository.Repositories
 
 
         }
-        //public List<Story> StoryFilter(string? search)
-        //{
-        //    List<Story> cards = new List<Story>();
-        //    var missioncards = _CiPlatformContext.Stories.Include(m => m.StoryMedia).Include(m => m.Mission).Include(m => m.Mission.Theme).Include(m => m.User).ToList();
-        //    var Missionskills = _CiPlatformContext.MissionSkills.Include(m => m.Skill).ToList();
-        //    List<int> temp = new List<int>();
-        //    if (search != null)
-        //    {
-        //        foreach (var n in missioncards)
-        //        {
-        //            var title = n.Title.ToLower();
-        //            if (title.Contains(search.ToLower()))
-        //            {
-        //                cards.Add(n);
-        //            }
-        //        }
-        //    }
-        //    return cards;
-        //}
         public List<MissionMedium> media(int mid)
         {
             List<MissionMedium> photos = _CiPlatformContext.MissionMedia.Where(x => x.MissionId == mid).ToList();
@@ -660,15 +420,12 @@ namespace CI_PLATFORM.Repository.Repositories
                 #endregion Send Mail
             }
         }
-        public MissionListingViewModel GetCardDetail(int mid)
+        public MissionListingViewModel GetCardDetail(int mid, int uid)
         {
             List<Mission> missions = GetMissionDetails();
             Mission mission = missions.FirstOrDefault(x => x.MissionId == mid);
             List<MissionMedium> photos = media(mid);
             List<MissionDocument> documents = document(mid);
-            //List<Mission> relatedMissions = missions.Where(x => x.CityId == mission.CityId || x.OrganizationName == mission.OrganizationName || x.ThemeId == mission.ThemeId || x.CountryId == mission.CountryId).ToList();
-            //relatedMissions.Remove(mission);
-
             List<Mission> relatedMissions = missions.Where(a => a.MissionId != mission.MissionId &&
                                             (a.ThemeId == mission.ThemeId || (a.CityId == mission.CityId || a.CountryId == mission.CountryId ||
                                             a.OrganizationName == mission.OrganizationName)))
@@ -684,7 +441,7 @@ namespace CI_PLATFORM.Repository.Repositories
             List<FavoriteMission> favoriteMission = _CiPlatformContext.FavoriteMissions.ToList();
             MissionListingViewModel CardDetail = new MissionListingViewModel();
             List<User> users = _CiPlatformContext.Users.ToList();
-
+            List<User> allUser = _CiPlatformContext.Users.Where(x => x.DeletedAt == null).ToList();            List<MissionInvite> alreaduInvite = _CiPlatformContext.MissionInvites.Where(x => x.MissionId == mid && x.FromUserId == uid).Include(x => x.ToUser).ToList();            foreach (var item in alreaduInvite)            {                allUser = allUser.Where(x => x.UserId != item.ToUserId).ToList();            }
 
             {
                 CardDetail.missions = mission;
@@ -695,7 +452,8 @@ namespace CI_PLATFORM.Repository.Repositories
                 CardDetail.missionskills = missionSkills;
                 CardDetail.missionapplications = applications;
                 CardDetail.comments = comments;
-                CardDetail.coworkers = users;
+                CardDetail.coworkers = allUser;
+                CardDetail.alreadyinvite = alreaduInvite;
             }
 
             return CardDetail;

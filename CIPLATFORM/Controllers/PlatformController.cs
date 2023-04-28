@@ -136,7 +136,7 @@ namespace CIPLATFORM.Controllers
 
             ViewBag.MId = mid;
             
-            MissionListingViewModel ml = _PlatformRepository.GetCardDetail(mid);
+            MissionListingViewModel ml = _PlatformRepository.GetCardDetail(mid, @ViewBag.UId);
             
             return View(ml);
         }
@@ -155,7 +155,7 @@ namespace CIPLATFORM.Controllers
             {
                 _PlatformRepository.RecommandToCoWorker(FromUserId, toUserId, mid);
             }
-            MissionListingViewModel volunteerModel = _PlatformRepository.GetCardDetail(mid);
+            MissionListingViewModel volunteerModel = _PlatformRepository.GetCardDetail(mid, FromUserId);
 
         }
         public void RecommandStory(List<int> toUserId, int sid)

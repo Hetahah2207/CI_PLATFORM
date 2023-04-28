@@ -263,7 +263,7 @@ function AddMissionToFavourite(missionId) {
 //    });
 //}
 function applyMission(missionId) {
-    debugger
+    //debugger
     $.ajax({
 
         url: '/Platform/applyMission',
@@ -272,7 +272,7 @@ function applyMission(missionId) {
             'missionId': missionId,
         },
         success: function (missions) {
-            debugger
+            //debugger
             if (missions == true) {
                 console.log("done");
                 toastr.options = {
@@ -420,7 +420,7 @@ function Sdata() {
     var selectedValue = selectedOption.value;
     console.log(selectedValue);
 
-    debugger
+    //debugger
     $.ajax(
         {
             type: "POST", // POST
@@ -471,7 +471,7 @@ function Sdata() {
 
 
 
-                            debugger
+                            //debugger
                             console.log(data.simg);
                             let images = ""
                             data.simg.forEach((image, index) => {
@@ -486,7 +486,7 @@ function Sdata() {
                                     imagesArray.push(new File([image], image, {
                                         type: "image/png"
                                     }));
-                                    debugger
+                                    //debugger
                                     //document.querySelector('#imageupload').files = dT.files;
                                 });
                                 images += `<div class="image"><img src="${showImg}" alt="image"><span onclick="deleteImage(${index})">&times;</span></div>`
@@ -510,7 +510,7 @@ function Sdata() {
                     output.innerHTML = "No Images Are Choosen";
                     CKEDITOR.instances.editor.setData("");
                 }
-                debugger
+                //debugger
             },
 
             error: function (e) {
@@ -534,7 +534,7 @@ function getActivity(x) {
                 },
                 success: function (data) {
                     console.log(data);
-                    debugger
+                    //debugger
                     $("#TimesheetTime").empty();
                     $("#TimesheetTime").html(data);
                 },
@@ -567,7 +567,7 @@ function getgoalActivity(x) {
                 },
                 success: function (data) {
                     console.log(data);
-                    debugger
+                    //debugger
                     $("#TimesheetGoal").empty();
                     $("#TimesheetGoal").html(data);
                 },
