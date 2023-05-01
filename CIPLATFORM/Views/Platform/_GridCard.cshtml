@@ -172,25 +172,25 @@
                             <hr class="divider">
                             <div class=" d-flex justify-content-center b2 ">
 
-                                <div class="d-flex justify-content-center .left .right ">
+                                <div class="d-flex justify-content-center .left .right">
                                     @{
                                         if (item.MissionType == "Goal" && item.GoalMissions.Count > 0)
                                         {
-                                            <span class="textline">@item.GoalMissions.FirstOrDefault()?.GoalObjectiveText </span>
+                                            <span class="textline p-2">@item.GoalMissions.FirstOrDefault()?.GoalObjectiveText </span>
                                         }
                                         else if (item.StartDate <= DateTime.Now && DateTime.Now <= item.EndDate)
                                         {
-                                            <span>Ongoing Opportunity</span>
+                                            <span class="p-2">Ongoing Opportunity</span>
                                         }
                                         else
                                         {
                                             @if (item.StartDate != null && item.EndDate != null)
                                             {
-                                                <span>@item.StartDate.ToString().Substring(0,10)  until @item.EndDate.ToString().Substring(0,10) </span>
+                                                <span class="p-2">@item.StartDate.ToString().Substring(0,10)  until @item.EndDate.ToString().Substring(0,10) </span>
                                             }
                                             else
                                             {
-                                                <span>StartDate or EndDate is not provided here</span>
+                                                <span class="p-2">StartDate or EndDate is not provided here</span>
                                             }
                                         }
                                     }

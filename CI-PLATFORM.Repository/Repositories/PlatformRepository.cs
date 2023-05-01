@@ -19,6 +19,8 @@ namespace CI_PLATFORM.Repository.Repositories
         {
             _CiPlatformContext = CiPlatformContext;
         }
+
+        
         public List<Country> GetCountryData()
         {
 
@@ -33,10 +35,6 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public List<City> GetCityData(List<int>? countryId)
         {
-
-            //List<City> city = _CiPlatformContext.Cities.Where(i => i.CountryId == countryId).ToList();
-            //return city;
-
             List<City> city = _CiPlatformContext.Cities.Where(i => countryId.Contains((int)i.CountryId)).ToList();            if (countryId.Count == 0)                city = _CiPlatformContext.Cities.ToList();            return city;
 
         }
@@ -60,9 +58,9 @@ namespace CI_PLATFORM.Repository.Repositories
         }
         public CardsViewModel getCards()
         {
-            List<Mission> missions = _CiPlatformContext.Missions.Include(x => x.MissionApplications).ToList();
+            List<Mission> missions = _CiPlatformContext.Missions.Include(x => x.MissionApplications).Include(x => x.MissionMedia).Include(x => x.MissionDocuments).ToList();
             List<User> users = _CiPlatformContext.Users.ToList();
-            List<MissionMedium> media = _CiPlatformContext.MissionMedia.Where(x => x.Default == 1).ToList();
+            //List<MissionMedium> media = _CiPlatformContext.MissionMedia.Where(x => x.Default == 1).ToList();
             List<MissionSkill> missionSkills = _CiPlatformContext.MissionSkills.ToList();
             List<MissionTheme> missionThemes = _CiPlatformContext.MissionThemes.ToList();
             List<MissionRating> rating = _CiPlatformContext.MissionRatings.ToList();
@@ -77,7 +75,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 missionCards.coworkers = users;
                 missionCards.missionthemes = missionThemes;
                 missionCards.missionskill = missionSkills;
-                missionCards.media = media;
+                //missionCards.media = media;
                 missionCards.rating = rating;
                 missionCards.countries = countries;
                 missionCards.cities = cities;

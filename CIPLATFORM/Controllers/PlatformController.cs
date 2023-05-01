@@ -19,13 +19,13 @@ namespace CIPLATFORM.Controllers
             _PlatformRepository = PlatformRepository;
             _CiPlatformContext = CiPlatformContext;
         }
-        
+
         public IActionResult HomeGrid()
-            {
-            string name = HttpContext.Session.GetString("Uname");
+        {
+            string? name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
 
-            string avtar = HttpContext.Session.GetString("Avtar");
+            string? avtar = HttpContext.Session.GetString("Avtar");
             ViewBag.Avtar = avtar;
 
             if (name != null)
@@ -34,7 +34,7 @@ namespace CIPLATFORM.Controllers
                 ViewBag.UId = UserId;
 
             }
-            
+
             List<Country> countries = _PlatformRepository.GetCountryData();
             ViewBag.countries = countries;
 
@@ -63,13 +63,13 @@ namespace CIPLATFORM.Controllers
 
             return View(ms);
         }
-        public IActionResult Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg , int view)
+        public IActionResult Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg, int view)
         {
-            string name = HttpContext.Session.GetString("Uname");
+            string? name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
 
-            string avtar = HttpContext.Session.GetString("Avtar");
-            ViewBag.Avtar = avtar;  
+            string? avtar = HttpContext.Session.GetString("Avtar");
+            ViewBag.Avtar = avtar;
 
             if (name != null)
             {
@@ -93,7 +93,7 @@ namespace CIPLATFORM.Controllers
 
             ViewBag.pg_no = pg;
             ViewBag.Totalpages = Math.Ceiling(_PlatformRepository.Filter(cityId, countryId, themeId, skillId, search, sort, 0, @ViewBag.UId).Count / 6.0);
-           
+
             platformModel.missions = cards.Skip((1 - 1) * 6).Take(6).ToList();
 
             if (view == 0 || view == 1)            {                return PartialView("_GridCard", platformModel);            }            else            {                return PartialView("_ListCard", platformModel);            }
@@ -116,10 +116,10 @@ namespace CIPLATFORM.Controllers
         }
         public IActionResult MissionListing(int mid)
         {
-            string name = HttpContext.Session.GetString("Uname");
+            string? name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
 
-            string avtar = HttpContext.Session.GetString("Avtar");
+            string? avtar = HttpContext.Session.GetString("Avtar");
             ViewBag.Avtar = avtar;
 
             if (name != null)
@@ -127,17 +127,17 @@ namespace CIPLATFORM.Controllers
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
                 var rating = _CiPlatformContext.MissionRatings.FirstOrDefault(x => x.UserId == UserId && x.MissionId == mid);
-                if(rating != null)
+                if (rating != null)
                 {
                     ViewBag.rating = rating.Rating;
                 }
-               
+
             }
 
             ViewBag.MId = mid;
-            
+
             MissionListingViewModel ml = _PlatformRepository.GetCardDetail(mid, @ViewBag.UId);
-            
+
             return View(ml);
         }
         [HttpPost]
@@ -150,7 +150,7 @@ namespace CIPLATFORM.Controllers
         public void RecommandToCoWorker(List<int> toUserId, int mid)
         {
             int FromUserId = (int)HttpContext.Session.GetInt32("UId");
-            bool check = _PlatformRepository.MICheck(mid,FromUserId,toUserId);
+            bool check = _PlatformRepository.MICheck(mid, FromUserId, toUserId);
             if (check)
             {
                 _PlatformRepository.RecommandToCoWorker(FromUserId, toUserId, mid);
@@ -204,16 +204,8 @@ namespace CIPLATFORM.Controllers
             }
             return fav;
         }
-        //public JsonResult GetCitys(int countryId)
-        //{
-        //    List<City> city = _PlatformRepository.GetCityData(countryId);
-        //    var json = JsonConvert.SerializeObject(city);
-
-        //    return Json(json);
-        //}
-
         public JsonResult GetCitys(List<int>? countryId)        {            List<City> city = _PlatformRepository.GetCityData(countryId);            var json = JsonConvert.SerializeObject(city);            return Json(json);        }
-        public IActionResult StoryListing ()
+        public IActionResult StoryListing()
         {
             string? name = HttpContext.Session.GetString("Uname");
             ViewBag.Uname = name;
@@ -279,14 +271,14 @@ namespace CIPLATFORM.Controllers
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
             }
-           
+
             bool abc = _PlatformRepository.saveStory(obj, status, @ViewBag.UId);
             bool image = _PlatformRepository.SaveImage(obj, file);
-            
+
             if (status == 1)
             {
                 StoryListingViewModel ss = _PlatformRepository.ShareStory(@ViewBag.UId);
-               
+
                 return View(ss);
             }
             if (status == 2)
@@ -337,7 +329,7 @@ namespace CIPLATFORM.Controllers
             // Return a boolean value indicating whether the data exists
             return Json(dataExists);
 
-            //return View("~/Story/StoryApply", StoryModel);
+
         }
     }
 }

@@ -9,11 +9,11 @@ namespace CI_PLATFORM.Entities.ViewModels
 {
     public class CardsViewModel
     {
-        public List<Mission> missions { get; set; }
+        public List<Mission> missions { get; set; } = new List<Mission>();
         //public List<MissionApplication> missionApplications { get; set; }
         public List<City> cities { get; set; }
         public List<Country> countries { get; set; }
-        public List<MissionMedium> media { get; set; }
+        //public List<MissionMedium> media { get; set; }
         public List<MissionRating> rating { get; set; }
         public List<MissionTheme> missionthemes { get; set; }
         public List<MissionSkill> missionskill { get; set; }
