@@ -45,7 +45,7 @@ namespace CI_PLATFORM.Repository.Repositories
             if (search != null)
             {
                 search = search.ToLower();
-                obj.users = obj.users.Where(x => x.FirstName.ToLower().Contains(search)).ToList();
+                obj.users = obj.users.Where(x => x.FirstName.ToLower().Contains(search) || x.LastName.ToLower().Contains(search)).ToList();
                 obj.missions = obj.missions.Where(x => x.Title.ToLower().Contains(search) || x.MissionType.ToLower().Contains(search)).ToList();
                 obj.missionapplications = obj.missionapplications.Where(x => x.Mission.Title.ToLower().Contains(search) || x.User.FirstName.ToLower().Contains(search) || x.User.LastName.ToLower().Contains(search)).ToList();
                 obj.stories = obj.stories.Where(x => x.Title.ToLower().Contains(search) || x.User.FirstName.ToLower().Contains(search) || x.User.LastName.ToLower().Contains(search)).ToList();

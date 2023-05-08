@@ -10,6 +10,11 @@ namespace CIPLATFORM.Controllers
     {
         public IActionResult Privacy()
         {
+            string? name = HttpContext.Session.GetString("Uname");
+            ViewBag.Uname = name;
+
+            string? avtar = HttpContext.Session.GetString("Avtar");
+            ViewBag.Avtar = avtar;
             return View();
         }
 

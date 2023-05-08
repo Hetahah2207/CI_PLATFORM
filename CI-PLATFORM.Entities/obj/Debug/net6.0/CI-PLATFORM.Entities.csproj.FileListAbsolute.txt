@@ -39,3 +39,4 @@ D:\CI-PLATFORm\CI_PLATFORM\CI-PLATFORM.Entities\obj\Debug\net6.0\CI-PLATFORM.Ent
 D:\CI-PLATFORm\CI_PLATFORM\CI-PLATFORM.Entities\obj\Debug\net6.0\ref\CI-PLATFORM.Entities.dll
 D:\CI-PLATFORm\CI_PLATFORM\CI-PLATFORM.Entities\obj\Debug\net6.0\CI-PLATFORM.Entities.pdb
 D:\CI-PLATFORm\CI_PLATFORM\CI-PLATFORM.Entities\obj\Debug\net6.0\CI-PLATFORM.Entities.genruntimeconfig.cache
+D:\CI-PLATFORm\CI_PLATFORM\CI-PLATFORM.Entities\obj\Debug\net6.0\CI-PLATFORM.Entities.csproj.AssemblyReference.cache

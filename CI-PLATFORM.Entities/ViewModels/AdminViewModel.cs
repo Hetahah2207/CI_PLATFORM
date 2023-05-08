@@ -14,7 +14,9 @@ namespace CI_PLATFORM.Entities.ViewModels
         public User user { get; set; } = new User();
         public List<City> cities { get; set; } = new List<City>();
         public List<Country> countries { get; set; } = new List<Country>();
+       
         public IFormFile? Avatarfile { get; set; }
+        
         public List<Mission> missions { get; set; } = new List<Mission>();
         public Mission mission { get; set; } = new Mission();
         public List<MissionMedium> missionMedia = new List<MissionMedium>();

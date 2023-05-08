@@ -29,7 +29,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a asp-action="StoryListing" asp-controller="Platform" class="nav-link ms-lg-5">Stories</a>
                         </li>
@@ -38,7 +38,9 @@
                                 Policy
                             </a>
                         </li>
-                        <li class="nav-item">                            <a asp-action="HomeGrid" asp-controller="Platform" class="nav-link ms-lg-5">Home</a>                        </li>
+                        <li class="nav-item">
+                            <a asp-action="HomeGrid" asp-controller="Platform" class="nav-link ms-lg-5">Home</a>
+                        </li>
                     </ul>
                 </div>
                 <form class="d-flex">
@@ -58,13 +60,15 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" asp-controller="Profile" asp-action="Profile">Add Profile</a></li>
                             <li><a class="dropdown-item" asp-controller="Profile" asp-action="Timesheet">Volunteering Timesheet</a></li>
-                            @{
-                                String role = @User.Claims.FirstOrDefault(m => m.Type == "role").Value;
-                            }
-                            @if (role == "Admin")
+                            @if (User.Claims.FirstOrDefault(m => m.Type == "role") != null)
                             {
-                                <li><a class="dropdown-item" asp-controller="Admin" asp-action="Admin">Admin</a></li>
+                                String role = @User.Claims.FirstOrDefault(m => m.Type == "role").Value;
+                                if(role == "Admin")
+                                            {
+                                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="Admin">Admin</a></li>
+                                }
                             }
+
 
                             <li>
                                 <hr class="dropdown-divider">

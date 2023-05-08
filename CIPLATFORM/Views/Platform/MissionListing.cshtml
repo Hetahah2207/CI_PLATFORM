@@ -1,4 +1,5 @@
 ﻿@using CI_PLATFORM.Entities.ViewModels
+@using Microsoft.AspNetCore.Html
 @model MissionListingViewModel
 <link rel="stylesheet" href="~/css/MissionListing.css">
 
@@ -79,6 +80,10 @@
                                             @if (@Model.missions.StartDate != null && @Model.missions.EndDate != null)
                                             {
                                                 <span>@Model.missions.StartDate?.ToString().Substring(0,10)  until @Model.missions.EndDate?.ToString().Substring(0,10) </span>
+                                            }
+                                            else
+                                            {
+                                                <span>StartDate or EndDate is not provided here</span>
                                             }
                                         }
                                     </div>
@@ -347,11 +352,21 @@
                     {
                         <h3>Introduction</h3>
                         <span>
-                            @Model.missions.Description<br><br>
+                            @{
+                                string htmlString = @Model.missions.Description;
+                                HtmlString renderedHtml = new HtmlString(htmlString);
+                            }
+                            @renderedHtml
+                             <br><br>
                         </span>
                         <h3>Challenge</h3>
                         <span>
-                            @Model.missions.Description<br><br>
+                           @{
+                                string htmlString1 = @Model.missions.Description;
+                                HtmlString renderedHtml1 = new HtmlString(htmlString);
+                            }
+                            @renderedHtml1
+                            <br><br>
                         </span>
                     }
                     else
@@ -370,9 +385,9 @@
                                         {
                                             <i class="bi bi-filetype-pdf">@documents.DocumentName</i>
                                         }
-                                        else if (@documents.DocumentType == "Image")
+                                        else if (@documents.DocumentType == "application/octet-stream")
                                         {
-                                            <i class="bi bi-file-image">@documents.DocumentName</i>
+                                            <i class="bi bi-file-earmark-word">@documents.DocumentName</i>
                                         }
                                     </button>
                                 </a>

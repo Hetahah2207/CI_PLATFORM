@@ -235,7 +235,7 @@
                                                     int seates = @item.GoalMissions.FirstOrDefault().GoalValue;
                                                     int apply = @item.MissionApplications.Count();
                                                     float per = (((float)apply / (float)seates) * (float)(100));
-                                                    <input type="range" class="mt-1 i1" id="slider" name="slider" min="0" max="100" value=@per>
+                                                    <input type="range" class="mt-1 i1" id="slider" name="slider" min="0" max="100" value=@per disabled>
                                                     <p>@apply Achieved</p>
                                                 }
                                                 else

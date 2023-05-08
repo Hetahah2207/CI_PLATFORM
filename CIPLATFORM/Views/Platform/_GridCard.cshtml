@@ -4,6 +4,11 @@
     .btn-box {
         border-radius: 18px;
     }
+
+    .card-imgs {
+        height: 250px;
+        max-height: 250px !important;
+    }
 </style>
 
 
@@ -16,13 +21,13 @@
     @{
         int a = ViewBag.UId;
     }
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gy-4">
 
         @foreach (var item in Model.missions)
         {
             <div class="col">
-                <div class="card">
-                    <img src=~/images/@(item.MissionMedia.FirstOrDefault()?.MediaPath) class="card-img-top" alt="...">
+                <div class="card h-100">
+                    <img src=~/images/@(item.MissionMedia.FirstOrDefault()?.MediaPath) class="card-img-top card-imgs" alt="...">
                     <div class="position-relative">
                         <div class="position-absolute top-100 start-50 translate-middle round p-2 title" style="background-color: white;">
                             @item.Theme.Title
@@ -82,7 +87,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel"> Recommend to a Co-Worker</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body" onchange="recommandToCoWorker(@item.MissionId)">
@@ -108,7 +113,6 @@
 
 
                         </div>
-
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">@item.Title</h5>

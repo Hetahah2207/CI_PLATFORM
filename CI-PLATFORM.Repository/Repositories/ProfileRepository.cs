@@ -112,7 +112,7 @@ namespace CI_PLATFORM.Repository.Repositories
 
                 List<UserSkill> us = _CiPlatformContext.UserSkills.Where(x => x.UserId == UId).ToList();
                 _CiPlatformContext.UserSkills.RemoveRange(us);
-
+                _CiPlatformContext.SaveChanges();
                 foreach (var skill in user.skillsToAdd)
                 {
                     UserSkill addSkill = new UserSkill();

@@ -63,10 +63,6 @@ namespace CIPLATFORM.Controllers
                 TempData["loginerr"] = "Email and Password Is required!!!!!";
                 return View();
             }
-            //var passwordHasher = new PasswordHasher<Login>();
-            //obj.Password = passwordHasher.HashPassword(obj,obj.Password);
-            //var passwordVerificationResult = passwordHasher.VerifyHashedPassword(objUser, objUser.Password, obj.Password);
-            //if (passwordVerificationResult == PasswordVerificationResult.Success)
             Login login = _UserRepository.login(obj);
             if (login.user == null && login.admin == null)
             {
@@ -109,11 +105,6 @@ namespace CIPLATFORM.Controllers
 
             if (login.admin != null)
             {
-
-
-                //HttpContext.Session.SetString("Uname", login.admin.FirstName + " " + login.admin.LastName);
-                //HttpContext.Session.SetInt32("UId", (Int32)login.admin.AdminId);
-                //HttpContext.Session.SetString("Avtar", "");
                 TempData["logins"] = "logged as a admin Successfull";
                 if (!string.IsNullOrEmpty(obj.returnUrl))
                 {
@@ -139,7 +130,7 @@ namespace CIPLATFORM.Controllers
             return View();
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public IActionResult Register(Register obj)
         {
             if (ModelState.IsValid)
@@ -173,9 +164,7 @@ namespace CIPLATFORM.Controllers
         {
             return View();
         }
-
         [HttpPost]
-
         public IActionResult Forgotpassword(ForgotPwd obj)
         {
             User user1 = new User();
@@ -225,9 +214,6 @@ namespace CIPLATFORM.Controllers
                     {
                         user.Password = Crypto.HashPassword(obj.Password);
                     }
-                    //string hashedPassword = Crypto.HashPassword(obj.Password);
-
-
                     var validToken = _UserRepository.Resetpassword(user, token);
 
                     if (validToken != null)
@@ -241,7 +227,6 @@ namespace CIPLATFORM.Controllers
             }
             return View();
         }
-
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync().Wait();

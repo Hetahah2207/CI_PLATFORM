@@ -140,6 +140,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 return true;
             }
         }
+
         public bool checktoken(string token)
         {
             PasswordReset pr = _CiPlatformContext.PasswordResets.FirstOrDefault(x => x.Token == token);

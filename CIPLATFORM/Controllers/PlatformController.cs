@@ -11,15 +11,17 @@ namespace CIPLATFORM.Controllers
     [Authorize]
     public class PlatformController : Controller
     {
+        
         public readonly IPlatformRepository _PlatformRepository;
         public readonly CiPlatformContext _CiPlatformContext;
-
+        
         public PlatformController(CiPlatformContext CiPlatformContext, IPlatformRepository PlatformRepository)
         {
             _PlatformRepository = PlatformRepository;
             _CiPlatformContext = CiPlatformContext;
         }
-
+        
+        [Authorize]
         public IActionResult HomeGrid()
         {
             string? name = HttpContext.Session.GetString("Uname");
@@ -63,6 +65,7 @@ namespace CIPLATFORM.Controllers
 
             return View(ms);
         }
+        
         public IActionResult Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg, int view)
         {
             string? name = HttpContext.Session.GetString("Uname");
@@ -97,8 +100,8 @@ namespace CIPLATFORM.Controllers
             platformModel.missions = cards.Skip((1 - 1) * 6).Take(6).ToList();
 
             if (view == 0 || view == 1)            {                return PartialView("_GridCard", platformModel);            }            else            {                return PartialView("_ListCard", platformModel);            }
-            //return PartialView("_FilterMission", platformModel);
         }
+        
         public IActionResult StoryFilter(string? search, int pg)
         {
             List<Story> cards = _PlatformRepository.StoryFilter(search, pg);
@@ -114,6 +117,7 @@ namespace CIPLATFORM.Controllers
 
             return PartialView("_StoryCard", sModel);
         }
+        
         public IActionResult MissionListing(int mid)
         {
             string? name = HttpContext.Session.GetString("Uname");
@@ -140,6 +144,7 @@ namespace CIPLATFORM.Controllers
 
             return View(ml);
         }
+        
         [HttpPost]
         public JsonResult MissionRating(int mid, int rating)
         {
@@ -147,6 +152,7 @@ namespace CIPLATFORM.Controllers
             bool success = _PlatformRepository.MissionRating(UserId, mid, rating);
             return Json(success);
         }
+       
         public void RecommandToCoWorker(List<int> toUserId, int mid)
         {
             int FromUserId = (int)HttpContext.Session.GetInt32("UId");
@@ -158,6 +164,7 @@ namespace CIPLATFORM.Controllers
             MissionListingViewModel volunteerModel = _PlatformRepository.GetCardDetail(mid, FromUserId);
 
         }
+        
         public void RecommandStory(List<int> toUserId, int sid)
         {
             int FromUserId = (int)HttpContext.Session.GetInt32("UId");
@@ -169,11 +176,13 @@ namespace CIPLATFORM.Controllers
             StoryListingViewModel volunteerModel = _PlatformRepository.GetStory(sid, FromUserId);
 
         }
+        
         public void AddComment(int obj, string comnt)
         {
             int UserId = (int)HttpContext.Session.GetInt32("UId");
             _PlatformRepository.addComment(obj, UserId, comnt);
         }
+        
         [HttpPost]
         public bool applyMission(int missionId)
         {
@@ -187,6 +196,7 @@ namespace CIPLATFORM.Controllers
             //TempData["error"] = "You've already Applied... ";
             return false;
         }
+       
         [HttpPost]
         public bool AddMissionToFavourite(int missionId)
         {
@@ -204,7 +214,8 @@ namespace CIPLATFORM.Controllers
             }
             return fav;
         }
-        public JsonResult GetCitys(List<int>? countryId)        {            List<City> city = _PlatformRepository.GetCityData(countryId);            var json = JsonConvert.SerializeObject(city);            return Json(json);        }
+                public JsonResult GetCitys(List<int>? countryId)        {            List<City> city = _PlatformRepository.GetCityData(countryId);            var json = JsonConvert.SerializeObject(city);            return Json(json);        }
+        
         public IActionResult StoryListing()
         {
             string? name = HttpContext.Session.GetString("Uname");
@@ -240,6 +251,7 @@ namespace CIPLATFORM.Controllers
 
             return View(sl);
         }
+        
         public IActionResult ShareStory()
         {
             string name = HttpContext.Session.GetString("Uname");
@@ -256,6 +268,7 @@ namespace CIPLATFORM.Controllers
             StoryListingViewModel ss = _PlatformRepository.ShareStory(@ViewBag.UId);
             return View(ss);
         }
+       
         [HttpPost]
         public IActionResult ShareStory(StoryListingViewModel obj, int status, List<IFormFile> file)
         {
@@ -287,6 +300,7 @@ namespace CIPLATFORM.Controllers
             }
             return View();
         }
+        
         public IActionResult StoryDetail(int sid)
         {
             string name = HttpContext.Session.GetString("Uname");
@@ -331,5 +345,7 @@ namespace CIPLATFORM.Controllers
 
 
         }
+    
     }
+
 }

@@ -39,11 +39,9 @@ public class Register
 public class ForgotPwd
 {
     [Required(ErrorMessage = "Email is Required")]
-
     public string Email { get; set; } = null!;
 
 }
-
 
 public class ResetPwd
 {
