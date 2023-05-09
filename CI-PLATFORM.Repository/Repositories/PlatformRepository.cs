@@ -382,11 +382,13 @@ namespace CI_PLATFORM.Repository.Repositories
         public void RecommandToCoWorker(int FromUserId, List<int> ToUserId, int mid)
         {
             User fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId);
+           
             var fromEmailId = fromUser.Email;
 
             foreach (var user in ToUserId)
             {
                 User toUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == user && u.DeletedAt == null);
+                NotificationSetting check = _CiPlatformContext.NotificationSettings.FirstOrDefault(x => x.UserId == user);
                 var toEmailId = toUser.Email;
 
                 MissionInvite invite = new MissionInvite();
@@ -398,6 +400,18 @@ namespace CI_PLATFORM.Repository.Repositories
                 _CiPlatformContext.Add(invite);
                 _CiPlatformContext.SaveChanges();
 
+                if (check.RecommendedMission == true)
+                {
+                    NotificationMessage nm = new NotificationMessage();
+                    {
+                        nm.UserId = user;
+                        nm.Message = fromUser.FirstName + " Has Recommanded You This Mission Check This out" ;
+                        nm.Type = "RecommendedMission";
+                        nm.Id = mid;
+                    }
+                    _CiPlatformContext.NotificationMessages.Add(nm);
+                    _CiPlatformContext.SaveChanges();
+                }
 
 
                 #region Send Mail
@@ -418,6 +432,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 smtp.Disconnect(true);
                 #endregion Send Mail
             }
+
         }
 
         public void RecommandStory(int FromUserId, List<int> ToUserId, int sid)
@@ -432,6 +447,7 @@ namespace CI_PLATFORM.Repository.Repositories
             foreach (var user in ToUserId)
             {
                 var toUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == user && u.DeletedAt == null);
+                NotificationSetting check = _CiPlatformContext.NotificationSettings.FirstOrDefault(x => x.UserId == user);
                 var toEmailId = toUser.Email;
 
                 StoryInvite invite = new StoryInvite();
@@ -443,6 +459,18 @@ namespace CI_PLATFORM.Repository.Repositories
                 _CiPlatformContext.Add(invite);
                 _CiPlatformContext.SaveChanges();
 
+                if (check.RecommendedMission == true)
+                {
+                    NotificationMessage nm = new NotificationMessage();
+                    {
+                        nm.UserId = user;
+                        nm.Message = fromUser.FirstName + " Has Recommanded You This Story Check This out";
+                        nm.Type = "RecommendedStory";
+                        nm.Id = sid;
+                    }
+                    _CiPlatformContext.NotificationMessages.Add(nm);
+                    _CiPlatformContext.SaveChanges();
+                }
 
 
                 #region Send Mail
