@@ -50,6 +50,10 @@ public partial class CiPlatformContext : DbContext
 
     public virtual DbSet<MissionTheme> MissionThemes { get; set; }
 
+    public virtual DbSet<NotificationMessage> NotificationMessages { get; set; }
+
+    public virtual DbSet<NotificationSetting> NotificationSettings { get; set; }
+
     public virtual DbSet<PasswordReset> PasswordResets { get; set; }
 
     public virtual DbSet<Skill> Skills { get; set; }
@@ -664,6 +668,86 @@ public partial class CiPlatformContext : DbContext
             entity.Property(e => e.UpdatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<NotificationMessage>(entity =>
+        {
+            entity.HasKey(e => e.NotificationMessageId).HasName("PK__Notifica__E14EE1E904FCEE1C");
+
+            entity.ToTable("NotificationMessage");
+
+            entity.Property(e => e.NotificationMessageId).HasColumnName("NotificationMessage_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("deleted_at");
+            entity.Property(e => e.Message).HasColumnType("text");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValueSql("('NotRead')")
+                .HasColumnName("status");
+            entity.Property(e => e.Type)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("type");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.User).WithMany(p => p.NotificationMessages)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_NotificationSetting_user");
+        });
+
+        modelBuilder.Entity<NotificationSetting>(entity =>
+        {
+            entity.HasKey(e => e.NotificationId).HasName("PK__Notifica__8C107CBD314542D2");
+
+            entity.ToTable("NotificationSetting");
+
+            entity.Property(e => e.NotificationId).HasColumnName("Notification_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.DeletedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("deleted_at");
+            entity.Property(e => e.EmailNotification).HasColumnName("Email_notification");
+            entity.Property(e => e.MissionApplication)
+                .IsRequired()
+                .HasDefaultValueSql("((1))")
+                .HasColumnName("Mission_application");
+            entity.Property(e => e.NewMission)
+                .IsRequired()
+                .HasDefaultValueSql("((1))")
+                .HasColumnName("New_mission");
+            entity.Property(e => e.RecommendedMission)
+                .IsRequired()
+                .HasDefaultValueSql("((1))")
+                .HasColumnName("Recommended_mission");
+            entity.Property(e => e.RecommendedStory)
+                .IsRequired()
+                .HasDefaultValueSql("((1))")
+                .HasColumnName("Recommended_story");
+            entity.Property(e => e.Story)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.UpdatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("updated_at");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.User).WithMany(p => p.NotificationSettings)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_NotificationSetting_user1");
         });
 
         modelBuilder.Entity<PasswordReset>(entity =>

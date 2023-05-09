@@ -15,12 +15,12 @@ namespace CI_PLATFORM.Repository.Repositories
     {
 
         public readonly CiPlatformContext _CiPlatformContext;
-        
+
         public PlatformRepository(CiPlatformContext CiPlatformContext)
         {
             _CiPlatformContext = CiPlatformContext;
         }
-        
+
         public List<Country> GetCountryData()
         {
 
@@ -28,26 +28,26 @@ namespace CI_PLATFORM.Repository.Repositories
             return country;
 
         }
-        
+
         public List<City> GetCitys()
         {
             List<City> cities = _CiPlatformContext.Cities.ToList();
             return cities;
         }
-        
+
         public List<City> GetCityData(List<int>? countryId)
         {
             List<City> city = _CiPlatformContext.Cities.Where(i => countryId.Contains((int)i.CountryId)).ToList();            if (countryId.Count == 0)                city = _CiPlatformContext.Cities.ToList();            return city;
 
         }
-        
+
         public List<MissionTheme> GetMissionThemes()
         {
             List<MissionTheme> themes = _CiPlatformContext.MissionThemes.ToList();
             return themes;
 
         }
-        
+
         public List<MissionSkill> GetSkills()
         {
 
@@ -55,13 +55,13 @@ namespace CI_PLATFORM.Repository.Repositories
             return skills;
 
         }
-        
+
         public List<Mission> GetMissionDetails()
         {
             List<Mission> missionDetails = _CiPlatformContext.Missions.Include(m => m.City).Include(m => m.Theme).Include(m => m.MissionMedia).Include(m => m.MissionRatings).Include(m => m.GoalMissions).Include(m => m.MissionSkills).Include(m => m.FavoriteMissions).Include(x => x.MissionApplications).Where(x => x.DeletedAt == null).ToList();
             return missionDetails;
         }
-        
+
         public CardsViewModel getCards()
         {
             List<Mission> missions = _CiPlatformContext.Missions.Include(x => x.MissionApplications).Include(x => x.MissionMedia).Include(x => x.MissionDocuments).Where(x => x.DeletedAt == null).ToList();
@@ -90,7 +90,7 @@ namespace CI_PLATFORM.Repository.Repositories
             return missionCards;
 
         }
-        
+
         public int GetMissionCount()
         {
 
@@ -98,7 +98,7 @@ namespace CI_PLATFORM.Repository.Repositories
             return missionNumber;
 
         }
-        
+
         public List<Mission> Filter(List<int>? cityId, List<int>? countryId, List<int>? themeId, List<int>? skillId, string? search, int? sort, int pg, int UId)
         {
 
@@ -156,11 +156,33 @@ namespace CI_PLATFORM.Repository.Repositories
                 {
                     missioncards = missioncards.Where(x => x.MissionType == "Goal").OrderByDescending(x => x.GoalMissions.FirstOrDefault().GoalValue).ToList();
                 }
-                //if (sort == 6)                //{
-                //    List<MissionTheme> missionThemes = _CiPlatformContext.MissionThemes.Include(m => m.Missions).OrderByDescending(m => m.Missions.Count).ToList();                //    foreach (var theme in missionThemes)                //    {                //        temp.AddRange(missioncards.Where(m => m.Theme == theme));                //    }                //    missioncards = temp;                //}
-                //if(sort == 7)
-                //{
-                //}
+                if (sort == 6)                {
+                    List<MissionTheme> missionThemes = _CiPlatformContext.MissionThemes.Include(m => m.Missions).OrderByDescending(m => m.Missions.Count).ToList();                    foreach (var theme in missionThemes)                    {                        temp.AddRange(missioncards.Where(m => m.Theme == theme));                    }                    missioncards = temp;                }
+                if (sort == 7)
+                {
+                    missioncards = _CiPlatformContext.Missions.Include(m => m.MissionRatings).Where(m => m.DeletedAt == null).OrderByDescending(m => m.MissionRatings.Average(r => r.Rating)).ToList();
+                }
+                if (sort == 8)
+                {
+                    missioncards = missioncards.OrderByDescending(m => m.FavoriteMissions.Count).ToList();
+                }
+                if (sort == 9)
+                {
+                    missioncards = _CiPlatformContext.Missions.Where(m => m.DeletedAt == null).ToList();
+                    Random random = new Random();
+
+                    // Shuffle the missioncards list using the Fisher-Yates algorithm
+                    for (int i = missioncards.Count - 1; i >= 1; i--)
+                    {
+                        // Generate a random index between 0 and i (inclusive)
+                        int j = random.Next(i + 1);
+
+                        // Swap the elements at indices i and j
+                        Mission temp1 = missioncards[i];
+                        missioncards[i] = missioncards[j];
+                        missioncards[j] = temp1;
+                    }
+                }
             }
             if (pg != 0)
             {
@@ -170,7 +192,7 @@ namespace CI_PLATFORM.Repository.Repositories
             return missioncards;
 
         }
-        
+
         public List<Story> StoryFilter(string? search, int pg)
         {
             var pageSize = 6;
@@ -196,19 +218,19 @@ namespace CI_PLATFORM.Repository.Repositories
 
 
         }
-        
+
         public List<MissionMedium> media(int mid)
         {
             List<MissionMedium> photos = _CiPlatformContext.MissionMedia.Where(x => x.MissionId == mid).ToList();
             return photos;
         }
-        
+
         public List<StoryMedium> smedia(int sid)
         {
             List<StoryMedium> photos = _CiPlatformContext.StoryMedia.Where(x => x.StoryId == sid && x.Type == "png").ToList();
             return photos;
         }
-        
+
         public void addComment(int mid, int uid, string comnt)
         {
             Comment comment = new Comment();
@@ -223,7 +245,7 @@ namespace CI_PLATFORM.Repository.Repositories
             //return true;
 
         }
-        
+
         public bool applyMission(int mid, int uid)
         {
             MissionApplication application = new();
@@ -249,7 +271,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 return false;
             }
         }
-        
+
         public bool MissionRating(int userId, int mid, int rating)
         {
             MissionApplication ma = _CiPlatformContext.MissionApplications.FirstOrDefault(a => a.UserId == userId && a.MissionId == mid && a.ApprovalStatus == "Approve");
@@ -288,7 +310,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 return false;
             }
         }
-        
+
         public bool addToFav(int missionId, int userId)
         {
             FavoriteMission favorite = new();
@@ -311,13 +333,13 @@ namespace CI_PLATFORM.Repository.Repositories
 
             }
         }
-        
+
         public List<MissionDocument> document(int mid)
         {
             List<MissionDocument> documents = _CiPlatformContext.MissionDocuments.Where(x => x.MissionId == mid).ToList();
             return documents;
         }
-        
+
         public bool MICheck(int mid, int userId, List<int> toUserId)
         {
             MissionInvite mi = new MissionInvite();
@@ -336,7 +358,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 return false;
             }
         }
-        
+
         public bool SICheck(int sid, int userId, List<int> toUserId)
         {
 
@@ -356,7 +378,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 return false;
             }
         }
-        
+
         public void RecommandToCoWorker(int FromUserId, List<int> ToUserId, int mid)
         {
             User fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId);
@@ -397,7 +419,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 #endregion Send Mail
             }
         }
-        
+
         public void RecommandStory(int FromUserId, List<int> ToUserId, int sid)
         {
             var fromUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == FromUserId);
@@ -442,7 +464,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 #endregion Send Mail
             }
         }
-        
+
         public MissionListingViewModel GetCardDetail(int mid, int uid)
         {
             List<Mission> missions = GetMissionDetails();
@@ -481,7 +503,7 @@ namespace CI_PLATFORM.Repository.Repositories
 
             return CardDetail;
         }
-        
+
         public StoryListingViewModel GetStoryDetail()
         {
             List<Story> stories = _CiPlatformContext.Stories.Include(m => m.User).Include(m => m.StoryMedia).Include(m => m.Mission).Where(m => m.Status == "PUBLISHED").ToList();
@@ -492,7 +514,7 @@ namespace CI_PLATFORM.Repository.Repositories
             }
             return StoryDetail;
         }
-        
+
         public StoryListingViewModel GetStory(int sid, int uid)
         {
             Story? story = _CiPlatformContext.Stories.Include(m => m.User).Include(m => m.StoryViews).FirstOrDefault(m => m.StoryId == sid);
@@ -509,7 +531,7 @@ namespace CI_PLATFORM.Repository.Repositories
             }
             return StoryDetail;
         }
-        
+
         public StoryView addview(int sid, int UId)
         {
             StoryView sv = _CiPlatformContext.StoryViews.FirstOrDefault(x => x.StoryId == sid && x.UserId == UId);
@@ -529,14 +551,14 @@ namespace CI_PLATFORM.Repository.Repositories
                 return sv;
             }
         }
-        
+
         public List<MissionApplication> Mission(int UId)
         {
 
             List<MissionApplication> missions = _CiPlatformContext.MissionApplications.Include(m => m.Mission).Where(x => x.UserId == UId && x.ApprovalStatus == "Approve").ToList();
             return missions;
         }
-        
+
         public StoryListingViewModel ShareStory(int UId)
         {
 
@@ -548,7 +570,7 @@ namespace CI_PLATFORM.Repository.Repositories
             }
             return StoryDetail;
         }
-        
+
         public bool saveStory(StoryListingViewModel obj, int status, int uid)
         {
             Story story = _CiPlatformContext.Stories.FirstOrDefault(x => x.UserId == uid && x.MissionId == obj.story.MissionId);
@@ -604,7 +626,7 @@ namespace CI_PLATFORM.Repository.Repositories
 
             return true;
         }
-        
+
         public bool SaveImage(StoryListingViewModel obj, List<IFormFile> file)
         {
             var xyz = _CiPlatformContext.Stories.FirstOrDefault(x => x.Title == obj.story.Title);
@@ -667,7 +689,7 @@ namespace CI_PLATFORM.Repository.Repositories
             }
             return true;
         }
-        
+
         public StoryListingViewModel? getData(int mid, int uid)
         {
 
@@ -693,7 +715,74 @@ namespace CI_PLATFORM.Repository.Repositories
             }
             return null;
         }
-    
+        public NotificationSetting getsettings(int uid)
+        {
+            NotificationSetting ns = _CiPlatformContext.NotificationSettings.FirstOrDefault(x => x.UserId == uid);
+            return ns;
+        }
+        public void settings(string[] settings, int uid)
+        {
+            NotificationSetting check = _CiPlatformContext.NotificationSettings.FirstOrDefault(x => x.UserId == uid);
+            if (check == null)
+            {
+                check = new NotificationSetting();
+                check.UserId = uid;
+            }           
+            if (settings.Contains("RecommendedMission"))
+            {
+                check.RecommendedMission = true;
+            }
+            else
+            {
+                check.RecommendedMission = false;
+            }
+            if (settings.Contains("Story"))
+            {
+                check.Story = true;
+            }
+            else
+            {
+                check.Story = false;
+            }
+            if (settings.Contains("NewMission"))
+            {
+                check.NewMission = true;
+            }
+            else
+            {
+                check.NewMission = false;
+            }
+            if (settings.Contains("RecommendedStory"))
+            {
+                check.RecommendedStory = true;
+            }
+            else
+            {
+                check.RecommendedStory = false;
+            }
+            if (settings.Contains("MissionApplication"))
+            {
+                check.MissionApplication = true;
+            }
+            else
+            {
+                check.MissionApplication = false;
+            }
+            if (settings.Contains("EmailNotification"))
+            {
+                check.EmailNotification = true;
+            }
+            else
+            {
+                check.EmailNotification = false;
+            }
+            if(check != null)
+            {
+                check.UpdatedAt = DateTime.Now;
+            }
+            _CiPlatformContext.Update(check);
+            _CiPlatformContext.SaveChanges();
+        }
     }
 
 }

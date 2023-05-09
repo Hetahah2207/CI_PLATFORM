@@ -38,4 +38,6 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public bool saveStory(StoryListingViewModel obj, int status, int uid);
         public bool SaveImage(StoryListingViewModel obj, List<IFormFile> file);
         public StoryListingViewModel getData(int mid, int uid);
+        public NotificationSetting getsettings(int uid);
+        public void settings(string[] settings, int uid);
     }}

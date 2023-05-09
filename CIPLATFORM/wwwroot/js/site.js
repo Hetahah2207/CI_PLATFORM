@@ -31,113 +31,6 @@
 
 
 function temp(pg) {    if (pg == undefined) {        pg = 1;    }    console.log(pg);    var checkedcntryvalues = [];    var div1 = document.getElementById("countryId");    var list = div1.getElementsByTagName("input");    for (i = 0; i < list.length; i++) {        if (list[i].checked) {            checkedcntryvalues.push(list[i].id);        }    }    console.log(checkedcntryvalues);    var checkedvalues = [];    var div = document.getElementById("selectCityList");    var list = div.getElementsByTagName("input");    for (i = 0; i < list.length; i++) {        if (list[i].checked) {            checkedvalues.push(list[i].id);        }    }    console.log(checkedvalues);    var checkedthemevalues = [];    var div2 = document.getElementById("theme");    var list = div2.getElementsByTagName("input");    for (i = 0; i < list.length; i++) {        if (list[i].checked) {            checkedthemevalues.push(list[i].id);        }    }    console.log(checkedthemevalues);    var checkedskillvalues = [];    var div3 = document.getElementById("skill");    var list = div3.getElementsByTagName("input");    for (i = 0; i < list.length; i++) {        if (list[i].checked) {            checkedskillvalues.push(list[i].id);        }    }    console.log(checkedskillvalues);    var search = document.getElementById("searchb").value;    console.log(search)    var sort = document.getElementById("sort").value;    console.log(sort)       console.log(sort)    $.ajax({        type: "POST", // POST        url: '/Platform/Filter',        data: {            'cityId': checkedvalues,            'countryId': checkedcntryvalues,            'themeId': checkedthemevalues,            'skillId': checkedskillvalues,            'search': search,            'sort': sort,            'pg': pg,            'view': view,        },        dataType: "html",        success: function (data) {            $("#filter").empty();            console.log("grid Hii");            $("#filter").html(data);            var div1 = document.getElementById("list-view");            div1.style.display = 'none';        },        error: function (e) {            console.log("Bye");            alert('Error');        },    });}
-
-
-//function temp(pg) {
-//    if (pg == undefined) {
-//        pg = 1;
-//    }
-//    var checkedcntryvalues = [];
-//    var div1 = document.getElementById("countryId");
-//    var list = div1.getElementsByTagName("option");
-//    for (i = 0; i < list.length; i++) {
-//        if (list[i].selected) {
-//            checkedcntryvalues.push(list[i].value);
-//        }
-
-//    }
-//    console.log(checkedcntryvalues);
-
-
-//    var checkedvalues = [];
-//    var div = document.getElementById("selectCityList");
-//    var list = div.getElementsByTagName("option");
-//    for (i = 0; i < list.length; i++) {
-//        if (list[i].selected) {
-//            checkedvalues.push(list[i].value);
-//        }
-
-//    }
-//    console.log(checkedvalues);
-
-
-
-
-
-//    var checkedthemevalues = [];
-//    var div2 = document.getElementById("theme");
-//    var list = div2.getElementsByTagName("input");
-//    for (i = 0; i < list.length; i++) {
-//        if (list[i].checked) {
-//            checkedthemevalues.push(list[i].value);
-//        }
-
-//    }
-//    console.log(checkedthemevalues);
-
-
-
-//    var checkedskillvalues = [];
-//    var div3 = document.getElementById("skill");
-//    var list = div3.getElementsByTagName("input");
-//    for (i = 0; i < list.length; i++) {
-//        if (list[i].checked) {
-//            checkedskillvalues.push(list[i].value);
-//        }
-
-//    }
-//    console.log(checkedskillvalues);
-
-
-
-//    var search = document.getElementById("searchb").value;
-//    console.log(search)
-
-
-//    var sort = document.getElementById("sort").value;
-//    console.log(sort)
-
-
-//    $.ajax({
-//        url: '/Platform/Filter',
-//        type: "POST", // POST
-
-//        data: {
-//            'cityId': checkedvalues,
-//            'countryId': checkedcntryvalues,
-//            'themeId': checkedthemevalues,
-//            'skillId': checkedskillvalues,
-//            'search': search,
-//            'sort': sort,
-//            'pg': pg,
-//            'view' : view,
-//        },
-//        dataType: "html", // return datatype like JSON and HTML
-//        success: function (data) {
-
-
-//            $("#filter").empty();
-//            console.log("grid Hii");
-//            $("#filter").html(data);
-
-
-//            //$("#grid-view").empty();
-//            //console.log("grid Hii");
-//            //$("#grid-view").html(data);
-//            //$("#list-view").empty();
-//            //console.log("list Hii");
-//            //$("#list-view").html(data);
-
-//            var div1 = document.getElementById("list-view");
-//            div1.style.display = 'none';
-
-//        },
-//        error: function (e) {
-//            console.log("Bye");
-//            alert('Error');
-//        },
-//    });
-//}
 function story(pg) {
     if (pg == undefined) {
         pg = 1;
@@ -611,3 +504,8 @@ function getgoalActivity(x) {
 //            },
 //        });
 //}
+
+
+
+function settingsForNotification() {    var Value;    var settings = [];    $('input[name="sn"]:checked').each(function () {        Value = this.value;        settings.push(Value);    });    console.log(settings);    $.ajax({        url: "/Platform/settings",        method: "post",        data: {            settings: settings,        },        success: function () {            toastr.success("You have changed your notification setting!!");        },        error: function () {            toastr.error("Something went wrong!!");        }    });}function getsettings() {    $.ajax({        url: "/Platform/getsettings",        method: "post",        data: {                   },        success: function (data) {            data = JSON.parse(data);            console.log(data);            $("#RecommendedMission").prop("checked", data.RecommendedMission);            $("#Story").prop("checked", data.Story);            $("#NewMission").prop("checked", data.NewMission);            $("#RecommendedStory").prop("checked", data.RecommendedStory);            $("#MissionApplication").prop("checked", data.MissionApplication);            $("#EmailNotification").prop("checked", data.EmailNotification);        },        error: function () {            toastr.error("Something went wrong!!");        }    });
+}

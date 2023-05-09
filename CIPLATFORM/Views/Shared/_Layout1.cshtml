@@ -43,42 +43,13 @@
                         </li>
                     </ul>
                 </div>
-                <form class="d-flex">
-                    @if (ViewBag.Avtar != "")
-                    {
-                        <img src="~/images/@ViewBag.Avtar" class="profile-nav" alt="">
-                    }
-                    else
-                    {
-                        <img src="~/images/user1.png" class="profile-nav" alt="">
-                    }
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            @ViewBag.Uname
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" asp-controller="Profile" asp-action="Profile">Add Profile</a></li>
-                            <li><a class="dropdown-item" asp-controller="Profile" asp-action="Timesheet">Volunteering Timesheet</a></li>
-                            @if (User.Claims.FirstOrDefault(m => m.Type == "role") != null)
-                            {
-                                String role = @User.Claims.FirstOrDefault(m => m.Type == "role").Value;
-                                if (role == "Admin")
-                                {
-                                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="Admin">Admin</a></li>
-                                }
-                            }
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" asp-controller="User" asp-action="Logout">Logout</a></li>
-                        </ul>
-                    </li>
-                </form>
-                
 
-            </div>
-        </nav>
+               @{
+                    Html.RenderPartial("_Notification");
+                }
+               
+    </div>
+    </nav>
     </div>
     @RenderBody()
 
