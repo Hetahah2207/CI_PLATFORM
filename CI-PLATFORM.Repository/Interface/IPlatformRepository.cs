@@ -40,4 +40,5 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public StoryListingViewModel getData(int mid, int uid);
         public NotificationSetting getsettings(int uid);
         public void settings(string[] settings, int uid);
+        public List<NotificationMessage> getnotification(int uid);
     }}

@@ -783,6 +783,11 @@ namespace CI_PLATFORM.Repository.Repositories
             _CiPlatformContext.Update(check);
             _CiPlatformContext.SaveChanges();
         }
+        public List<NotificationMessage> getnotification(int uid)
+        {
+            List<NotificationMessage> messages = _CiPlatformContext.NotificationMessages.Where(x => x.UserId == uid && x.Status != "Cleared").ToList();
+            return messages;
+        }
     }
 
 }
