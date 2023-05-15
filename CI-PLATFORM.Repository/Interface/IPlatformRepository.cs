@@ -41,4 +41,8 @@ using System;using System.Collections.Generic;using System.Linq;using System.
         public NotificationSetting getsettings(int uid);
         public void settings(string[] settings, int uid);
         public List<NotificationMessage> getnotification(int uid);
+        public bool SendMail(NotificationMessage message);
+        public void readNotification(int id);
+        public void clearNotification(int uid);
+        public int GetnotificationCount(int uid);
     }}

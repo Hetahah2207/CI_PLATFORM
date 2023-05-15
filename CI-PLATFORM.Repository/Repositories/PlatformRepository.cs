@@ -388,7 +388,7 @@ namespace CI_PLATFORM.Repository.Repositories
             foreach (var user in ToUserId)
             {
                 User toUser = _CiPlatformContext.Users.FirstOrDefault(u => u.UserId == user && u.DeletedAt == null);
-                NotificationSetting check = _CiPlatformContext.NotificationSettings.FirstOrDefault(x => x.UserId == user);
+                //NotificationSetting check = _CiPlatformContext.NotificationSettings.FirstOrDefault(x => x.UserId == user);
                 var toEmailId = toUser.Email;
 
                 MissionInvite invite = new MissionInvite();
@@ -400,19 +400,21 @@ namespace CI_PLATFORM.Repository.Repositories
                 _CiPlatformContext.Add(invite);
                 _CiPlatformContext.SaveChanges();
 
-                if (check.RecommendedMission == true)
-                {
-                    NotificationMessage nm = new NotificationMessage();
-                    {
-                        nm.UserId = user;
-                        nm.Message = fromUser.FirstName + " Has Recommanded You This Mission Check This out" ;
-                        nm.Type = "RecommendedMission";
-                        nm.Id = mid;
-                    }
-                    _CiPlatformContext.NotificationMessages.Add(nm);
-                    _CiPlatformContext.SaveChanges();
-                }
+                //if (check.RecommendedMission == true)
+                //{
+                //    NotificationMessage nm = new NotificationMessage();
+                //    {
+                //        nm.UserId = user;
+                //        nm.Message = fromUser.FirstName + " Has Recommanded You This Mission Check This out";
+                //        nm.Type = "RecommendedMission";
+                //        nm.Id = mid;
+                //    }
+                //    _CiPlatformContext.NotificationMessages.Add(nm);
+                //    _CiPlatformContext.SaveChanges();
+                //}
 
+
+                bool msg = _CiPlatformContext.NotificationSettings.Any(x => x.UserId == user);                if (msg)                {                    NotificationSetting check = _CiPlatformContext.NotificationSettings.FirstOrDefault(x => x.UserId == user);                    if (check.RecommendedMission == true)                    {                        NotificationMessage nm = new NotificationMessage();                        {                            nm.UserId = user;                            nm.Message = fromUser.FirstName + " Has Recommanded You To This Mission: Check This out";                            nm.Type = "RecommendedMission";                            nm.Id = mid;                        }                        _CiPlatformContext.NotificationMessages.Add(nm);                        _CiPlatformContext.SaveChanges();                    }                }
 
                 #region Send Mail
                 var mailBody = "<h1></h1><br><h2><a href='" + "https://localhost:7251/Platform/MissionListing?mid=" + mid + "'>Check Out this Mission!</a></h2>";
@@ -816,6 +818,24 @@ namespace CI_PLATFORM.Repository.Repositories
             List<NotificationMessage> messages = _CiPlatformContext.NotificationMessages.Where(x => x.UserId == uid && x.Status != "Cleared").ToList();
             return messages;
         }
+
+        public bool SendMail(NotificationMessage message)        {            string toUser = _CiPlatformContext.Users.FirstOrDefault(m => m.UserId == message.UserId).Email;
+
+
+            #region Send Mail            string link = null;            if (message.Type == "MissionApplication" || message.Type == "NewMission")            {                link = "https://localhost:7028/Platform/MissionListing?mid=";            }            if (message.Type == "Story")            {                link = "https://localhost:7028/Platform/StoryDetail?sid=";            }            var mailBody = "<h1>" + message.Message + "</h1><br><h2><a href='" + link + message.Id + "'>Check Out this Mission!</a></h2>";
+
+            // create email message
+            var email = new MimeMessage();            email.From.Add(MailboxAddress.Parse("hetshah2207@gmail.com"));            email.To.Add(MailboxAddress.Parse(toUser));            email.Subject = message.Type;            email.Body = new TextPart(TextFormat.Html) { Text = mailBody };
+
+            // send email
+            using var smtp = new SmtpClient();            smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate("hetshah2207@gmail.com", "lpoqtojvkcgkwdms");            smtp.Send(email);            smtp.Disconnect(true);
+
+
+            #endregion Send Mail            return true;        }
+
+        public void readNotification(int id)        {            NotificationMessage nm = _CiPlatformContext.NotificationMessages.FirstOrDefault(m => m.NotificationMessageId == id);            nm.Status = "Read";            nm.UpdatedAt = DateTime.Now;            _CiPlatformContext.NotificationMessages.Update(nm);            _CiPlatformContext.SaveChanges();        }        public void clearNotification(int uid)        {            List<NotificationMessage> nm = _CiPlatformContext.NotificationMessages.Where(m => m.UserId == uid).ToList();            foreach (NotificationMessage m in nm)            {                m.Status = "Cleared";                m.UpdatedAt = DateTime.Now;                _CiPlatformContext.NotificationMessages.Update(m);                _CiPlatformContext.SaveChanges();            }        }
+        public int GetnotificationCount(int uid)        {            int missionNumber = getnotification(uid).Count;            return missionNumber;        }
     }
 
 }

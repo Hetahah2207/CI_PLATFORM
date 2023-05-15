@@ -15,9 +15,11 @@ namespace CI_PLATFORM.Repository.Repositories
     public class AdminRepository : IAdminRepository
     {
         public readonly CiPlatformContext _CiPlatformContext;
-        public AdminRepository(CiPlatformContext CiPlatformContext)
+        public readonly IPlatformRepository _PlatformRepository;
+        public AdminRepository(CiPlatformContext CiPlatformContext, IPlatformRepository platformRepository)
         {
             _CiPlatformContext = CiPlatformContext;
+            _PlatformRepository = platformRepository;
         }
         public AdminViewModel getData()
         {
@@ -151,6 +153,7 @@ namespace CI_PLATFORM.Repository.Repositories
                 if (obj.mission.MissionId == 0)
                 {
                     Mission mission = new Mission();
+                    List<NotificationSetting> check = _CiPlatformContext.NotificationSettings.Where(x => x.NewMission == true).ToList();
                     {
                         mission.Title = obj.mission.Title;
                         mission.Description = obj.mission.Description;
@@ -166,6 +169,21 @@ namespace CI_PLATFORM.Repository.Repositories
                         mission.ThemeId = obj.mission.ThemeId;
                         _CiPlatformContext.Missions.Add(mission);
                         _CiPlatformContext.SaveChanges();
+                    }
+
+                    foreach (var item in check)
+                    {
+                        NotificationMessage nm = new NotificationMessage();
+                        {
+                            nm.UserId = item.UserId;
+                            nm.Message = "New Mission -" + mission.Title;
+                            nm.Type = "NewMission";
+                            nm.Id = mission.MissionId;
+                        }
+                        _CiPlatformContext.NotificationMessages.Add(nm);
+                        _CiPlatformContext.SaveChanges();
+
+                        _PlatformRepository.SendMail(nm);
                     }
 
                     if (obj.missionDocuments != null)
@@ -532,6 +550,8 @@ namespace CI_PLATFORM.Repository.Repositories
                             }
                             _CiPlatformContext.NotificationMessages.Add(nm);
                             _CiPlatformContext.SaveChanges();
+
+                            _PlatformRepository.SendMail(nm);
                         }
                        
                         return true;
@@ -555,6 +575,8 @@ namespace CI_PLATFORM.Repository.Repositories
                             }
                             _CiPlatformContext.NotificationMessages.Add(nm);
                             _CiPlatformContext.SaveChanges();
+
+                            _PlatformRepository.SendMail(nm);
                         }
                         return false;
                     }
@@ -580,6 +602,8 @@ namespace CI_PLATFORM.Repository.Repositories
                             }
                             _CiPlatformContext.NotificationMessages.Add(nm);
                             _CiPlatformContext.SaveChanges();
+
+                            _PlatformRepository.SendMail(nm);
                         }
                         return true;
                     }
@@ -601,6 +625,8 @@ namespace CI_PLATFORM.Repository.Repositories
                             }
                             _CiPlatformContext.NotificationMessages.Add(nm);
                             _CiPlatformContext.SaveChanges();
+
+                            _PlatformRepository.SendMail(nm);
                         }
                         return false;
                     }

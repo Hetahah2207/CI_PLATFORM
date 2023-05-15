@@ -512,5 +512,8 @@ function settingsForNotification() {    var Value;    var settings = [];    $
 
 
 function getnotification() {
-    $.ajax({        url: "/Platform/getnotification",        method: "post",        data: {        },        success: function (data) {                       console.log(data);                        $("#newnoti").empty();            $("#newnoti").html(data);                    },        error: function () {            toastr.error("Something went wrong!!");        }    });
+    $.ajax({        url: "/Platform/getnotification",        method: "post",        data: {        },        success: function (data) {                       console.log(data);                        $("#newnoti").empty();            $("#newnoti").html(data);                        var abc = document.querySelector("#fromdisplay").textContent;            console.log(abc);            $("#todisplay").text(abc);        },        error: function () {            toastr.error("Something went wrong!!");        }    });
 }
+
+
+function readNotification(x, y) {    $.ajax({        url: "/Platform/readNotification",        method: "post",        data: {            "id": y,            "status": x        },        success: function (data) {        },        error: function () {            toastr.error("Something went wrong!!");        }    });    return true;}

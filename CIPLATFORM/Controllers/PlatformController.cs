@@ -34,7 +34,7 @@ namespace CIPLATFORM.Controllers
             {
                 int UserId = (int)HttpContext.Session.GetInt32("UId");
                 ViewBag.UId = UserId;
-
+                TempData["msg1"] = _PlatformRepository.GetnotificationCount(UserId);
             }
 
             List<Country> countries = _PlatformRepository.GetCountryData();
@@ -385,8 +385,11 @@ namespace CIPLATFORM.Controllers
 
             // Return a boolean value indicating whether the data exists
             //return Json(dataExists);
+            cm.notificationMessages = SM;            TempData["msg1"] = SM.Count;
             return PartialView("_Notificationlist",cm);
         }
+
+        public void readNotification(int id, string status)        {            if (status == "read")            {                _PlatformRepository.readNotification(id);            }            if (status == "clear")            {                int UserId = (int)HttpContext.Session.GetInt32("UId");                _PlatformRepository.clearNotification(UserId);            }        }
     }
 
 }
